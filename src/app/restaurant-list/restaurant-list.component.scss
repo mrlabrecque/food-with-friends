@@ -1,0 +1,55 @@
+$size: 300px;
+
+.absolute-center {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 390px;
+}
+
+.restraurant-card-container {
+  position: relative;
+  min-height: 390px;
+  overflow: hidden;
+
+}
+
+.restaurant-card {
+  position: absolute;
+  // top: 0;
+  // left: 0;
+  margin: 0;
+  max-height: inherit;
+  width: 100%;
+
+
+}
+
+ion-card-title {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.main-image-container {
+  // border-radius: $size / 2;
+  min-height: $size;
+  // max-height: $size;
+  width: 100%;
+  // height: auto;
+  overflow: hidden;
+  // text-align: center;
+  margin: 0 auto;
+
+  img {
+    height: $size;
+    width: 100%;
+    // min-width: 100%;
+    // max-width: none;
+    // margin: 0 -100%;
+    // max-width: 100%;
+    // max-height: $size;
+    top: 50%;
+    left: 50%;
+  }
+}

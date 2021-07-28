@@ -1,0 +1,4 @@
+<ion-chip *ngFor="let chip of availableChips; let i = index" [outline]="!chip.selected" color="primary"
+  (click)="updateSelections(chip)">
+  <ion-label>{{chip.label}}</ion-label>
+</ion-chip>

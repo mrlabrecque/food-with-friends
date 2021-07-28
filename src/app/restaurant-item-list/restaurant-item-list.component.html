@@ -1,0 +1,29 @@
+<ng-container *ngFor="let list of listItems">
+  <ng-container (click)="presentModal(list)">
+    <ion-item [routerLink]="['/folder/Restaurants', list.id]">
+      <ion-avatar slot="start">
+        <img class="sliding-card-large-image" [src]="list.image_url" />
+      </ion-avatar>
+      <ion-label>
+        <div class="flex space-between">
+          <div><b>{{list.name}}</b></div>
+
+          <div class="flex align-center">
+            <div class="flex align-center">
+              <ion-icon name="navigate-circle-outline"></ion-icon>
+            </div>
+            <div class="small-text">
+              {{list.distance | metersToMiles}} miles
+            </div>
+          </div>
+        </div>
+
+        <app-star-ratings [item]="list"></app-star-ratings>
+
+        <!-- {{list.location.display_address}}<br>
+      {{list.display_phone}} -->
+
+      </ion-label>
+    </ion-item>
+  </ng-container>
+</ng-container>

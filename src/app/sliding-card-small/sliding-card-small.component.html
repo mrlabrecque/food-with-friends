@@ -1,0 +1,10 @@
+<ion-slides [options]="slideOpts" [pager]="true">
+  <ion-slide *ngFor="let card of cardData">
+    <ion-card style="width: 100%;" class="ion-text-start">
+      <ion-card-header>
+        <ion-card-title>{{card.title}}</ion-card-title>
+      </ion-card-header>
+      <ion-card-content>{{card.content}}</ion-card-content>
+    </ion-card>
+  </ion-slide>
+</ion-slides>

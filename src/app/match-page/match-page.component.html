@@ -1,0 +1,28 @@
+<ion-header [translucent]="true">
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="folder/Groups/:id"></ion-back-button>
+    </ion-buttons>
+    <ion-title>Match</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+
+
+  <ion-grid>
+    <ion-row>
+      <ion-col>
+        <app-restaurant-list [restaurants]="restaurants"></app-restaurant-list>
+      </ion-col>
+    </ion-row>
+
+  </ion-grid>
+  <ion-grid>
+    <ion-row>
+      <ion-col>
+        <app-match-buttons></app-match-buttons>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+</ion-content>

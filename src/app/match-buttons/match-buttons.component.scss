@@ -1,0 +1,41 @@
+$dislike-color: rgba(255, 52, 0, 1);
+$favorite-color: rgba(255, 129, 128, 1);
+$like-color: rgba(0, 175, 87, 1);
+
+.match-button-container {
+  width: 100%;
+  display: flex;
+  justify-content: space-evenly;
+
+  .match-button {
+    height: 60px;
+    width: 60px;
+    -webkit-border-radius: 50%;
+    -moz-border-radius: 50%;
+    border-radius: 50%;
+    -webkit-transition: background-color 200ms linear;
+    -ms-transition: background-color 200ms linear;
+    transition: background-color 200ms linear;
+  }
+
+  :hover {
+    background-color: whitesmoke;
+    -webkit-border-radius: 50%;
+    -moz-border-radius: 50%;
+    border-radius: 50%;
+    cursor: pointer;
+    -webkit-transition: background-color 200ms linear;
+    -ms-transition: background-color 200ms linear;
+    transition: background-color 200ms linear;
+  }
+
+
+  span {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 60px;
+    font-size: 30px;
+    // line-height: 60px;
+  }
+}
