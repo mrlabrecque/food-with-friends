@@ -12,23 +12,24 @@ export class GroupService {
 
 
   constructor(private http: HttpClient) { }
+  public createGroup(newGroup: Group): Observable<Group> {
+    return this.http.post<Group>(`${this.apiUrl}/groups/new`, newGroup);
+  }
   public getGroupById(id: number): Observable<any[]> {
-    return this.http.get<any[]>(`${this.apiUrl}/group/${id}`);
+    return this.http.get<any[]>(`${this.apiUrl}/groups/${id}`);
   }
   public getUsersGroupsByUserId(id: number): Observable<Group[]> {
-    return this.http.get<Group[]>(`${this.apiUrl}/group/user/${id}`);
+    return this.http.get<Group[]>(`${this.apiUrl}/groups/user/${id}`);
 
   }
 
   public updateGroupFilters(groupId: number, preparedGroup: Group): Observable<any> {
     const body = JSON.stringify(preparedGroup);
-
-    console.log(`${this.apiUrl}/group/updatefilters/${groupId}`);
     const headers = new HttpHeaders();
     headers.append('Content-Type', 'application/json');
     headers.append('Access-Control-Allow-Origin', '*');
 
-    return this.http.put<any>(`${this.apiUrl}/group/updatefilters/${groupId}`, preparedGroup, { headers });
+    return this.http.put<any>(`${this.apiUrl}/groups/updatefilters/${groupId}`, preparedGroup, { headers });
 
   }
 }

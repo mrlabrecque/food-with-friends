@@ -6,6 +6,14 @@ exports.getUsers = (req, res) => {
     })
     .catch((err) => console.log(err));
 };
+exports.getUsersByEmails = (req, res) => {
+  console.log("GETTING USERS: ", req.body);
+  const users = User.find({ "email": { $in: req.body } })
+    .then((users) => {
+      res.json(users)
+    })
+    .catch((err) => console.log(err));
+};
 exports.getUser = (req, res) => {
   const user = User.findOne({ _id: req.params.id })
     .then((user) => {

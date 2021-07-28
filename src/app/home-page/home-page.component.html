@@ -26,7 +26,14 @@
     <ion-row>
       <ion-col>
         <div>
-          <span class="section-header">Your Groups</span>
+          <div class="flex space-between section-header">
+            <div>
+              <span>Your Groups</span>
+            </div>
+            <div>
+              <ion-text color="primary"><span class="link-text" (click)="addGroup()">add group</span></ion-text>
+            </div>
+          </div>
           <app-sliding-list-groups [listItems]="groups$ | async"></app-sliding-list-groups>
         </div>
 

@@ -152,7 +152,7 @@ export class GroupDetailPageComponent implements OnInit, OnDestroy {
     //   const selectedKidsAsInt = this.selectedKids === true ? 1 : 0;
     const preparedGroup: Group = {
       name: this.group.name,
-      ownerId: this.group.ownerId,
+      owner: this.group.owner,
       //  members: this.groupMembers,
       filters: {
         foodTypes: [...this.selectedTypes],

@@ -18,8 +18,8 @@ const matchSchema = new db.Schema({
 const groupSchema = new db.Schema({
   _id: { type: Number },
   name: String,
-  ownerId: Number,
-  members: [Number],
+  owner: Object,
+  members: [Object],
   filters: {
     foodTypes: [filterSchema],
     foodPrices: [filterSchema],
@@ -28,6 +28,7 @@ const groupSchema = new db.Schema({
     matchThreshhold: Number
   },
   matches: [matchSchema],
+  avatar: String
 });
 
 

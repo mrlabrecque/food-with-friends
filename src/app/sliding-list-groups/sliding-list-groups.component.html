@@ -6,12 +6,10 @@
 
     <ion-label>
       <h2>{{list.name}}</h2>
-      <h3>{{list | json}}</h3>
-      <p>I've got enough on my plate as it is, and I...</p>
+      <h3>{{list.members.length}} members</h3>
     </ion-label>
   </ion-item>
   <ion-item-options side="end">
     <ion-item-option *ngFor="let actions of list.actions">{{actions}}</ion-item-option>
   </ion-item-options>
-  <code>{{list._id | json}}</code>
 </ion-item-sliding>

@@ -10,7 +10,7 @@ exports.getGroups = (req, res) => {
 };
 exports.getUsersGroups = (req, res) => {
   const id = req.params.id;
-  const groups = Group.find({ members: id })
+  const groups = Group.find({ "members": { $elemMatch: { _id: id } } })
     .then((groups) => {
       console.log(id)
       res.json(groups)
@@ -50,6 +50,7 @@ exports.removeGroup = (req, res) => {
 };
 
 exports.createGroup = (req, res) => {
+  console.log(req.body);
   let group = new Group(req.body);
   group.save((err, group) => {
     if (err) {

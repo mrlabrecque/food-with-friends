@@ -2,7 +2,7 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 
-import { IonicModule } from '@ionic/angular';
+import { IonicModule, IonRouterOutlet } from '@ionic/angular';
 
 import { FolderPageRoutingModule } from './folder-routing.module';
 
@@ -31,11 +31,10 @@ import { StarRatingsComponent } from '../utility-components/star-ratings/star-ra
     FormsModule,
     IonicModule,
     FolderPageRoutingModule,
-    NgxStarsModule
-  ],
+    NgxStarsModule],
   declarations: [FolderPage, RestaurantListComponent, MatchButtonsComponent, MatchPageComponent, HomePageComponent,
     GroupsPageComponent, SlidingListGroupsComponent, SlidingCardLargeComponent, SlidingCardSmallComponent, GroupDetailPageComponent,
-    CardListComponent, ChipSelectArrayComponent, MetersToMilesPipe, ModalContainerComponent, RestaurantItemListComponent,
-    StarRatingsComponent]
+    CardListComponent, ChipSelectArrayComponent, MetersToMilesPipe, RestaurantItemListComponent,
+    StarRatingsComponent],
 })
 export class FolderPageModule { }

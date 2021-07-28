@@ -50,8 +50,8 @@ app.use((req, res, next) => {
 const groupRoutes = require('./routes/group.routes');
 const userRoutes = require('./routes/user.routes');
 //Requests
-app.use("/api/user", userRoutes);
-app.use("/api/group", groupRoutes);
+app.use("/api/users", userRoutes);
+app.use("/api/groups", groupRoutes);
 
 
 

@@ -3,9 +3,21 @@
   "version": "0.0.1",
   "author": "Ionic Framework",
   "homepage": "https://ionicframework.com/",
+  "projects": {
+    "FoodWithFriends": {
+      "schematics": {
+        "@schematics/angular:component": {
+          "style": "scss",
+          "skipTests": true
+        }
+      }
+    }
+  },
   "scripts": {
     "ng": "ng",
     "start": "nodemon server.js ng serve",
+    "start-all": "npm run start npm run ionic serve",
+    "preview": "ionic serve --lab",
     "build": "ng build",
     "test": "ng test",
     "lint": "ng lint",
@@ -21,9 +33,10 @@
     "@angular/platform-browser-dynamic": "~11.2.0",
     "@angular/router": "~11.2.0",
     "@capacitor/app": "1.0.0",
-    "@capacitor/core": "3.0.1",
+    "@capacitor/core": "3.1.2",
     "@capacitor/geolocation": "^1.0.0",
     "@capacitor/haptics": "1.0.0",
+    "@capacitor/ios": "3.1.2",
     "@capacitor/keyboard": "1.0.0",
     "@fortawesome/fontawesome-free": "^5.15.3",
     "@ionic/angular": "^5.5.2",
@@ -53,8 +66,9 @@
     "@angular/compiler": "~11.2.0",
     "@angular/compiler-cli": "~11.2.0",
     "@angular/language-service": "~11.2.0",
-    "@capacitor/cli": "3.0.1",
+    "@capacitor/cli": "3.1.2",
     "@ionic/angular-toolkit": "^3.1.1",
+    "@ionic/lab": "3.2.10",
     "@types/jasmine": "~3.6.0",
     "@types/jasminewd2": "~2.0.3",
     "@types/node": "^12.11.1",

@@ -9,6 +9,8 @@ import { SlidingListGroupsComponent } from '../sliding-list-groups/sliding-list-
 import { ModalContainerComponent } from '../modal-container/modal-container.component';
 import { GroupService } from '../services/group.service';
 import { Group } from '../models/group-model';
+import { ModeService } from '../services/mode.service';
+import { ManageGroupModalComponent } from '../manage-group-modal/manage-group-modal.component';
 
 @Component({
   selector: 'app-home-page',
@@ -16,6 +18,13 @@ import { Group } from '../models/group-model';
   styleUrls: ['./home-page.component.scss'],
 })
 export class HomePageComponent implements OnInit {
+
+  devUser: any = {
+    _id: 0,
+    name: "Harry Potter",
+    email: "harrypotter@hogwarts.com",
+    avatar: ''
+  };
   devUserId = 0;
   attbibutes: string[] = ['hot_and_new', 'deals'];
 
@@ -49,7 +58,8 @@ export class HomePageComponent implements OnInit {
     private locationService: LocationService,
     private modalController: ModalController,
     private routerOutlet: IonRouterOutlet,
-    private groupService: GroupService) { }
+    private groupService: GroupService,
+    private modeService: ModeService) { }
 
   ngOnInit() {
     combineLatest(
@@ -62,7 +72,9 @@ export class HomePageComponent implements OnInit {
 
         }
       });
-    this.groupsSubscription = this.groupService.getUsersGroupsByUserId(this.devUserId).subscribe((res) => this.groups$.next(res));
+    this.modeService.getMode();
+    // this.groupsSubscription = this.groupService.getUsersGroupsByUserId(this.devUserId).subscribe((res) => this.groups$.next(res));
+    this.groupsSubscription = this.groupService.getUsersGroupsByUserId(this.devUserId).subscribe((res) => console.log(res));
   }
   setParams(attr: string) {
     const paramsToRequest: HttpParams = new HttpParams().set('limit', '50')
@@ -92,6 +104,19 @@ export class HomePageComponent implements OnInit {
       componentProps: {
         listItems: this.hotAndNewRestaurants$.value,
         title: 'Hot & New'
+      }
+    });
+    return await modal.present();
+  }
+  async addGroup() {
+    const modal = await this.modalController.create({
+      component: ManageGroupModalComponent,
+      cssClass: 'my-custom-class',
+      swipeToClose: true,
+      presentingElement: this.routerOutlet.nativeEl,
+      componentProps: {
+        user: this.devUser,
+        title: 'New Group'
       }
     });
     return await modal.present();
