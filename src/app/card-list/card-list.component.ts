@@ -28,7 +28,6 @@ export class CardListComponent implements OnInit, OnChanges {
     this.groupService.removeMemberFromGroup(memberToRemove._id).subscribe(res => this.reloadGroup());
   }
   reloadGroup() {
-    this.groupService.getGroupById(this.groupService.currentGroupId);
-
+    this.groupService.refreshGroup();
   }
 }

@@ -1,4 +1,4 @@
-import { Component, Input, OnInit, ViewChild } from '@angular/core';
+import { Component, Input, NgZone, OnInit, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
 import { IonInput, ModalController } from '@ionic/angular';
 import * as _ from 'underscore';
@@ -16,7 +16,7 @@ export class AddGroupMemberModalComponent implements OnInit {
   addedMembers: string[] = [];
 
   constructor(private groupService: GroupService, private modalController: ModalController, private router: Router,
-    private userService: UserService) { }
+    private userService: UserService, private ngZone: NgZone) { }
 
   ngOnInit() { }
   enterOnMemberAdd(e) {
@@ -45,10 +45,12 @@ export class AddGroupMemberModalComponent implements OnInit {
     this.groupService.addMembersToGroup(newMembers).subscribe(res => this.onGroupMembersAddedSuccess(res));
   }
   onGroupMembersAddedSuccess(res) {
-    this.modalController.dismiss();
+    this.modalController.dismiss(res);
+    //  this.refresh();
     this.router.navigate(['/folder/Groups', this.groupService.currentGroupId]);
   }
   onCloseClicked() {
     this.modalController.dismiss();
   }
+
 }

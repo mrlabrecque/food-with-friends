@@ -24,6 +24,9 @@ export class GroupService {
     return this.http.get<Group[]>(`${this.apiUrl}/groups/user/${id}`);
 
   }
+  public refreshGroup() {
+    this.getGroupById(this.currentGroupId);
+  }
 
   public updateGroupFilters(groupId: number, preparedGroup: Group): Observable<any> {
     const body = JSON.stringify(preparedGroup);

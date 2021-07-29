@@ -1,6 +1,6 @@
 /* eslint-disable no-underscore-dangle */
 /* eslint-disable no-fallthrough */
-import { ChangeDetectionStrategy, Component, OnDestroy, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, Component, NgZone, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Subject, Subscription, BehaviorSubject } from 'rxjs';
 import { AsyncPipe } from '@angular/common';
@@ -89,7 +89,9 @@ export class GroupDetailPageComponent implements OnInit, OnDestroy {
     private groupService: GroupService,
     private filterService: FilterService,
     private modalController: ModalController,
-    private routerOutlet: IonRouterOutlet,) { }
+    private routerOutlet: IonRouterOutlet,
+    private ngZone: NgZone
+  ) { }
 
   ngOnInit() {
     this.groupId = +this.activatedRoute.snapshot.paramMap.get('id');
@@ -97,6 +99,7 @@ export class GroupDetailPageComponent implements OnInit, OnDestroy {
       gr => this.onGetGroupSuccess(gr));
     this.lat = this.locationService.userLat.value;
     this.long = this.locationService.userLong.value;
+
   }
   ngOnDestroy() {
     this.groupSubscription.unsubscribe();
@@ -134,7 +137,17 @@ export class GroupDetailPageComponent implements OnInit, OnDestroy {
         title: 'Add Group Member'
       }
     });
+
+    modal.onDidDismiss()
+      .then((data) => {
+        this.ngOnInit();
+      });
     return await modal.present();
+  }
+  refresh() {
+    this.ngZone.run(() => {
+      console.log('refreshed');
+    });
   }
   onMatchingClicked() {
     //setup for restaurant query

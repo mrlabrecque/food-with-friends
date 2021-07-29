@@ -17,6 +17,7 @@ export class SlidingListGroupsComponent implements OnChanges {
   ngOnChanges(changes: SimpleChanges) {
     console.log('changes', changes);
     console.log(this.listItems);
+    this.listItems = changes.listItems.currentValue;
     // this.incomingListItems = changes;
   }
 
