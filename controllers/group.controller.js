@@ -10,7 +10,7 @@ exports.getGroups = (req, res) => {
 };
 exports.getUsersGroups = (req, res) => {
   const id = req.params.id;
-  const groups = Group.find({ "members": { $elemMatch: { _id: id } } })
+  const groups = Group.find({ "members._id": +id })
     .then((groups) => {
       console.log(id)
       res.json(groups)

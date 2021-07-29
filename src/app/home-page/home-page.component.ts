@@ -73,8 +73,7 @@ export class HomePageComponent implements OnInit {
         }
       });
     this.modeService.getMode();
-    // this.groupsSubscription = this.groupService.getUsersGroupsByUserId(this.devUserId).subscribe((res) => this.groups$.next(res));
-    this.groupsSubscription = this.groupService.getUsersGroupsByUserId(this.devUserId).subscribe((res) => console.log(res));
+    this.groupsSubscription = this.groupService.getUsersGroupsByUserId(this.devUserId).subscribe((res) => this.groups$.next(res));
   }
   setParams(attr: string) {
     const paramsToRequest: HttpParams = new HttpParams().set('limit', '50')
