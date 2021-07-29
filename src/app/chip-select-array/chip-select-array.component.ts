@@ -15,7 +15,7 @@ export class ChipSelectArrayComponent implements OnChanges {
 
   ngOnChanges() {
     _.each(this.selectedChips, (incomingChip, key) => {
-      const found = _.findWhere(this.availableChips, { value: incomingChip.name });
+      const found = _.findWhere(this.availableChips, { name: incomingChip.name });
       if (found) {
         found.selected = incomingChip.selected;
       }
@@ -23,7 +23,7 @@ export class ChipSelectArrayComponent implements OnChanges {
   }
   updateSelections(i) {
     i.selected = !i.selected;
-    const found = _.findWhere(this.selectedChips, { name: i.value });
+    const found = _.findWhere(this.selectedChips, { name: i.name });
     if (found) {
       found.selected = i.selected;
       this.chipSelectionChanged.emit(this.selectedChips);

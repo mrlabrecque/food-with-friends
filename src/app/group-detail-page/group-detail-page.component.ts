@@ -33,53 +33,45 @@ export class GroupDetailPageComponent implements OnInit, OnDestroy {
   matchThreshold = 100;
   availablePrices: Param[] = [
     {
-      id: 1,
       label: '$',
-      value: 'level_one',
-      selected: 0
+      name: 'level_one',
+      selected: false
     },
     {
-      id: 2,
       label: '$$',
-      value: 'level_two',
-      selected: 0
+      name: 'level_two',
+      selected: false
     },
     {
-      id: 3,
       label: '$$$',
-      value: 'level_three',
-      selected: 0
+      name: 'level_three',
+      selected: false
     },
     {
-      id: 4,
       label: '$$$$',
-      value: 'level_four',
-      selected: 0
+      name: 'level_four',
+      selected: false
     }];
   availableTypes: Param[] = [
     {
-      id: 1,
       label: 'American',
-      value: 'american',
-      selected: 0
+      name: 'american',
+      selected: false
     },
     {
-      id: 2,
       label: 'Mexican',
-      value: 'mexican',
-      selected: 0
+      name: 'mexican',
+      selected: false
     },
     {
-      id: 3,
       label: 'Italian',
-      value: 'italian',
-      selected: 0
+      name: 'italian',
+      selected: false
     },
     {
-      id: 4,
       label: 'Asian',
-      value: 'asian',
-      selected: 0
+      name: 'asian',
+      selected: false
     }];
   selectedTypes: FilterChip[] = [];
   selectedPrices: FilterChip[] = [];
@@ -106,37 +98,28 @@ export class GroupDetailPageComponent implements OnInit, OnDestroy {
   }
   onGetGroupSuccess(selectedGroup) {
     this.group = { ...selectedGroup };
-    this.filters = selectedGroup.filters;
-    this.selectedPrices = this.filters.foodPrices;
-    this.selectedTypes = this.filters.foodTypes;
-    this.selectedKids = this.filters.kids;
-    this.selectedDistance = this.filters.distance;
-    this.matchThreshold = this.filters.matchThreshold;
-  }
-  onGetFilterParamObjectSuccess(filterParamObject, param) {
-    switch (param) {
-      case 'types':
-        this.selectedTypes = filterParamObject;
-        break;
-      case 'prices':
-        this.selectedPrices = filterParamObject;
-        break;
-      case 'kids':
-        this.selectedKids = filterParamObject.kids === 1 ? true : false;
-        break;
-      case 'distance':
-        this.selectedDistance = filterParamObject.distance;
-        break;
-      default:
-        // eslint-disable-next-line @typescript-eslint/no-unused-expressions
-        null;
-        break;
+    if (selectedGroup.filters.foodPrices.length === 0 || selectedGroup.filters.foodTypes.length === 0) {
+      this.createFiltersForNewGroup();
+    } else {
+      this.filters = selectedGroup.filters;
+      this.selectedPrices = this.filters.foodPrices;
+      this.selectedTypes = this.filters.foodTypes;
+      this.selectedKids = this.filters.kids;
+      this.selectedDistance = this.filters.distance;
+      this.matchThreshold = this.filters.matchThreshold;
     }
+  }
+  createFiltersForNewGroup() {
+    this.selectedPrices = this.availablePrices;
+    this.selectedTypes = this.availableTypes;
+    this.selectedKids = false;
+    this.selectedDistance = 0;
+    this.matchThreshold = 100;
   }
   onMatchingClicked() {
     //setup for restaurant query
-    const selectedTypes = _.pluck(_.filter(this.availableTypes, (type) => type.selected === 1), 'value');
-    const selectedPrice = _.pluck(_.filter(this.availablePrices, (price) => price.selected === 1), 'value');
+    const selectedTypes = _.pluck(_.filter(this.availableTypes, (type) => type.selected === true), 'name');
+    const selectedPrice = _.pluck(_.filter(this.availablePrices, (price) => price.selected === true), 'name');
     const convertedDistace = (this.selectedDistance * 1.6) * 1000;
     const paramsToRequest: HttpParams = new HttpParams().set('limit', '50')
       .set('latitude', `${this.lat}`)
