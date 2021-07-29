@@ -1,6 +1,7 @@
 /* eslint-disable no-underscore-dangle */
 import { Component, ElementRef, Input, OnInit, ViewChild } from '@angular/core';
-import { IonInput } from '@ionic/angular';
+import { Router } from '@angular/router';
+import { IonInput, ModalController } from '@ionic/angular';
 import { Observable, Subject } from 'rxjs';
 import { tap } from 'rxjs/operators';
 import * as _ from 'underscore';
@@ -8,6 +9,7 @@ import { GroupMember } from '../models/group-member-model';
 import { Group } from '../models/group-model';
 import { User } from '../models/user.model';
 import { GroupService } from '../services/group.service';
+import { ModeService } from '../services/mode.service';
 import { UserService } from '../services/user.service';
 
 @Component({
@@ -22,7 +24,8 @@ export class ManageGroupModalComponent implements OnInit {
   @Input() user: User;
   addedGroupName: string;
   addedMembers: string[] = [];
-  constructor(private userService: UserService, private groupService: GroupService) { }
+  constructor(private userService: UserService, private groupService: GroupService, private modalController: ModalController,
+    private router: Router) { }
 
   ngOnInit() { }
   enterOnMemberAdd(e) {
@@ -60,6 +63,10 @@ export class ManageGroupModalComponent implements OnInit {
     //close window
   }
   onGetNewMembersSuccess(newGroup: Group) {
-    this.groupService.createGroup(newGroup).subscribe(res => console.log("newGroupCreated"));
+    this.groupService.createGroup(newGroup).subscribe(res => this.onCreateGroupSuccess(res));
+  }
+  onCreateGroupSuccess(res) {
+    this.modalController.dismiss();
+    this.router.navigate(['/folder/Groups', res._id]);
   }
 }
