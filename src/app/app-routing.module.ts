@@ -8,6 +8,7 @@ import { ModalContainerComponent } from './modal-container/modal-container.compo
 import { ManageGroupModalComponent } from './manage-group-modal/manage-group-modal.component';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
+import { AddGroupMemberModalComponent } from './add-group-member-modal/add-group-member-modal.component';
 
 const routes: Routes = [
   {
@@ -41,9 +42,9 @@ const routes: Routes = [
     IonicModule,
     RouterModule.forRoot(routes, { preloadingStrategy: PreloadAllModules })
   ],
-  declarations: [ManageGroupModalComponent],
+  declarations: [ManageGroupModalComponent, AddGroupMemberModalComponent],
   exports: [RouterModule],
-  entryComponents: [ManageGroupModalComponent]
+  entryComponents: [ManageGroupModalComponent, AddGroupMemberModalComponent]
 
 })
 export class AppRoutingModule { }

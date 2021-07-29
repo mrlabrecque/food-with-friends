@@ -48,6 +48,25 @@ exports.removeGroup = (req, res) => {
     })
     .catch((err) => console.log(err));
 };
+exports.removeMember = (req, res) => {
+  const groupId = req.params.groupId;
+  const memberId = req.params.memberId;
+  const group = Group.updateOne({ _id: +groupId }, { $pull: { "members": { "_id": +memberId } } })
+    .then((group) => {
+      res.json(group)
+    })
+    .catch((err) => console.log(err));
+};
+exports.addMembers = (req, res) => {
+  console.log(req.params);
+  const groupId = req.params.groupId;
+
+  const group = Group.updateOne({ _id: +groupId }, { $push: { "members": { $each: req.body } } })
+    .then((group) => {
+      res.json(group)
+    })
+    .catch((err) => console.log(err));
+};
 
 exports.createGroup = (req, res) => {
   console.log(req.body);

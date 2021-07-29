@@ -13,7 +13,6 @@ export class ModalContainerComponent implements OnInit {
 
   ngOnInit() { }
   onCloseClicked() {
-    console.log("clicked");
     this.modalController.dismiss();
   }
 

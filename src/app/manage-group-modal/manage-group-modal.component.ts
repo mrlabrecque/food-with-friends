@@ -69,4 +69,7 @@ export class ManageGroupModalComponent implements OnInit {
     this.modalController.dismiss();
     this.router.navigate(['/folder/Groups', res._id]);
   }
+  onCloseClicked() {
+    this.modalController.dismiss();
+  }
 }

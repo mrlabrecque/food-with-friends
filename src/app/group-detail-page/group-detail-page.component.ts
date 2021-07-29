@@ -1,3 +1,4 @@
+/* eslint-disable no-underscore-dangle */
 /* eslint-disable no-fallthrough */
 import { ChangeDetectionStrategy, Component, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
@@ -13,6 +14,8 @@ import { GroupService } from '../services/group.service';
 import { FilterService } from '../services/filter.service';
 import { Group } from '../models/group-model';
 import { FilterChip } from '../models/filter-chip.model';
+import { IonRouterOutlet, ModalController } from '@ionic/angular';
+import { AddGroupMemberModalComponent } from '../add-group-member-modal/add-group-member-modal.component';
 
 
 @Component({
@@ -84,7 +87,9 @@ export class GroupDetailPageComponent implements OnInit, OnDestroy {
     private restraurantService: RestaurantService,
     private locationService: LocationService,
     private groupService: GroupService,
-    private filterService: FilterService) { }
+    private filterService: FilterService,
+    private modalController: ModalController,
+    private routerOutlet: IonRouterOutlet,) { }
 
   ngOnInit() {
     this.groupId = +this.activatedRoute.snapshot.paramMap.get('id');
@@ -98,6 +103,7 @@ export class GroupDetailPageComponent implements OnInit, OnDestroy {
   }
   onGetGroupSuccess(selectedGroup) {
     this.group = { ...selectedGroup };
+    this.groupService.currentGroupId = this.group._id;
     if (selectedGroup.filters.foodPrices.length === 0 || selectedGroup.filters.foodTypes.length === 0) {
       this.createFiltersForNewGroup();
     } else {
@@ -115,6 +121,20 @@ export class GroupDetailPageComponent implements OnInit, OnDestroy {
     this.selectedKids = false;
     this.selectedDistance = 0;
     this.matchThreshold = 100;
+  }
+
+  async openAddGroupMemberModal() {
+    const modal = await this.modalController.create({
+      component: AddGroupMemberModalComponent,
+      cssClass: 'my-custom-class',
+      swipeToClose: true,
+      presentingElement: this.routerOutlet.nativeEl,
+      componentProps: {
+        user: this.group,
+        title: 'Add Group Member'
+      }
+    });
+    return await modal.present();
   }
   onMatchingClicked() {
     //setup for restaurant query

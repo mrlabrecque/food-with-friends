@@ -9,6 +9,9 @@ router.get('/user/:id', groupController.getUsersGroups);
 
 router.put('/:id', groupController.updateGroup);
 router.put('/updatefilters/:id', groupController.updateGroupFilters);
+router.put('/:groupId/removemember/:memberId', groupController.removeMember);
+router.put('/:groupId/addmembers/', groupController.addMembers);
+
 
 router.post('/new', groupController.createGroup);
 

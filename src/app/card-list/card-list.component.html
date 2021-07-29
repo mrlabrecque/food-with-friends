@@ -1,24 +1,19 @@
-<ion-card *ngFor="let card of cardData">
-  <div style="display: flex; align-items:center; width: 100%">
-    <div>
-      <ion-avatar>
-        <img src="https://gravatar.com/avatar/dba6bae8c566f9d4041fb9cd9ada7741?d=identicon&f=y">
-      </ion-avatar>
-    </div>
-    <div>
-      <ion-card-header>
-        <ion-card-title>{{card.name}}</ion-card-title>
-        <ion-card-subtitle *ngIf="card._id === groupOwner._id">Owner</ion-card-subtitle>
-      </ion-card-header>
-    </div>
-    <div style="margin-left: auto;">
-      <ion-card-content>
-        <ng-container *ngIf="card._id !== currentUserId && isLoggedUserGroupOwner">
-          <ion-icon ios="person-remove-outline" md="person-remove-outline" size="default">
+<ion-item-sliding *ngFor="let card of cardData">
+  <ion-item>
+    <ion-avatar slot="start">
+      <img src="https://gravatar.com/avatar/dba6bae8c566f9d4041fb9cd9ada7741?d=identicon&f=y">
+    </ion-avatar>
 
-          </ion-icon>
-        </ng-container>
-      </ion-card-content>
-    </div>
-  </div>
-</ion-card>
+    <ion-label>
+      <h2>{{card.name}}</h2>
+      <h3 *ngIf="card._id === groupOwner._id">Owner</h3>
+    </ion-label>
+  </ion-item>
+  <ng-container *ngIf="card._id !== currentUserId && isLoggedUserGroupOwner">
+    <ion-item-options side="end">
+      <ion-item-option color="danger" (click)="removeMember(card)">
+        <ion-icon slot="end" name="trash"></ion-icon>Remove
+      </ion-item-option>
+    </ion-item-options>
+  </ng-container>
+</ion-item-sliding>
