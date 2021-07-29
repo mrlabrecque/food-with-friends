@@ -1,16 +1,26 @@
-import { Component, OnInit, Input } from '@angular/core';
+/* eslint-disable no-underscore-dangle */
+import { Component, OnInit, Input, AfterViewInit, OnChanges, SimpleChanges } from '@angular/core';
+import { User } from '../models/user.model';
+import { UserService } from '../services/user.service';
 
 @Component({
   selector: 'app-card-list',
   templateUrl: './card-list.component.html',
   styleUrls: ['./card-list.component.scss'],
 })
-export class CardListComponent implements OnInit {
+export class CardListComponent implements OnInit, OnChanges {
   @Input() cardData: any[];
-  constructor() { }
+  @Input() groupOwner: User;
+  currentUserId: number;
+  isLoggedUserGroupOwner = false;
+  constructor(private userService: UserService) { }
 
   ngOnInit() {
-    console.log('loading method' + this.cardData);
-
+    this.currentUserId = this.userService.getCurrentUser()._id;
+  }
+  ngOnChanges(changes: SimpleChanges) {
+    if (this.groupOwner) {
+      this.isLoggedUserGroupOwner = this.currentUserId === this.groupOwner._id ? true : false;
+    }
   }
 }

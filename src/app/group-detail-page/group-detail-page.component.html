@@ -16,9 +16,10 @@
     <ion-row>
       <ion-col>
         <ion-text>
-          <span class="section-header">Friends</span>
+          <span class="section-header">Members</span>
         </ion-text>
-        <app-card-list [cardData]="groupMembers" (ngModelChange)="groupMembers"></app-card-list>
+        <app-card-list [cardData]="group?.members" [groupOwner]="group?.owner" (ngModelChange)="groupMembers">
+        </app-card-list>
 
 
       </ion-col>
