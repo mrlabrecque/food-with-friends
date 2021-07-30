@@ -1,50 +1,20 @@
 import { NgModule } from '@angular/core';
-import { IonicModule, IonRouterOutlet } from '@ionic/angular';
 import { PreloadAllModules, RouterModule, Routes } from '@angular/router';
-import { MatchPageComponent } from './match-page/match-page.component';
-import { GroupsPageComponent } from './groups-page/groups-page.component';
-import { GroupDetailPageComponent } from './group-detail-page/group-detail-page.component';
-import { ModalContainerComponent } from './modal-container/modal-container.component';
-import { ManageGroupModalComponent } from './manage-group-modal/manage-group-modal.component';
-import { CommonModule } from '@angular/common';
-import { FormsModule } from '@angular/forms';
-import { AddGroupMemberModalComponent } from './add-group-member-modal/add-group-member-modal.component';
+import { GroupDetailPageComponent } from './pages/group-detail-page/group-detail-page.component';
 
 const routes: Routes = [
   {
     path: '',
-    redirectTo: 'folder/Home',
-    pathMatch: 'full'
+    loadChildren: () => import('./tabs/tabs.module').then(m => m.TabsPageModule)
   },
-  {
-    path: 'folder/Match',
-    component: MatchPageComponent
-  },
-  {
-    path: 'folder/Groups',
-    component: GroupsPageComponent
-  },
-  {
-    path: 'folder/Groups/:id',
-    component: GroupDetailPageComponent,
-    loadChildren: () => import('./folder/folder.module').then(m => m.FolderPageModule)
-  },
-  {
-    path: 'folder/:id',
-    loadChildren: () => import('./folder/folder.module').then(m => m.FolderPageModule)
-  }
+  { path: 'tab2/group/:id', component: GroupDetailPageComponent },
 ];
 
 @NgModule({
   imports: [
-    CommonModule,
-    FormsModule,
-    IonicModule,
     RouterModule.forRoot(routes, { preloadingStrategy: PreloadAllModules })
   ],
-  declarations: [ManageGroupModalComponent, AddGroupMemberModalComponent],
   exports: [RouterModule],
-  entryComponents: [ManageGroupModalComponent, AddGroupMemberModalComponent]
 
 })
 export class AppRoutingModule { }

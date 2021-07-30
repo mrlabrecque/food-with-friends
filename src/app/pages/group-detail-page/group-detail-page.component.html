@@ -1,0 +1,95 @@
+<ion-toolbar color="primary">
+  <ion-buttons slot="start">
+    <ion-back-button defaultHref="/"></ion-back-button>
+  </ion-buttons>
+  <ion-buttons slot="primary">
+    <ion-button (click)="openAddGroupMemberModal()">
+      <ion-icon slot="icon-only" ios="person-add-outline" md="person-add-outline"></ion-icon>
+    </ion-button>
+  </ion-buttons>
+
+  <ion-title>{{group?.name}}</ion-title>
+</ion-toolbar>
+
+<ion-content>
+  <ion-grid>
+    <ion-row>
+      <ion-col>
+        <ion-text>
+          <span class="section-header">Members</span>
+        </ion-text>
+        <app-card-list [cardData]="group?.members" [groupOwner]="group?.owner" (ngModelChange)="groupMembers">
+        </app-card-list>
+      </ion-col>
+    </ion-row>
+    <!--Filters-->
+    <ion-row>
+      <ion-col>
+        <ion-card>
+          <ion-card-header>
+            <ion-card-title>Filters</ion-card-title>
+            <ion-card-subtitle>These are used to customize your matches. They can only be set by the group owner.
+            </ion-card-subtitle>
+          </ion-card-header>
+          <ion-card-content>
+            <div class="filter-header">Price</div>
+            <app-chip-select-array [availableChips]="availablePrices" [selectedChips]="selectedPrices"
+              (chipSelectionChanged)="chipPricesSelectionChanged($event)">
+            </app-chip-select-array>
+
+
+            <div class="filter-header">Type</div>
+            <app-chip-select-array [availableChips]="availableTypes" [selectedChips]="selectedTypes"
+              (chipSelectionChanged)="chipTypesSelectionChanged($event)">
+            </app-chip-select-array>
+
+            <div class="filter-header">Distance</div>
+            <ion-item>
+              <ion-range [(ngModel)]="selectedDistance" min="0" max="25" pin="true" #distanceSlider>
+                <ion-icon slot="start" size="small" name="remove-outline"></ion-icon>
+                <ion-icon slot="end" name="add-outline"></ion-icon>
+              </ion-range>
+            </ion-item>
+
+            <div class="filter-header">Kids</div>
+            <ion-toggle color="primary" [(ngModel)]="selectedKids"></ion-toggle>
+          </ion-card-content>
+        </ion-card>
+      </ion-col>
+    </ion-row>
+
+    <!--Match threshold-->
+    <ion-row>
+      <ion-col>
+        <ion-card>
+          <ion-card-header>
+            <ion-card-title>
+              Match Threshold
+            </ion-card-title>
+            <ion-card-subtitle>This is used if you have a large group to customize the threshold of the percentage of
+              users that need to like a restaurant to determine if match.</ion-card-subtitle>
+          </ion-card-header>
+          <ng-container *ngIf="group">
+            <ion-card-content>
+              <ion-item>
+                <ion-range [(ngModel)]="matchThreshold" pin="true" #threshholdSlider>
+                  <ion-icon slot="start" size="small" name="remove-outline"></ion-icon>
+                  <ion-icon slot="end" name="add-outline"></ion-icon>
+                </ion-range>
+              </ion-item>
+            </ion-card-content>
+          </ng-container>
+        </ion-card>
+      </ion-col>
+    </ion-row>
+
+
+    <ion-row>
+      <ion-col>
+        <section>
+          <ion-button expand="block" (ionFocus)="onMatchingClicked()">Start Matching!</ion-button>
+        </section>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+</ion-content>
