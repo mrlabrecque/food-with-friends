@@ -89,10 +89,7 @@
    * -------------------------------------------
    */
 
-  .ios body {
-    --ion-card-background: #E7ECEF;
-
-  }
+  .ios body {}
 
   .ios ion-modal {}
 
@@ -102,10 +99,7 @@
    * -------------------------------------------
    */
 
-  .md body {
-    --ion-card-background: #E7ECEF;
-
-  }
+  .md body {}
 }
 
 @media (prefers-color-scheme: dark) {

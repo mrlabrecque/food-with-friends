@@ -51,7 +51,7 @@ ion-title {
   text-align: center;
 
   &.app-title {
-    font-family: 'Ramaraja', serif;
+    font-family: 'Gochi Hand', cursive;
     font-size: 30px;
     padding: 0;
     margin: 0;
@@ -95,5 +95,14 @@ $restaurant-slider-image-height: 180px;
 
   &:hover {
     cursor: pointer;
+  }
+}
+
+.range-has-pin {
+  position: relative;
+  padding: 0px;
+
+  .range-pin {
+    position: absolute;
   }
 }

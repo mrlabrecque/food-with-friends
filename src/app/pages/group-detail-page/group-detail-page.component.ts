@@ -15,6 +15,7 @@ import { FilterService } from '../../services/filter.service';
 import { Group } from '../../models/group-model';
 import { FilterChip } from '../../models/filter-chip.model';
 import { IonRouterOutlet, ModalController } from '@ionic/angular';
+import { Options } from '@angular-slider/ngx-slider';
 import { AddGroupMemberModalComponent } from '../../components/modals/add-group-member-modal/add-group-member-modal.component';
 
 
@@ -32,8 +33,13 @@ export class GroupDetailPageComponent implements OnInit, OnDestroy {
 
   filters: any;
   selectedKids = false;
-  selectedDistance = 0;
   matchThreshold = 100;
+
+  selectedDistance = 0;
+  options: Options = {
+    floor: 0,
+    ceil: 25
+  };
   availablePrices: Param[] = [
     {
       label: '$',
