@@ -32,14 +32,17 @@ export class MatchPageComponent implements OnInit, AfterViewInit {
   ngOnInit() {
     this.restaurantSubscription = this.restaurants$.subscribe(restResponse => {
       this.restaurants = restResponse;
-      console.log(this.restaurants);
     });
   }
   ngAfterViewInit() {
     this.currentGroupFilters = this.groupService.currentGroupFilters$.value;
     if (this.currentGroupFilters) {
-      console.log(this.currentGroupFilters);
       this.prepareSearchParams();
+    } else {
+      this.groupService.getGroupById(this.groupService.currentGroupId).subscribe(curGroup => {
+        this.currentGroupFilters = curGroup[0];
+        this.prepareSearchParams();
+      });
     }
 
   }
@@ -64,7 +67,7 @@ export class MatchPageComponent implements OnInit, AfterViewInit {
           // console.log(results);
           // console.log(this.restaurants);
           _.each(results, rest => {
-            rest.photoUrl = rest.photos[0].getUrl({ 'maxWidth': 500, 'maxHeight': 500 });
+            rest.photoUrl = rest.photos[0].getUrl();
           });
           this.restaurants$.next(results);
         }
@@ -76,6 +79,7 @@ export class MatchPageComponent implements OnInit, AfterViewInit {
     const myplace = { lat: -33.8665, lng: 151.1956 };
   }
   prepareSearchParams() {
+    console.log("prepared called");
     const distanceInMeters = this.currentGroupFilters.filters.distance / 0.00062137;
     const types = _.pluck(_.filter(this.currentGroupFilters.filters.foodTypes, (type) => type.selected), 'label');
     const prices = _.pluck(_.filter(this.currentGroupFilters.filters.foodPrices, (type) => type.selected), 'name');

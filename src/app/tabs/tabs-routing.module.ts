@@ -18,11 +18,6 @@ const routes: Routes = [
             loadChildren: () =>
               import('../tabs/tab1/tab1.module').then(m => m.Tab1PageModule)
           },
-          {
-            path: 'group/:id',
-            loadChildren: () =>
-              import('../tabs/tab2/tab2.details.module').then(m => m.Tab2DetailsPageModule),
-          }
         ]
       },
       {

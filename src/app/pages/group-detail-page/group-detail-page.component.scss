@@ -1,0 +1,10 @@
+.filter-card-content {
+  opacity: .8;
+  height: 0;
+  // transition: 500ms ease-in-out;
+
+  &.show {
+    height: 100%;
+    opacity: 1;
+  }
+}

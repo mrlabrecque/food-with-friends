@@ -17,12 +17,36 @@ import { FilterChip } from '../../models/filter-chip.model';
 import { IonRouterOutlet, ModalController } from '@ionic/angular';
 import { Options } from '@angular-slider/ngx-slider';
 import { AddGroupMemberModalComponent } from '../../components/modals/add-group-member-modal/add-group-member-modal.component';
+import { animate, style, transition, trigger } from '@angular/animations';
 
 
 @Component({
   selector: 'app-group-detail-page',
   templateUrl: './group-detail-page.component.html',
   styleUrls: ['./group-detail-page.component.scss'],
+  animations: [
+    trigger(
+      'inOutAnimation',
+      [
+        transition(
+          ':enter',
+          [
+            style({ opacity: 0 }),
+            animate('1s ease-out',
+              style({ opacity: 1 }))
+          ]
+        ),
+        transition(
+          ':leave',
+          [
+            style({ opacity: 1 }),
+            animate('1s ease-in',
+              style({ opacity: 0 }))
+          ]
+        )
+      ]
+    )
+  ]
 })
 export class GroupDetailPageComponent implements OnInit, OnDestroy {
 
@@ -36,10 +60,7 @@ export class GroupDetailPageComponent implements OnInit, OnDestroy {
   matchThreshold = 100;
 
   selectedDistance = 0;
-  options: Options = {
-    floor: 0,
-    ceil: 25
-  };
+
   availablePrices: Param[] = [
     {
       label: '$',
@@ -87,6 +108,7 @@ export class GroupDetailPageComponent implements OnInit, OnDestroy {
 
   lat: number;
   long: number;
+  showFilters = false;
 
   constructor(private activatedRoute: ActivatedRoute,
     private router: Router,
@@ -192,5 +214,8 @@ export class GroupDetailPageComponent implements OnInit, OnDestroy {
   }
   chipTypesSelectionChanged(selectedTypes) {
     this.selectedTypes = selectedTypes;
+  }
+  toggleExpand() {
+    this.showFilters = !this.showFilters;
   }
 }
