@@ -6,10 +6,11 @@
   </ng-container>
 
   <ion-card *ngFor="let rest of restaurants; let i = index" class="restaurant-card">
-    <div class="main-image-container"><img [src]="rest.photoUrl" /></div>
+    <div class="main-image-container" [style.background-image]="'url(' + rest.photoUrl + ')'"></div>
     <ion-card-header [translucent]="true">
-      <ion-card-subtitle>{{ rest.rating }}</ion-card-subtitle>
       <ion-card-title>{{ rest.name }} </ion-card-title>
+      <ion-card-subtitle>{{ rest.rating }}</ion-card-subtitle>
+      <ion-card-subtitle>{{ rest.price_level }}</ion-card-subtitle>
     </ion-card-header>
   </ion-card>
 </div>
