@@ -38,6 +38,11 @@ const routes: Routes = [
             loadChildren: () =>
               import('../tabs/tab2/tab2.details.module').then(m => m.Tab2DetailsPageModule),
           },
+          {
+            path: 'group/:id/matches',
+            loadChildren: () =>
+              import('../tabs/tab2/tab2.matches.module').then(m => m.Tab2MatchesPageModule),
+          },
         ]
       },
       {

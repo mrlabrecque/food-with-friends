@@ -1,6 +1,7 @@
-import { Component, OnInit, OnDestroy, ViewChildren, ElementRef, QueryList, AfterViewInit, Input } from '@angular/core';
+// eslint-disable-next-line max-len
+import { Component, OnInit, OnDestroy, ViewChildren, ElementRef, QueryList, AfterViewInit, Input, OnChanges, SimpleChanges } from '@angular/core';
 import { createGesture, Gesture } from '@ionic/core';
-import { RestaurantService } from '../';
+import { RestaurantService } from '../../services/restaurant.service';
 import { Subscription, BehaviorSubject } from 'rxjs';
 import * as _ from 'underscore';
 import { IonCard, GestureController, Platform } from '@ionic/angular';
@@ -10,40 +11,32 @@ import { IonCard, GestureController, Platform } from '@ionic/angular';
   templateUrl: './restaurant-list.component.html',
   styleUrls: ['./restaurant-list.component.scss']
 })
-export class RestaurantListComponent implements OnInit, OnDestroy, AfterViewInit {
+export class RestaurantListComponent implements OnInit, OnDestroy, AfterViewInit, OnChanges {
 
   // @ViewChildren(IonCard, { read: ElementRef }) restraurantCards: QueryList<ElementRef>;
   @ViewChildren(IonCard, { read: ElementRef }) restraurantCards: QueryList<ElementRef>;
   // instantiate posts to an empty array
   @Input() restaurants: any[] = [];
   restraurantListSubscription$: Subscription;
-  showLoading$: BehaviorSubject<boolean> = new BehaviorSubject(false);
+  showLoading$: BehaviorSubject<boolean> = new BehaviorSubject(true);
 
   constructor(private restaurantService: RestaurantService, private gestureCtrl: GestureController, private plt: Platform) { }
 
   ngOnInit() {
-    // Retrieve restaurants from the API
-    // this.restraurantListSubscription$ = this.restaurantService.getAllRestaurants().subscribe(restaurants => {
-    //   this.onGetAllRestaurantsSuccess(restaurants);
-    // });
-
   }
   ngAfterViewInit() {
-    this.instanstiateSwipeGesture(this.restraurantCards && this.restraurantCards.toArray());
-
-    // this.restraurantCards.changes.subscribe((list: QueryList<ElementRef>) => {
-    //   const restraurantCardsArray = list.toArray();
-    //   this.instanstiateSwipeGesture(restraurantCardsArray);
-    // });
-
+    this.restraurantCards.changes.subscribe((newCards) => {
+      this.instanstiateSwipeGesture(newCards && newCards.toArray());
+    });
+  }
+  ngOnChanges(changes: SimpleChanges) {
+    if (this.restaurants.length > 0) {
+      this.showLoading$.next(false);
+    }
   }
   ngOnDestroy() {
     // eslint-disable-next-line @typescript-eslint/no-unused-expressions
     this.restraurantListSubscription$ && this.restraurantListSubscription$.unsubscribe();
-  }
-  onGetAllRestaurantsSuccess(restaurants) {
-    this.restaurants = restaurants;
-    this.showLoading$.next(false);
   }
   instanstiateSwipeGesture(restraurantCardsArray) {
     _.each(restraurantCardsArray, rest => {

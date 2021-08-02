@@ -1,6 +1,6 @@
 import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Observable, of } from 'rxjs';
+import { BehaviorSubject, Observable, of } from 'rxjs';
 import { catchError, map } from 'rxjs/operators';
 import { Group } from '../models/group-model';
 import { User } from '../models/user.model';
@@ -10,10 +10,15 @@ import { User } from '../models/user.model';
 })
 export class GroupService {
   currentGroupId: number;
-  apiUrl = 'http://localhost:3000/api';
+  currentGroupFilters$: BehaviorSubject<Group> = new BehaviorSubject(null);
+  apiUrl = 'https://localhost:3000/api';
 
 
   constructor(private http: HttpClient) { }
+
+  public updateCurrentGroupFilters(updatedGroupFilters) {
+    this.currentGroupFilters$.next(updatedGroupFilters);
+  }
   public createGroup(newGroup: Group): Observable<Group> {
     return this.http.post<Group>(`${this.apiUrl}/groups/new`, newGroup);
   }

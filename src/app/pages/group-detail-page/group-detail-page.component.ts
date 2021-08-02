@@ -166,12 +166,8 @@ export class GroupDetailPageComponent implements OnInit, OnDestroy {
       .set('radius', `${Math.round(+convertedDistace)}`)
       .set('categories', `${selectedTypes}`)
       .set('price', `${selectedPrice}`);
-    this.restraurantService.searchRestaurants(paramsToRequest)
-      .subscribe((res) => this.onGetFilteredRestaurantsSuccess(res)
-      );
 
     //send to service to update group filters
-    //   const selectedKidsAsInt = this.selectedKids === true ? 1 : 0;
     const preparedGroup: Group = {
       name: this.group.name,
       owner: this.group.owner,
@@ -181,19 +177,18 @@ export class GroupDetailPageComponent implements OnInit, OnDestroy {
         foodPrices: [...this.selectedPrices],
         kids: this.selectedKids,
         distance: this.selectedDistance,
-        //      matchThreshhold: this.matchThreshold
+        matchThreshhold: this.matchThreshold
       },
       //  matches: []
     };
-    this.groupService.updateGroupFilters(this.groupId, preparedGroup).subscribe(data => console.log(data));;
+    this.groupService.updateGroupFilters(this.groupId, preparedGroup).subscribe(data => this.onUpdateGroupFiltersSuccess(preparedGroup));
+
   }
-  onGetFilteredRestaurantsSuccess(restraurants) {
-    this.restraurantService.filteredRestaurants$.next(restraurants);
-    this.router.navigate(['/folder/Match']);
+  onUpdateGroupFiltersSuccess(updatedFilters) {
+    this.groupService.updateCurrentGroupFilters(updatedFilters);
   }
   chipPricesSelectionChanged(selectedPrices) {
     this.selectedPrices = selectedPrices;
-    console.log(this.selectedPrices);
   }
   chipTypesSelectionChanged(selectedTypes) {
     this.selectedTypes = selectedTypes;

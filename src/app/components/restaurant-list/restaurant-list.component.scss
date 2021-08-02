@@ -4,25 +4,28 @@ $size: 300px;
   display: flex;
   align-items: center;
   justify-content: center;
-  height: 390px;
 }
 
 .restraurant-card-container {
   position: relative;
-  min-height: 390px;
+  height: 100%;
   overflow: hidden;
+  background-color: yellow;
 
 }
 
 .restaurant-card {
   position: absolute;
-  // top: 0;
-  // left: 0;
   margin: 0;
-  max-height: inherit;
+  height: 100%;
   width: 100%;
 
 
+}
+
+.retaurant-match-buttons-container {
+  height: 30vh;
+  background-color: pink;
 }
 
 ion-card-title {
@@ -32,24 +35,19 @@ ion-card-title {
 }
 
 .main-image-container {
-  // border-radius: $size / 2;
-  min-height: $size;
-  // max-height: $size;
-  width: 100%;
-  // height: auto;
-  overflow: hidden;
-  // text-align: center;
-  margin: 0 auto;
+
 
   img {
-    height: $size;
     width: 100%;
+    height: 100%;
+
+    object-fit: cover;
     // min-width: 100%;
     // max-width: none;
     // margin: 0 -100%;
     // max-width: 100%;
     // max-height: $size;
-    top: 50%;
-    left: 50%;
+    // top: 50%;
+    // left: 50%;
   }
 }

@@ -98,7 +98,9 @@
     <ion-row>
       <ion-col>
         <section>
-          <ion-button expand="block" (ionFocus)="onMatchingClicked()">Start Matching!</ion-button>
+          <ion-button expand="block" (ionFocus)="onMatchingClicked()" [routerLink]="['matches']">
+            Start Matching!
+          </ion-button>
         </section>
       </ion-col>
     </ion-row>

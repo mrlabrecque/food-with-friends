@@ -10,8 +10,7 @@ import { MatchPageComponent } from 'src/app/pages/match-page/match-page.componen
     IonicModule,
     CommonModule,
     FormsModule,
-    RouterModule.forChild([{ path: '', component: MatchPageComponent }])
   ],
-  declarations: [MatchPageComponent]
+  declarations: []
 })
 export class Tab3PageModule { }

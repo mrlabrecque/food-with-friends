@@ -15,8 +15,9 @@
   },
   "scripts": {
     "ng": "ng",
-    "start": "nodemon server.js ng serve",
-    "start-all": "npm run start npm run ionic serve",
+    "start": "nodemon server.js",
+    "start-ionic-serve": "ionic serve -p 8100 --ssl",
+    "start-all": "npm run start && npm run start-ionic-serve",
     "preview": "ionic serve --lab",
     "build": "ng build",
     "test": "ng test",

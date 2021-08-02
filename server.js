@@ -10,6 +10,7 @@ const morgan = require('morgan');
 const dotenv = require('dotenv');
 const config = require('./config/db.config.json');
 const fs = require('fs');
+const https = require('https');
 const sslOptions = {
   key: fs.readFileSync('key.pem'),
   cert: fs.readFileSync('cert.pem'),
@@ -18,6 +19,7 @@ const sslOptions = {
 // Server configs
 
 app.use(cors());
+app.options('*', cors())
 dotenv.config()
 mongoose.connect(process.env.DB_URI, {
   useUnifiedTopology: true,
@@ -28,8 +30,7 @@ mongoose.connect(process.env.DB_URI, {
   .catch((err) => console.log(err))
 
 mongoose.connection.on('error', err => console.log(`DB connection error: ${err}`))
-require('./models/group.model');
-require('./models/user.model');
+
 
 
 
@@ -39,10 +40,9 @@ app.use(express.urlencoded({ extended: true })) // for parsing application/x-www
 app.use(morgan("dev"));
 
 app.use((req, res, next) => {
-  res.setHeader("Access-Control-Allow-Methods", "POST, PUT, OPTIONS, DELETE, GET");
-  res.header("Access-Control-Allow-Origin", "*");
-  res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept, x-access-token");
-  res.header("Access-Control-Allow-Credentials", true);
+  res.setHeader('Access-Control-Allow-Origin', '*');
+  res.setHeader('Access-Control-Allow-Methods', 'GET, POST, PUT ,DELETE, OPTIONS');
+  res.setHeader('Access-Control-Allow-Headers', 'X-Requested-With,content-type, Authorization, access-control-allow-orgin, Access-Control-Allow-Methods');
   res.header("Content-Type", "application/json");
   next();
 });
@@ -96,4 +96,10 @@ app.get('*', (req, res) => {
 const port = process.env.PORT || 3000;
 app.set('port', port);
 // const sslServer = https.createServer(sslOptions, app);
-app.listen(port, () => console.log(`API running on localhost:${port}`));
+
+const server = https.createServer(sslOptions, app)
+  .listen(port, () => {
+    console.log('secure server running at ' + port)
+  })
+
+//app.listen(port, () => console.log(`API running on localhost:${port}`));

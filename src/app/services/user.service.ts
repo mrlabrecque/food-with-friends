@@ -11,7 +11,7 @@ export class UserService {
     email: "harrypotter@hogwarts.com",
     avatar: ''
   };
-  apiUrl = 'http://localhost:3000/api';
+  apiUrl = 'https://localhost:3000/api';
   constructor(private http: HttpClient) { }
   getCurrentUser() {
     return this.currentUser;

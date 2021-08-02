@@ -11,7 +11,7 @@ import { Param } from '../models/param-model';
 })
 export class FilterService {
 
-  apiUrl = 'http://localhost:3000/api';
+  apiUrl = 'https://localhost:3000/api';
   headers = new HttpHeaders()
     .set('Content-Type', 'application/json')
     .set('Content-Type', 'application/json')
