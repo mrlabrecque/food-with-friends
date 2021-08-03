@@ -5,6 +5,9 @@ import { RestaurantService } from '../../services/restaurant.service';
 import { Subscription, BehaviorSubject } from 'rxjs';
 import * as _ from 'underscore';
 import { IonCard, GestureController, Platform } from '@ionic/angular';
+import { MatchService } from 'src/app/services/match.service';
+import { GroupService } from 'src/app/services/group.service';
+import { Matches } from 'src/app/models/matches.model';
 
 @Component({
   selector: 'app-restaurant-list',
@@ -19,8 +22,10 @@ export class RestaurantListComponent implements OnInit, OnDestroy, AfterViewInit
   @Input() restaurants: any[] = [];
   restraurantListSubscription$: Subscription;
   showLoading$: BehaviorSubject<boolean> = new BehaviorSubject(true);
+  counter = 0;
 
-  constructor(private restaurantService: RestaurantService, private gestureCtrl: GestureController, private plt: Platform) { }
+  constructor(private restaurantService: RestaurantService, private gestureCtrl: GestureController,
+    private plt: Platform, private matchService: MatchService, private groupService: GroupService) { }
 
   ngOnInit() {
   }
@@ -32,6 +37,7 @@ export class RestaurantListComponent implements OnInit, OnDestroy, AfterViewInit
   ngOnChanges(changes: SimpleChanges) {
     if (this.restaurants.length > 0) {
       this.showLoading$.next(false);
+      console.log(this.restaurants);
     }
   }
   ngOnDestroy() {
@@ -40,7 +46,6 @@ export class RestaurantListComponent implements OnInit, OnDestroy, AfterViewInit
   }
   instanstiateSwipeGesture(restraurantCardsArray) {
     _.each(restraurantCardsArray, rest => {
-      console.log(rest);
       const gesture: Gesture = this.gestureCtrl.create({
         el: rest.nativeElement,
         threshold: 15,
@@ -52,10 +57,13 @@ export class RestaurantListComponent implements OnInit, OnDestroy, AfterViewInit
         },
         onEnd: ev => {
           rest.nativeElement.style.transition = '.5s ease-out';
+          this.counter++;
           if (ev.deltaX > 50) {
             rest.nativeElement.style.transform = `translateX(${+this.plt.width() * 2}px) rotate(${ev.deltaX / 2}deg)`;
+            this.onThumbsUp(ev);
           } else if (ev.deltaX < -50) {
             rest.nativeElement.style.transform = `translateX(-${+this.plt.width() * 2}px) rotate(${ev.deltaX / 2}deg)`;
+            this.onThumbsDown(ev);
           } else {
             rest.nativeElement.style.transform = '';
           }
@@ -69,7 +77,26 @@ export class RestaurantListComponent implements OnInit, OnDestroy, AfterViewInit
   }
   onMoveHandler(ev) {
   }
-  onEndHandler(ev) {
+  onThumbsUp(rest) {
+    console.log("thumbs up ");
+    this.addMatch(this.restaurants[this.counter]);
+    console.log(this.restaurants[this.counter]);
+  }
+  onThumbsDown(rest) {
+    this.restaurants.shift();
+    console.log(this.restaurants[this.counter]);
 
+  }
+  addMatch(rest) {
+    const match: Matches = {
+      _id: null,
+      name: rest.name,
+      placeId: rest.place_id,
+      photoUrl: rest.photoUrl,
+      noOfMatches: 1,
+      matchPercent: 50,
+      trueMatch: false
+    };
+    this.matchService.addMatch(this.groupService.currentGroupId, match).subscribe(res => { console.log("match added") });
   }
 }

@@ -42,7 +42,7 @@ exports.updateGroupFilters = (req, res) => {
   console.log("UPDATING GROUP: ", req.body);
 };
 exports.removeGroup = (req, res) => {
-  const group = Group.findByIdAndRemove({ _id: req.params.id })
+  const group = Group.findByIdAndRemove({ _id: +req.params.groupId })
     .then((group) => {
       res.send(group)
     })
@@ -62,6 +62,16 @@ exports.addMembers = (req, res) => {
   const groupId = req.params.groupId;
 
   const group = Group.updateOne({ _id: +groupId }, { $push: { "members": { $each: req.body } } })
+    .then((group) => {
+      res.json(group)
+    })
+    .catch((err) => console.log(err));
+};
+exports.addMatch = (req, res) => {
+  console.log(req.params);
+  const groupId = req.params.groupId;
+
+  const group = Group.updateOne({ _id: +groupId }, { $push: { "matches": req.body } })
     .then((group) => {
       res.json(group)
     })

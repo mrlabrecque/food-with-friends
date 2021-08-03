@@ -12,7 +12,11 @@ const filterSchema = new db.Schema({
 })
 const matchSchema = new db.Schema({
   name: String,
-  matchPercent: Number
+  placeId: String,
+  photoUrl: String,
+  noOfMatches: Number,
+  matchPercent: Number,
+  trueMatch: Boolean
 })
 
 const groupSchema = new db.Schema({

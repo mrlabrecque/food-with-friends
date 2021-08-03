@@ -1,6 +1,10 @@
 export class Matches {
   _id: number;
   name: string;
-  matchPercentage: number;
+  placeId: string;
+  photoUrl: string;
+  noOfMatches: number;
+  matchPercent: number;
+  trueMatch: boolean;
 
 }

@@ -8,14 +8,15 @@ router.get('/:id', groupController.getGroup);
 router.get('/user/:id', groupController.getUsersGroups);
 
 router.put('/:id', groupController.updateGroup);
-router.put('/updatefilters/:id', groupController.updateGroupFilters);
+router.put('/:id/updatefilters', groupController.updateGroupFilters);
 router.put('/:groupId/removemember/:memberId', groupController.removeMember);
 router.put('/:groupId/addmembers/', groupController.addMembers);
+router.put('/:groupId/addmatch/', groupController.addMatch);
 
 
 router.post('/new', groupController.createGroup);
 
-router.delete('/revmove', groupController.removeGroup);
+router.delete('/:groupId/delete', groupController.removeGroup);
 
 module.exports = router;
 // app.get('/api/groups/:groupId', (req, res) => {

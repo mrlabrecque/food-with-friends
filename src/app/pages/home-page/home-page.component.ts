@@ -5,7 +5,6 @@ import { LocationService } from '../../services/location.service';
 import * as _ from 'underscore';
 import { Subscription, combineLatest, BehaviorSubject } from 'rxjs';
 import { ModalController, IonRouterOutlet } from '@ionic/angular';
-import { SlidingListGroupsComponent } from '../../components/sliding-list-groups/sliding-list-groups.component';
 import { ModalContainerComponent } from '../../components/modals/add-group-member-modal/modal-container/modal-container.component';
 import { GroupService } from '../../services/group.service';
 import { Group } from '../../models/group-model';

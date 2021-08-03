@@ -22,6 +22,9 @@ export class GroupService {
   public createGroup(newGroup: Group): Observable<Group> {
     return this.http.post<Group>(`${this.apiUrl}/groups/new`, newGroup);
   }
+  public deleteGroupById(id: number): Observable<any[]> {
+    return this.http.delete<any[]>(`${this.apiUrl}/groups/${id}/delete`);
+  }
   public getGroupById(id: number): Observable<any[]> {
     return this.http.get<any[]>(`${this.apiUrl}/groups/${id}`);
   }
@@ -39,7 +42,7 @@ export class GroupService {
     headers.append('Content-Type', 'application/json');
     headers.append('Access-Control-Allow-Origin', '*');
 
-    return this.http.put<any>(`${this.apiUrl}/groups/updatefilters/${groupId}`, preparedGroup, { headers });
+    return this.http.put<any>(`${this.apiUrl}/groups/${groupId}/updatefilters`, preparedGroup, { headers });
 
   }
   public removeMemberFromGroup(memberIdToRemove: number): Observable<any> {
