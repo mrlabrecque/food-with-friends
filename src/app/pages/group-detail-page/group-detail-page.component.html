@@ -26,9 +26,9 @@
     <!--Filters-->
     <ion-row>
       <ion-col>
-        <ion-card (click)="toggleExpand()" button="true">
+        <ion-card>
           <ion-card-header>
-            <ion-card-title>Filters</ion-card-title>
+            <ion-card-title (click)="toggleExpand()">Filters</ion-card-title>
             <ion-card-subtitle>These are used to customize your matches. They can only be set by the group owner.
             </ion-card-subtitle>
           </ion-card-header>
@@ -69,9 +69,9 @@
     </ion-row>
     <ion-row>
       <ion-col>
-        <ion-card (click)="toggleExpand()" button="true">
+        <ion-card>
           <ion-card-header>
-            <ion-card-title>Matches</ion-card-title>
+            <ion-card-title (click)="toggleExpand()">Matches</ion-card-title>
 
           </ion-card-header>
         </ion-card>

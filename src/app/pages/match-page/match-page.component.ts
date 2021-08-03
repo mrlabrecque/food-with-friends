@@ -1,8 +1,10 @@
-import { AfterViewInit, Component, ElementRef, OnInit, ViewChild } from '@angular/core';
+/* eslint-disable no-underscore-dangle */
+import { AfterViewInit, Component, ElementRef, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { BehaviorSubject, Subscription } from 'rxjs';
 import { Group } from 'src/app/models/group-model';
 import { GroupService } from 'src/app/services/group.service';
+import { UserService } from 'src/app/services/user.service';
 import * as _ from 'underscore';
 import { RestaurantService } from '../../services/restaurant.service';
 
@@ -18,33 +20,38 @@ const options = {
   templateUrl: './match-page.component.html',
   styleUrls: ['./match-page.component.scss'],
 })
-export class MatchPageComponent implements OnInit, AfterViewInit {
+export class MatchPageComponent implements OnInit, AfterViewInit, OnDestroy {
   @ViewChild('map') mapElement: ElementRef;
   restaurants$: BehaviorSubject<any[]> = new BehaviorSubject([]);
   restaurants: any[];
-  currentGroupFilters: Group;
+  currentGroup: Group;
+  groupId: number;
   restaurantSubscription: Subscription;
+  groupSubscription: Subscription;
 
   constructor(private activatedRoute: ActivatedRoute, private groupService: GroupService,
-    private restaurantService: RestaurantService, private router: Router) {
+    private restaurantService: RestaurantService, private router: Router, private userService: UserService) {
   }
 
   ngOnInit() {
     this.restaurantSubscription = this.restaurants$.subscribe(restResponse => {
       this.restaurants = restResponse;
     });
+    this.groupId = +this.activatedRoute.snapshot.paramMap.get('id');
+    this.groupSubscription = this.groupService.getGroupById(this.groupId).subscribe(
+      gr => this.onGetGroupSuccess(gr));
   }
   ngAfterViewInit() {
-    this.currentGroupFilters = this.groupService.currentGroupFilters$.value;
-    if (this.currentGroupFilters) {
-      this.prepareSearchParams();
-    } else {
-      this.groupService.getGroupById(this.groupService.currentGroupId).subscribe(curGroup => {
-        this.currentGroupFilters = curGroup[0];
-        this.prepareSearchParams();
-      });
-    }
 
+
+  }
+  ngOnDestroy() {
+    this.groupSubscription.unsubscribe();
+    this.restaurantSubscription.unsubscribe();
+  }
+  onGetGroupSuccess(group) {
+    this.currentGroup = group;
+    this.prepareSearchParams();
   }
 
   initMap(types, minPrice, maxPrice, distanceInMeters) {
@@ -57,11 +64,11 @@ export class MatchPageComponent implements OnInit, AfterViewInit {
       const service = new google.maps.places.PlacesService(map);
       service.nearbySearch({
         location: { lat: location.coords.latitude, lng: location.coords.longitude },
-        radius: distanceInMeters,
+        radius: distanceInMeters || 1000,
         keyword: types.toString(),
         minPriceLevel: minPrice,
         maxPriceLevel: maxPrice,
-        type: this.currentGroupFilters.filters.kids ? ['restaurant'] : ['bar'],
+        type: this.currentGroup.filters.kids ? ['restaurant'] : ['bar'],
       }, (results, status) => {
         if (status === google.maps.places.PlacesServiceStatus.OK) {
           // console.log(results);
@@ -69,6 +76,14 @@ export class MatchPageComponent implements OnInit, AfterViewInit {
           _.each(results, rest => {
             rest.photoUrl = rest.photos[0].getUrl();
           });
+          // eslint-disable-next-line max-len
+          const currentUsersMatches = _.each(this.currentGroup.matches, (match) => {
+            const memberMatchedAlready = match.memberMatches.indexOf(this.userService.getCurrentUser()._id);
+            if (memberMatchedAlready > -1) {
+              return match;
+            }
+          });
+          results.filter(i => !currentUsersMatches.some(j => j.placeId === i.place_id));
           this.restaurants$.next(results);
         }
       });
@@ -79,10 +94,10 @@ export class MatchPageComponent implements OnInit, AfterViewInit {
     const myplace = { lat: -33.8665, lng: 151.1956 };
   }
   prepareSearchParams() {
-    console.log("prepared called");
-    const distanceInMeters = this.currentGroupFilters.filters.distance / 0.00062137;
-    const types = _.pluck(_.filter(this.currentGroupFilters.filters.foodTypes, (type) => type.selected), 'label');
-    const prices = _.pluck(_.filter(this.currentGroupFilters.filters.foodPrices, (type) => type.selected), 'name');
+    console.log('prepared called');
+    const distanceInMeters = this.currentGroup.filters.distance / 0.00062137;
+    const types = _.pluck(_.filter(this.currentGroup.filters.foodTypes, (type) => type.selected), 'label');
+    const prices = _.pluck(_.filter(this.currentGroup.filters.foodPrices, (type) => type.selected), 'name');
     const pricesAsNumbers = this.convertPricesToNumbers(prices);
     const minPrice = Math.min(...pricesAsNumbers);
     const maxPrice = Math.max(...pricesAsNumbers);

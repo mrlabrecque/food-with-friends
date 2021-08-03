@@ -11,6 +11,7 @@ import { MatchPageComponent } from 'src/app/pages/match-page/match-page.componen
 import { RestaurantItemListComponent } from 'src/app/components/restaurant-item-list/restaurant-item-list.component';
 import { RestaurantListComponent } from 'src/app/components/restaurant-list/restaurant-list.component';
 import { MatchButtonsComponent } from 'src/app/components/match-buttons/match-buttons.component';
+import { ReversePipe } from 'src/app/pipes/reverse-order.pipe';
 
 @NgModule({
   imports: [
@@ -20,6 +21,6 @@ import { MatchButtonsComponent } from 'src/app/components/match-buttons/match-bu
     NgxSliderModule,
     RouterModule.forChild([{ path: '', component: MatchPageComponent }]),
   ],
-  declarations: [MatchPageComponent, RestaurantListComponent, MatchButtonsComponent]
+  declarations: [MatchPageComponent, RestaurantListComponent, MatchButtonsComponent, ReversePipe]
 })
 export class Tab2MatchesPageModule { }

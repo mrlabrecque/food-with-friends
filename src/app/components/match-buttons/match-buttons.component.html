@@ -1,5 +1,5 @@
 <div class="match-button-container">
-  <div class="match-button" [style.color]="dislikeColor">
+  <div class="match-button" [style.color]="dislikeColor" (click)="noMatchButtonClicked()">
     <!-- <span><i class="fa fa-times"></i></span> -->
     <span>
       <ion-icon name="thumbs-up-outline"></ion-icon>
@@ -11,7 +11,7 @@
       <ion-icon name="heart-outline"></ion-icon>
     </span>
   </div>
-  <div class="match-button" [style.color]="likeColor">
+  <div class="match-button" [style.color]="likeColor" (click)="matchButtonClicked()">
     <!-- <span><i class="fa fa-check"></i></span> -->
     <span>
       <ion-icon name="thumbs-up-outline"></ion-icon>

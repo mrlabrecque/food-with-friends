@@ -1,7 +1,9 @@
 .page-container {
   height: 100%;
   position: relative;
-  padding: 10px;
+  padding: 50px;
+  display: flex;
+  flex-direction: column;
 }
 
 .restaurant-card-container {
@@ -13,4 +15,5 @@
 .match-buttons-container {
   width: 100%;
   margin: 0;
+  margin-top: 10px;
 }

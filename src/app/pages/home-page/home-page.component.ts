@@ -72,6 +72,9 @@ export class HomePageComponent implements OnInit {
         }
       });
     this.modeService.getMode();
+
+    //we will pub current user here as well
+
     this.groupsSubscription = this.groupService.getUsersGroupsByUserId(this.devUserId).subscribe((res) => this.groups$.next(res));
   }
   setParams(attr: string) {

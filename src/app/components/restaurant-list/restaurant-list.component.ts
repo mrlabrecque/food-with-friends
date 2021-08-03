@@ -1,3 +1,4 @@
+/* eslint-disable no-underscore-dangle */
 // eslint-disable-next-line max-len
 import { Component, OnInit, OnDestroy, ViewChildren, ElementRef, QueryList, AfterViewInit, Input, OnChanges, SimpleChanges } from '@angular/core';
 import { createGesture, Gesture } from '@ionic/core';
@@ -57,13 +58,12 @@ export class RestaurantListComponent implements OnInit, OnDestroy, AfterViewInit
         },
         onEnd: ev => {
           rest.nativeElement.style.transition = '.5s ease-out';
-          this.counter++;
           if (ev.deltaX > 50) {
             rest.nativeElement.style.transform = `translateX(${+this.plt.width() * 2}px) rotate(${ev.deltaX / 2}deg)`;
-            this.onThumbsUp(ev);
+            this.onThumbsUp();
           } else if (ev.deltaX < -50) {
             rest.nativeElement.style.transform = `translateX(-${+this.plt.width() * 2}px) rotate(${ev.deltaX / 2}deg)`;
-            this.onThumbsDown(ev);
+            this.onThumbsDown();
           } else {
             rest.nativeElement.style.transform = '';
           }
@@ -77,26 +77,41 @@ export class RestaurantListComponent implements OnInit, OnDestroy, AfterViewInit
   }
   onMoveHandler(ev) {
   }
-  onThumbsUp(rest) {
-    console.log("thumbs up ");
+  onThumbsUp() {
     this.addMatch(this.restaurants[this.counter]);
-    console.log(this.restaurants[this.counter]);
-  }
-  onThumbsDown(rest) {
-    this.restaurants.shift();
-    console.log(this.restaurants[this.counter]);
+    this.counter++;
 
+  }
+  onThumbsDown() {
+    this.counter++;
+  }
+  onMatchClicked() {
+    const restaurantCardArray = this.restraurantCards.toArray();
+    const actualIndex = restaurantCardArray.length - this.counter;
+    const currentCard = restaurantCardArray[actualIndex - 1];
+    currentCard.nativeElement.style.transition = '.5s ease-out';
+    currentCard.nativeElement.style.transform = `translateX(${+this.plt.width() * 2}px) rotate(${2000 / 2}deg)`;
+    this.onThumbsUp();
+  }
+  onNoMatchClicked() {
+    const restaurantCardArray = this.restraurantCards.toArray();
+    const actualIndex = restaurantCardArray.length - this.counter;
+    const currentCard = restaurantCardArray[actualIndex - 1];
+    currentCard.nativeElement.style.transition = '.5s ease-out';
+    currentCard.nativeElement.style.transform = `translateX(-${+this.plt.width() * 2}px) rotate(${-2000 / 2}deg)`;
+    this.onThumbsDown();
   }
   addMatch(rest) {
     const match: Matches = {
-      _id: null,
       name: rest.name,
       placeId: rest.place_id,
       photoUrl: rest.photoUrl,
+      memberMatches: [0],
       noOfMatches: 1,
       matchPercent: 50,
       trueMatch: false
     };
     this.matchService.addMatch(this.groupService.currentGroupId, match).subscribe(res => { console.log("match added") });
   }
+
 }

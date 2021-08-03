@@ -14,6 +14,7 @@ const matchSchema = new db.Schema({
   name: String,
   placeId: String,
   photoUrl: String,
+  memberMatches: [Number],
   noOfMatches: Number,
   matchPercent: Number,
   trueMatch: Boolean
