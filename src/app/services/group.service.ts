@@ -25,8 +25,8 @@ export class GroupService {
   public deleteGroupById(id: number): Observable<any[]> {
     return this.http.delete<any[]>(`${this.apiUrl}/groups/${id}/delete`);
   }
-  public getGroupById(id: number): Observable<any[]> {
-    return this.http.get<any[]>(`${this.apiUrl}/groups/${id}`);
+  public getGroupById(id: number): Observable<Group> {
+    return this.http.get<Group>(`${this.apiUrl}/groups/${id}`);
   }
   public getUsersGroupsByUserId(id: number): Observable<Group[]> {
     return this.http.get<Group[]>(`${this.apiUrl}/groups/user/${id}`);

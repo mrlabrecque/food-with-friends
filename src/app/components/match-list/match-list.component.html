@@ -1,0 +1,19 @@
+<ion-item-sliding *ngFor="let card of cardData">
+  <ion-item>
+    <ion-avatar slot="start">
+      <img [src]="card.photoUrl">
+    </ion-avatar>
+
+    <ion-label>
+      <h2>{{card.name}}</h2>
+      <h3 *ngIf="card._id === groupOwner._id">Owner</h3>
+    </ion-label>
+  </ion-item>
+  <ng-container *ngIf="isLoggedUserGroupOwner">
+    <ion-item-options side="end">
+      <ion-item-option color="danger" (click)="removeMember(card)">
+        <ion-icon slot="end" name="trash"></ion-icon>Remove
+      </ion-item-option>
+    </ion-item-options>
+  </ng-container>
+</ion-item-sliding>

@@ -109,6 +109,7 @@ export class GroupDetailPageComponent implements OnInit, OnDestroy {
   lat: number;
   long: number;
   showFilters = false;
+  showMatches = false;
 
   constructor(private activatedRoute: ActivatedRoute,
     private router: Router,
@@ -215,7 +216,10 @@ export class GroupDetailPageComponent implements OnInit, OnDestroy {
   chipTypesSelectionChanged(selectedTypes) {
     this.selectedTypes = selectedTypes;
   }
-  toggleExpand() {
+  toggleFiltersExpand() {
     this.showFilters = !this.showFilters;
+  }
+  toggleMatchesExpand() {
+    this.showMatches = !this.showMatches;
   }
 }

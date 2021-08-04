@@ -1,6 +1,6 @@
 /* eslint-disable no-underscore-dangle */
 // eslint-disable-next-line max-len
-import { Component, OnInit, OnDestroy, ViewChildren, ElementRef, QueryList, AfterViewInit, Input, OnChanges, SimpleChanges } from '@angular/core';
+import { Component, OnInit, OnDestroy, ViewChildren, ElementRef, QueryList, AfterViewInit, Input, OnChanges, SimpleChanges, Output, EventEmitter } from '@angular/core';
 import { createGesture, Gesture } from '@ionic/core';
 import { RestaurantService } from '../../services/restaurant.service';
 import { Subscription, BehaviorSubject } from 'rxjs';
@@ -9,6 +9,9 @@ import { IonCard, GestureController, Platform } from '@ionic/angular';
 import { MatchService } from 'src/app/services/match.service';
 import { GroupService } from 'src/app/services/group.service';
 import { Matches } from 'src/app/models/matches.model';
+import { Group } from 'src/app/models/group-model';
+import { ActivatedRoute } from '@angular/router';
+import { UserService } from 'src/app/services/user.service';
 
 @Component({
   selector: 'app-restaurant-list',
@@ -21,12 +24,18 @@ export class RestaurantListComponent implements OnInit, OnDestroy, AfterViewInit
   @ViewChildren(IonCard, { read: ElementRef }) restraurantCards: QueryList<ElementRef>;
   // instantiate posts to an empty array
   @Input() restaurants: any[] = [];
+  @Output() trueMatchCreated: EventEmitter<Matches> = new EventEmitter();
   restraurantListSubscription$: Subscription;
+  currentGroup: Group;
+  currentGroupSubscription: Subscription;
+  currentUser: Group;
+  currentUserSubscription: Subscription;
   showLoading$: BehaviorSubject<boolean> = new BehaviorSubject(true);
   counter = 0;
 
   constructor(private restaurantService: RestaurantService, private gestureCtrl: GestureController,
-    private plt: Platform, private matchService: MatchService, private groupService: GroupService) { }
+    private plt: Platform, private matchService: MatchService, private groupService: GroupService,
+    private activatedRoute: ActivatedRoute, private userService: UserService) { }
 
   ngOnInit() {
   }
@@ -34,6 +43,9 @@ export class RestaurantListComponent implements OnInit, OnDestroy, AfterViewInit
     this.restraurantCards.changes.subscribe((newCards) => {
       this.instanstiateSwipeGesture(newCards && newCards.toArray());
     });
+    this.currentGroupSubscription = this.groupService.getGroupById(+this.activatedRoute.snapshot.paramMap.get('id'))
+      .subscribe((gr) => this.currentGroup = gr);
+    this.currentUser = this.userService.getCurrentUser();
   }
   ngOnChanges(changes: SimpleChanges) {
     if (this.restaurants.length > 0) {
@@ -102,16 +114,49 @@ export class RestaurantListComponent implements OnInit, OnDestroy, AfterViewInit
     this.onThumbsDown();
   }
   addMatch(rest) {
-    const match: Matches = {
-      name: rest.name,
-      placeId: rest.place_id,
-      photoUrl: rest.photoUrl,
-      memberMatches: [0],
-      noOfMatches: 1,
-      matchPercent: 50,
-      trueMatch: false
-    };
-    this.matchService.addMatch(this.groupService.currentGroupId, match).subscribe(res => { console.log("match added") });
+    console.log(this.currentGroup);
+    const currentMatches = this.currentGroup.matches;
+    const existingMatch = _.findWhere(currentMatches, { placeId: rest.place_id });
+    const noOfGroupMembers = this.currentGroup.members.length;
+    //plus one includes the update that is next
+    let currentMatchPercent;
+    if (existingMatch) {
+      //update match
+      const noOfGroupMembersThatHaveMatched = existingMatch.memberMatches.length + 1;
+      currentMatchPercent = noOfGroupMembersThatHaveMatched / noOfGroupMembers * 100;
+      existingMatch.memberMatches.push(this.currentUser._id);
+      const match: Matches = {
+        memberMatches: existingMatch.memberMatches,
+        noOfMatches: noOfGroupMembersThatHaveMatched,
+        matchPercent: currentMatchPercent,
+        trueMatch: currentMatchPercent >= this.currentGroup.filters.matchThreshhold ? true : false
+      };
+      console.log(currentMatchPercent);
+      console.log(this.currentGroup.filters.matchThreshhold);
+      console.log(match.trueMatch);
+      if (match.trueMatch) {
+        this.trueMatchCreated.emit(match);
+      }
+      this.matchService.updateMatch(this.currentGroup._id, match).subscribe(res => { console.log("match updated") });
+
+
+    } else {
+      currentMatchPercent = 1 / noOfGroupMembers * 100;
+      const match: Matches = {
+        name: rest.name,
+        placeId: rest.place_id,
+        photoUrl: rest.photoUrl,
+        memberMatches: [this.currentUser._id],
+        noOfMatches: 1,
+        matchPercent: currentMatchPercent,
+        trueMatch: currentMatchPercent >= this.currentGroup.filters.matchThreshhold ? true : false
+      };
+      if (match.trueMatch) {
+        this.trueMatchCreated.emit(match);
+      }
+      this.matchService.addMatch(this.currentGroup._id, match).subscribe(res => { console.log("match added") });
+    }
+
   }
 
 }

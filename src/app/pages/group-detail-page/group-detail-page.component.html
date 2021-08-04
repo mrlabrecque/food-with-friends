@@ -28,7 +28,7 @@
       <ion-col>
         <ion-card>
           <ion-card-header>
-            <ion-card-title (click)="toggleExpand()">Filters</ion-card-title>
+            <ion-card-title (click)="toggleFiltersExpand()">Filters</ion-card-title>
             <ion-card-subtitle>These are used to customize your matches. They can only be set by the group owner.
             </ion-card-subtitle>
           </ion-card-header>
@@ -58,7 +58,7 @@
             <div class="filter-header">Match Threshold</div>
             This is used if you have a large group to customize the threshold of the
             percentage of users that need to like a restaurant to determine if match.
-            <ion-range [(ngModel)]="matchThreshold" pin="true" #threshholdSlider>
+            <ion-range [(ngModel)]="matchThreshold" min="0" max="100" pin="true" #threshholdSlider>
               <ion-icon slot="start" size="small" name="remove-outline"></ion-icon>
               <ion-icon slot="end" name="add-outline"></ion-icon>
             </ion-range>
@@ -71,8 +71,11 @@
       <ion-col>
         <ion-card>
           <ion-card-header>
-            <ion-card-title (click)="toggleExpand()">Matches</ion-card-title>
-
+            <ion-card-title (click)="toggleMatchesExpand()">Matches</ion-card-title>
+            <ion-card-content *ngIf="showMatches" class="filter-card-content" [ngClass]="showMatches?'show':''">
+              <app-match-list [cardData]="group?.matches" [groupOwner]="group?.owner" (ngModelChange)="groupMembers">
+              </app-match-list>
+            </ion-card-content>
           </ion-card-header>
         </ion-card>
       </ion-col>

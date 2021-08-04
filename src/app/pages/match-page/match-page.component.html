@@ -11,7 +11,8 @@
   <div #map id="map"></div>
   <div class="page-container">
     <div class="restaurant-card-container">
-      <app-restaurant-list [restaurants]="restaurants"></app-restaurant-list>
+      <app-restaurant-list [restaurants]="restaurants" (trueMatchCreated)="trueMatchCreated($event)">
+      </app-restaurant-list>
     </div>
   </div>
 </ion-content>

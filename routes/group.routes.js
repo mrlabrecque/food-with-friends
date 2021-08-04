@@ -12,6 +12,7 @@ router.put('/:id/updatefilters', groupController.updateGroupFilters);
 router.put('/:groupId/removemember/:memberId', groupController.removeMember);
 router.put('/:groupId/addmembers/', groupController.addMembers);
 router.put('/:groupId/addmatch/', groupController.addMatch);
+router.put('/:groupId/updatematch/', groupController.updateMatch);
 
 
 router.post('/new', groupController.createGroup);

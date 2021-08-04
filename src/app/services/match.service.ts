@@ -14,4 +14,10 @@ export class MatchService {
     headers.append('Access-Control-Allow-Origin', '*');
     return this.http.put<any>(`${this.apiUrl}/groups/${groupId}/addmatch`, restaurantToAdd, { headers });
   }
+  updateMatch(groupId, restaurantToAdd) {
+    const headers = new HttpHeaders();
+    headers.append('Content-Type', 'application/json');
+    headers.append('Access-Control-Allow-Origin', '*');
+    return this.http.put<any>(`${this.apiUrl}/groups/${groupId}/updatematch`, restaurantToAdd, { headers });
+  }
 }

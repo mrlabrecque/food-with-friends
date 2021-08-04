@@ -7,6 +7,8 @@ import { GroupService } from 'src/app/services/group.service';
 import { UserService } from 'src/app/services/user.service';
 import * as _ from 'underscore';
 import { RestaurantService } from '../../services/restaurant.service';
+import { AlertController } from '@ionic/angular';
+
 
 declare const google;
 let map: any;
@@ -30,7 +32,8 @@ export class MatchPageComponent implements OnInit, AfterViewInit, OnDestroy {
   groupSubscription: Subscription;
 
   constructor(private activatedRoute: ActivatedRoute, private groupService: GroupService,
-    private restaurantService: RestaurantService, private router: Router, private userService: UserService) {
+    private restaurantService: RestaurantService, private router: Router, private userService: UserService,
+    public alertController: AlertController) {
   }
 
   ngOnInit() {
@@ -77,21 +80,28 @@ export class MatchPageComponent implements OnInit, AfterViewInit, OnDestroy {
             rest.photoUrl = rest.photos[0].getUrl();
           });
           // eslint-disable-next-line max-len
-          const currentUsersMatches = _.each(this.currentGroup.matches, (match) => {
-            const memberMatchedAlready = match.memberMatches.indexOf(this.userService.getCurrentUser()._id);
-            if (memberMatchedAlready > -1) {
-              return match;
+          const currentUsersMatches = [];
+          _.each(this.currentGroup.matches, (match) => {
+            const memberMatchedAlready = match.memberMatches.includes(this.userService.getCurrentUser()._id);
+            if (memberMatchedAlready) {
+              currentUsersMatches.push(match);
             }
           });
-          results.filter(i => !currentUsersMatches.some(j => j.placeId === i.place_id));
-          this.restaurants$.next(results);
+          console.log(currentUsersMatches);
+          if (currentUsersMatches.length > 0) {
+            const filteredResults = results.filter(i => !currentUsersMatches.some(j => j.placeId === i.place_id));
+            this.restaurants$.next(filteredResults);
+          } else {
+            this.restaurants$.next(results);
+          }
+
+
         }
       });
 
     }, (error) => {
       console.log(error);
     }, options);
-    const myplace = { lat: -33.8665, lng: 151.1956 };
   }
   prepareSearchParams() {
     console.log('prepared called');
@@ -101,6 +111,7 @@ export class MatchPageComponent implements OnInit, AfterViewInit, OnDestroy {
     const pricesAsNumbers = this.convertPricesToNumbers(prices);
     const minPrice = Math.min(...pricesAsNumbers);
     const maxPrice = Math.max(...pricesAsNumbers);
+    console.log(types, minPrice, maxPrice, distanceInMeters);
     this.initMap(types, minPrice, maxPrice, distanceInMeters);
 
   }
@@ -122,5 +133,18 @@ export class MatchPageComponent implements OnInit, AfterViewInit, OnDestroy {
     });
     return numArray;
   }
+  trueMatchCreated(match) {
+    this.sendMatchAlert();
+  }
+  async sendMatchAlert() {
+    const alert = await this.alertController.create({
+      cssClass: 'my-custom-class',
+      header: 'Alert',
+      subHeader: 'Subtitle',
+      message: 'This is an alert message.',
+      buttons: ['Cancel', 'Open Modal', 'Delete']
+    });
 
+    await alert.present();
+  }
 }

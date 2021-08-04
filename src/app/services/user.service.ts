@@ -6,9 +6,9 @@ import { Injectable } from '@angular/core';
 })
 export class UserService {
   currentUser: any = {
-    _id: 0,
-    name: "Harry Potter",
-    email: "harrypotter@hogwarts.com",
+    _id: 2,
+    name: 'Harry Potter',
+    email: 'harrypotter@hogwarts.com',
     avatar: ''
   };
   apiUrl = 'https://localhost:3000/api';

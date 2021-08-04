@@ -47,7 +47,7 @@ export class AddGroupMemberModalComponent implements OnInit {
   onGroupMembersAddedSuccess(res) {
     this.modalController.dismiss(res);
     //  this.refresh();
-    this.router.navigate(['/folder/Groups', this.groupService.currentGroupId]);
+    // this.router.navigate(['/', this.groupService.currentGroupId]);
   }
   onCloseClicked() {
     this.modalController.dismiss();
