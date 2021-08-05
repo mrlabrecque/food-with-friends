@@ -51,11 +51,14 @@ export class ManageGroupModalComponent implements OnInit {
     //set user to group owner
     newGroup.owner = this.user;
     newGroup.name = this.addedGroupName;
+    newGroup.filters = {
+      kids: true,
+      matchThreshhold: 100
+    };
     //get members from db based on emails
     this.userService.getAddedMembersOnNewGroup(addedMembersWithUser)
       .subscribe(
         (res) => {
-          console.log(res);
           newGroup.members = res;
           this.onGetNewMembersSuccess(newGroup);
         });

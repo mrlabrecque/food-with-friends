@@ -84,9 +84,9 @@ export class HomePageComponent implements OnInit {
       .set('radius', '40000')
       .set('term', 'food')
       .set('attributes', `${attr}`);
-    this.restaurantService.searchRestaurants(paramsToRequest)
-      .subscribe((res) => this.onGetFilteredRestaurantsSuccess(res, attr)
-      );
+    // this.restaurantService.searchRestaurants(paramsToRequest)
+    //   .subscribe((res) => this.onGetFilteredRestaurantsSuccess(res, attr)
+    //   );
   }
   onGetFilteredRestaurantsSuccess(res, attr) {
     if (attr === 'hot_and_new') {

@@ -5,15 +5,16 @@ import { Param } from './param-model';
 import { User } from './user.model';
 
 export class Group {
+
   _id?: number;
   name: string;
   owner: User;
   members?: User[];
   filters: {
-    foodTypes: FilterChip[];
-    foodPrices: FilterChip[];
+    foodTypes?: FilterChip[];
+    foodPrices?: FilterChip[];
     kids: boolean;
-    distance: number;
+    distance?: number;
     matchThreshhold?: number;
   };
   matches?: Matches[];

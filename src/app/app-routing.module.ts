@@ -7,7 +7,10 @@ const routes: Routes = [
     path: '',
     loadChildren: () => import('./tabs/tabs.module').then(m => m.TabsPageModule)
   },
-  { path: 'tab2/group/:id', component: GroupDetailPageComponent },
+  {
+    path: 'login',
+    loadChildren: () => import('./tabs/login/login.module').then(m => m.LoginModule)
+  },
 ];
 
 @NgModule({

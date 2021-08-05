@@ -126,6 +126,8 @@ export class RestaurantListComponent implements OnInit, OnDestroy, AfterViewInit
       currentMatchPercent = noOfGroupMembersThatHaveMatched / noOfGroupMembers * 100;
       existingMatch.memberMatches.push(this.currentUser._id);
       const match: Matches = {
+        name: existingMatch.name,
+        placeId: existingMatch.placeId,
         memberMatches: existingMatch.memberMatches,
         noOfMatches: noOfGroupMembersThatHaveMatched,
         matchPercent: currentMatchPercent,

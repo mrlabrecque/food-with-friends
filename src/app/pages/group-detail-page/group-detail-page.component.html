@@ -80,15 +80,14 @@
         </ion-card>
       </ion-col>
     </ion-row>
-
-    <ion-row>
-      <ion-col>
-        <section>
-          <ion-button expand="block" (ionFocus)="onMatchingClicked()" [routerLink]="['matches']" color="success">
-            Let's Match!
-          </ion-button>
-        </section>
-      </ion-col>
-    </ion-row>
   </ion-grid>
 </ion-content>
+<ion-footer class="ion-no-border">
+  <ion-toolbar>
+    <section>
+      <ion-button expand="block" (ionFocus)="onMatchingClicked()" [routerLink]="['matches']" color="success">
+        Let's Match!
+      </ion-button>
+    </section>
+  </ion-toolbar>
+</ion-footer>

@@ -134,15 +134,16 @@ export class MatchPageComponent implements OnInit, AfterViewInit, OnDestroy {
     return numArray;
   }
   trueMatchCreated(match) {
-    this.sendMatchAlert();
+    this.sendMatchAlert(match);
   }
-  async sendMatchAlert() {
+  async sendMatchAlert(match) {
+    console.log(match);
     const alert = await this.alertController.create({
       cssClass: 'my-custom-class',
-      header: 'Alert',
-      subHeader: 'Subtitle',
+      header: 'New Match!',
+      subHeader: `${match.name}`,
       message: 'This is an alert message.',
-      buttons: ['Cancel', 'Open Modal', 'Delete']
+      buttons: ['Dismiss', 'View']
     });
 
     await alert.present();

@@ -1,9 +1,15 @@
 // This file can be replaced during build by using the `fileReplacements` array.
 // `ng build --prod` replaces `environment.ts` with `environment.prod.ts`.
 // The list of file replacements can be found in `angular.json`.
-
+import { domain, clientId } from '../../config/auth.config.json';
+import config from '../../capacitor.config';
 export const environment = {
-  production: false
+  production: false,
+  auth: {
+    domain,
+    clientId,
+    redirectUri: `${config.appId}://foodwithfriends.us.auth0.com/capacitor/${config.appId}/callback`
+  }
 };
 
 /*
