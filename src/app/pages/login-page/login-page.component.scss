@@ -1,0 +1,15 @@
+.vertical-center {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  background-color: var(--ion-color-primary);
+  height: 100%;
+
+  ion-list {
+    max-width: 300px;
+    width: 100%;
+    margin: auto;
+    text-align: center;
+  }
+}

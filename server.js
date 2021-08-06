@@ -11,6 +11,7 @@ const dotenv = require('dotenv');
 const config = require('./config/db.config.json');
 const fs = require('fs');
 const https = require('https');
+const passport = require('passport');
 const sslOptions = {
   key: fs.readFileSync('key.pem'),
   cert: fs.readFileSync('cert.pem'),
@@ -38,6 +39,9 @@ mongoose.connection.on('error', err => console.log(`DB connection error: ${err}`
 app.use(express.json()) // for parsing application/json
 app.use(express.urlencoded({ extended: true })) // for parsing application/x-www-form-urlencoded
 app.use(morgan("dev"));
+app.use(passport.initialize());
+const passportMiddleware = require('./utils/passport');
+passport.use(passportMiddleware);
 
 app.use((req, res, next) => {
   res.setHeader('Access-Control-Allow-Origin', '*');

@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import { AuthService } from '@auth0/auth0-angular';
 import { Browser } from '@capacitor/browser';
 import { mergeMap } from 'rxjs/operators';
+import { AuthService } from 'src/app/services/auth.service';
 
 @Component({
   selector: 'app-login-page',
@@ -9,16 +9,18 @@ import { mergeMap } from 'rxjs/operators';
   styleUrls: ['./login-page.component.scss'],
 })
 export class LoginPageComponent implements OnInit {
-
-  constructor(public auth: AuthService) { }
+  credentials = {
+    email: '',
+    password: ''
+  };
+  constructor(private authService: AuthService) { }
 
   ngOnInit() {
-    this.login();
   }
-  login() {
-    this.auth
-      .buildAuthorizeUrl()
-      .pipe(mergeMap((url) => Browser.open({ url, windowName: '_self' })))
-      .subscribe();
+  onLoginClicked() {
+    this.authService.login(this.credentials).subscribe(res => this.onLoginSuccess(res));
+  }
+  onLoginSuccess(res) {
+    console.log(res);
   }
 }

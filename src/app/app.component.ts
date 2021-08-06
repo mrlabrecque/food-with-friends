@@ -1,36 +1,33 @@
-import { Component, OnInit } from '@angular/core';
-import { AuthService } from '@auth0/auth0-angular';
-import { App } from '@capacitor/app';
-import { Browser } from '@capacitor/browser';
-import { mergeMap } from 'rxjs/operators';
-import { LocationService } from './services/location.service';
+import { Component } from '@angular/core';
+
+import { Platform } from '@ionic/angular';
+import { AuthService } from './services/auth.service';
+import { Router } from '@angular/router';
 @Component({
   selector: 'app-root',
   templateUrl: 'app.component.html',
   styleUrls: ['app.component.scss'],
 })
-export class AppComponent implements OnInit {
-  constructor(private locationService: LocationService, public auth: AuthService) {
-    this.locationService.getUserLocation();
+export class AppComponent {
+  constructor(
+    private platform: Platform,
+    private authService: AuthService,
+    private router: Router
+  ) {
+    this.initializeApp();
   }
-  ngOnInit(): void {
-    // Use Capacitor's App plugin to subscribe to the `appUrlOpen` event
-    App.addListener('appUrlOpen', ({ url }) => {
-      if (url?.startsWith('callbackUri')) {
-        // If the URL is an authentication callback URL..
-        if (
-          url.includes('state=') &&
-          (url.includes('error=') || url.includes('code='))
-        ) {
-          // Call handleRedirectCallback and close the browser
-          this.auth
-            .handleRedirectCallback(url)
-            .pipe(mergeMap(() => Browser.close()))
-            .subscribe();
+
+  initializeApp() {
+    this.platform.ready().then(() => {
+      this.authService.authenticationState.subscribe(state => {
+        console.log(state);
+        if (state) {
+          this.router.navigateByUrl('/members');
         } else {
-          Browser.close();
+          this.router.navigateByUrl('/');
         }
-      }
+      });
+
     });
   }
 }
