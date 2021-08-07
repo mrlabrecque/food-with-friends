@@ -1,7 +1,7 @@
 // Get dependencies
 const express = require('express');
 const app = express();
-
+const DB_URI = 'mongodb+srv://mrlabrecque:joystick5852@fwf.tahhq.mongodb.net/food_with_friendsDB?retryWrites=true&w=majority';
 const mongoose = require('mongoose')
 const mysql = require('mysql');
 const path = require('path');
@@ -22,7 +22,7 @@ const sslOptions = {
 app.use(cors());
 app.options('*', cors())
 dotenv.config()
-mongoose.connect(process.env.DB_URI, {
+mongoose.connect(DB_URI, {
   useUnifiedTopology: true,
   useNewUrlParser: true,
   useCreateIndex: true,
@@ -91,7 +91,7 @@ app.use(express.static(path.join(__dirname, 'www')));
 //app.use('/api', api);
 
 // Catch all other routes and return the index file
-app.get('*', (req, res) => {
+app.get('/', (req, res) => {
   res.sendFile(path.join(__dirname, 'www/index.html'));
 });
 
