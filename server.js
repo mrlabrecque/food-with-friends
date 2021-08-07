@@ -22,7 +22,7 @@ const sslOptions = {
 app.use(cors());
 app.options('*', cors())
 dotenv.config()
-mongoose.connect(DB_URI, {
+mongoose.connect(process.env.DB_URI, {
   useUnifiedTopology: true,
   useNewUrlParser: true,
   useCreateIndex: true,
@@ -102,9 +102,11 @@ const port = process.env.PORT || 3000;
 app.set('port', port);
 // const sslServer = https.createServer(sslOptions, app);
 
-const server = https.createServer(sslOptions, app)
-  .listen(port, () => {
-    console.log('secure server running at ' + port)
-  })
 
-//app.listen(port, () => console.log(`API running on localhost:${port}`));
+//remove this when developing locally
+// const server = https.createServer(sslOptions, app)
+//   .listen(port, () => {
+//     console.log('secure server running at ' + port)
+//   })
+
+app.listen(port, () => console.log(`API running on port:${port}`));
