@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 import { Browser } from '@capacitor/browser';
 import { mergeMap } from 'rxjs/operators';
 import { AuthService } from 'src/app/services/auth.service';
@@ -13,7 +14,7 @@ export class LoginPageComponent implements OnInit {
     email: '',
     password: ''
   };
-  constructor(private authService: AuthService) { }
+  constructor(private authService: AuthService, private router: Router) { }
 
   ngOnInit() {
   }
@@ -22,5 +23,8 @@ export class LoginPageComponent implements OnInit {
   }
   onLoginSuccess(res) {
     console.log(res);
+  }
+  goToRegisterPage() {
+    this.router.navigateByUrl('/register');
   }
 }

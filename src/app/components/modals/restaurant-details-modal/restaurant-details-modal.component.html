@@ -1,0 +1,20 @@
+<ion-content>
+  <!-- image -->
+  <div class="main-image-container" [style.background-image]="'url(' + restaurant.photoUrl + ')'"></div>
+  <ion-fab horizontal="start" edge slot="fixed">
+    <ion-fab-button>
+      <ion-icon name="settings"></ion-icon>
+    </ion-fab-button>
+    <ion-fab-list side="end">
+      <ion-fab-button>
+        <ion-icon name="logo-vimeo"></ion-icon>
+      </ion-fab-button>
+    </ion-fab-list>
+  </ion-fab>
+  <!--fab buttons-->
+  <div>
+
+  </div>
+  <!--details-->
+  <div>{{restaurant | json}}</div>
+</ion-content>

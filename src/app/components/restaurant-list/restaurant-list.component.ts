@@ -5,13 +5,14 @@ import { createGesture, Gesture } from '@ionic/core';
 import { RestaurantService } from '../../services/restaurant.service';
 import { Subscription, BehaviorSubject } from 'rxjs';
 import * as _ from 'underscore';
-import { IonCard, GestureController, Platform } from '@ionic/angular';
+import { IonCard, GestureController, Platform, ModalController, IonRouterOutlet } from '@ionic/angular';
 import { MatchService } from 'src/app/services/match.service';
 import { GroupService } from 'src/app/services/group.service';
 import { Matches } from 'src/app/models/matches.model';
 import { Group } from 'src/app/models/group-model';
 import { ActivatedRoute } from '@angular/router';
 import { UserService } from 'src/app/services/user.service';
+import { RestaurantDetailsModalComponent } from '../modals/restaurant-details-modal/restaurant-details-modal.component';
 
 @Component({
   selector: 'app-restaurant-list',
@@ -35,7 +36,8 @@ export class RestaurantListComponent implements OnInit, OnDestroy, AfterViewInit
 
   constructor(private restaurantService: RestaurantService, private gestureCtrl: GestureController,
     private plt: Platform, private matchService: MatchService, private groupService: GroupService,
-    private activatedRoute: ActivatedRoute, private userService: UserService) { }
+    private activatedRoute: ActivatedRoute, private userService: UserService, private modalController: ModalController,
+    private routerOutlet: IonRouterOutlet) { }
 
   ngOnInit() {
   }
@@ -159,6 +161,19 @@ export class RestaurantListComponent implements OnInit, OnDestroy, AfterViewInit
       this.matchService.addMatch(this.currentGroup._id, match).subscribe(res => { console.log("match added") });
     }
 
+  }
+  async onAdditionalDetailsClicked() {
+    const modal = await this.modalController.create({
+      component: RestaurantDetailsModalComponent,
+      cssClass: 'my-custom-class',
+      swipeToClose: true,
+      presentingElement: this.routerOutlet.nativeEl,
+      componentProps: {
+        restaurant: this.restaurants[this.counter],
+        title: 'New Group'
+      }
+    });
+    return await modal.present();
   }
 
 }

@@ -1,3 +1,49 @@
-<p>
-  register-page works!
-</p>
+<!-- <ion-header [translucent]="true">
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref=""></ion-back-button>
+    </ion-buttons>
+    <ion-title>Login</ion-title>
+  </ion-toolbar>
+</ion-header> -->
+
+<ion-content padding>
+  <div class="vertical-center">
+    <div>
+      <ion-grid>
+        <ion-row>
+          <ion-col>
+            <ion-card>
+              <ion-card-header>Create Account</ion-card-header>
+              <ion-card-content>
+                <ion-list>
+                  <ion-item>
+                    <ion-label position="floating">
+                      Name
+                    </ion-label>
+                    <ion-input name="name" [(ngModel)]="credentials.name" ngDefaultControl></ion-input>
+                  </ion-item>
+                  <ion-item>
+                    <ion-label position="floating">
+                      Email Address
+                    </ion-label>
+                    <ion-input name="email" [(ngModel)]="credentials.email" ngDefaultControl></ion-input>
+                  </ion-item>
+                  <ion-item>
+                    <ion-label position="floating">Password</ion-label>
+                    <ion-input placeholder="password" type="password" name="password" [(ngModel)]="credentials.password"
+                      ngDefaultControl></ion-input>
+                  </ion-item>
+                </ion-list>
+                <ion-button color="secondary" expand="block" shape="round" (click)="onRegisterClicked()">Register
+                </ion-button>
+                <ion-text (click)="goToLoginPage()">Already have an accout?</ion-text>
+                <ion-text>Forgot password?</ion-text>
+              </ion-card-content>
+            </ion-card>
+          </ion-col>
+        </ion-row>
+      </ion-grid>
+    </div>
+  </div>
+</ion-content>

@@ -5,11 +5,11 @@ import { LocationService } from '../../services/location.service';
 import * as _ from 'underscore';
 import { Subscription, combineLatest, BehaviorSubject } from 'rxjs';
 import { ModalController, IonRouterOutlet } from '@ionic/angular';
-import { ModalContainerComponent } from '../../components/modals/add-group-member-modal/modal-container/modal-container.component';
+import { ModalContainerComponent } from '../../components/modals/modal-container/modal-container.component';
 import { GroupService } from '../../services/group.service';
 import { Group } from '../../models/group-model';
 import { ModeService } from '../../services/mode.service';
-import { ManageGroupModalComponent } from '../../components/modals/add-group-member-modal/manage-group-modal/manage-group-modal.component';
+import { ManageGroupModalComponent } from '../../components/modals/manage-group-modal/manage-group-modal.component';
 
 @Component({
   selector: 'app-home-page',

@@ -9,7 +9,7 @@ import { SlidingCardSmallComponent } from 'src/app/components/sliding-card-small
 import { SlidingListGroupsComponent } from 'src/app/components/sliding-list-groups/sliding-list-groups.component';
 import { AddGroupMemberModalComponent } from 'src/app/components/modals/add-group-member-modal/add-group-member-modal.component';
 // eslint-disable-next-line max-len
-import { ManageGroupModalComponent } from 'src/app/components/modals/add-group-member-modal/manage-group-modal/manage-group-modal.component';
+import { ManageGroupModalComponent } from 'src/app/components/modals/manage-group-modal/manage-group-modal.component';
 
 @NgModule({
   imports: [

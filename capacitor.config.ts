@@ -1,7 +1,7 @@
 import { CapacitorConfig } from '@capacitor/cli';
 
 const config: CapacitorConfig = {
-  appId: 'foodwithfriends',
+  appId: 'io.ionic.starter',
   appName: 'food-with-friends',
   webDir: 'www',
   bundledWebRuntime: false

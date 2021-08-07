@@ -5,12 +5,12 @@ import { IonInput, ModalController } from '@ionic/angular';
 import { Observable, Subject } from 'rxjs';
 import { tap } from 'rxjs/operators';
 import * as _ from 'underscore';
-import { GroupMember } from '../../../../models/group-member-model';
-import { Group } from '../../../../models/group-model';
-import { User } from '../../../../models/user.model';
-import { GroupService } from '../../../../services/group.service';
-import { ModeService } from '../../../../services/mode.service';
-import { UserService } from '../../../../services/user.service';
+import { GroupMember } from '../../../models/group-member-model';
+import { Group } from '../../../models/group-model';
+import { User } from '../../../models/user.model';
+import { GroupService } from '../../../services/group.service';
+import { ModeService } from '../../../services/mode.service';
+import { UserService } from '../../../services/user.service';
 
 @Component({
   selector: 'app-manage-group-modal',
