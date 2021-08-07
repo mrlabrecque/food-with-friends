@@ -1,2 +1,2 @@
 
-web: node server.js
+web: ionic build --prod && node server.js
