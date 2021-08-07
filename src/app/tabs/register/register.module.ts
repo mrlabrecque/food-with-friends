@@ -5,6 +5,7 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { LoginPageComponent } from 'src/app/pages/login-page/login-page.component';
 import { RegisterPageComponent } from 'src/app/pages/register-page/register-page.component';
+import { SharedPageModule } from '../shared/shared.module';
 
 
 
@@ -14,6 +15,7 @@ import { RegisterPageComponent } from 'src/app/pages/register-page/register-page
     IonicModule,
     CommonModule,
     FormsModule,
+    SharedPageModule,
     RouterModule.forChild([{ path: '', component: RegisterPageComponent }])
   ]
 })

@@ -1,23 +1,24 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Config } from '@ionic/angular';
+import { environment } from '../../environments/environment';
 
 @Injectable({
   providedIn: 'root'
 })
 export class MatchService {
-  apiUrl = 'https://localhost:3000/api';
+  apiUrl = environment.apiUrl;
   constructor(private http: HttpClient) { }
   addMatch(groupId, restaurantToAdd) {
     const headers = new HttpHeaders();
     headers.append('Content-Type', 'application/json');
     headers.append('Access-Control-Allow-Origin', '*');
-    return this.http.put<any>(`${this.apiUrl}/groups/${groupId}/addmatch`, restaurantToAdd, { headers });
+    return this.http.put<any>(`${this.apiUrl}/api/groups/${groupId}/addmatch`, restaurantToAdd, { headers });
   }
   updateMatch(groupId, restaurantToAdd) {
     const headers = new HttpHeaders();
     headers.append('Content-Type', 'application/json');
     headers.append('Access-Control-Allow-Origin', '*');
-    return this.http.put<any>(`${this.apiUrl}/groups/${groupId}/updatematch`, restaurantToAdd, { headers });
+    return this.http.put<any>(`${this.apiUrl}/api/groups/${groupId}/updatematch`, restaurantToAdd, { headers });
   }
 }

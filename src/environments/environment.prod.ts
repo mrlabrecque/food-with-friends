@@ -1,3 +1,5 @@
 export const environment = {
-  production: true
+  production: true,
+  clientUrl: 'https://foodwithfriends.io',
+  apiUrl: 'https://food-with-friends.herokuapp.com'
 };

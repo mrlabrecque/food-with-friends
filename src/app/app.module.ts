@@ -13,13 +13,14 @@ import { AppRoutingModule } from './app-routing.module';
 import { HttpClientModule } from '@angular/common/http';
 import { IonicStorageModule } from '@ionic/storage-angular';
 import { JwtModule, JWT_OPTIONS } from '@auth0/angular-jwt';
+import { environment } from '../environments/environment';
 
 export function jwtOptionsFactory(storage) {
   return {
     tokenGetter: () => {
       return storage.get('access_token');
     },
-    whitelistedDomains: ['localhost:3000']
+    whitelistedDomains: [environment.apiUrl]
   };
 }
 

@@ -1,6 +1,5 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
-import { GroupDetailPageComponent } from '../pages/group-detail-page/group-detail-page.component';
 
 import { TabsPage } from './tabs.page';
 

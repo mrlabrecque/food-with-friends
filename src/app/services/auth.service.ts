@@ -7,7 +7,7 @@ import { Storage } from '@ionic/storage-angular';
 import { JwtHelperService } from '@auth0/angular-jwt';
 import { BehaviorSubject, from, Observable, of } from 'rxjs';
 import { catchError, map, switchMap, take, tap } from 'rxjs/operators';
-import { environment } from 'environments/environment';
+import { environment } from '../../environments/environment';
 
 const helper = new JwtHelperService();
 const TOKEN_KEY = 'token';
@@ -18,7 +18,7 @@ const TOKEN_KEY = 'token';
   providedIn: 'root'
 })
 export class AuthService {
-  apiUrl = `${environment.serviceUrl}/api`;
+  apiUrl = `${environment.apiUrl}/api`;
   authenticationState = new BehaviorSubject(false);
 
   user: Observable<any>;
@@ -47,7 +47,7 @@ export class AuthService {
   }
   login(credentials) {
     console.log(credentials);
-    return this.http.post(`${this.apiUrl}/users/login`, credentials)
+    return this.http.post(`${this.apiUrl}/api/users/login`, credentials)
       .pipe(
         tap(res => {
           this.storage.set(TOKEN_KEY, res['token']);
@@ -61,7 +61,7 @@ export class AuthService {
       );
   }
   register(credentials) {
-    return this.http.post(`${this.apiUrl}/users/register`, credentials).pipe(
+    return this.http.post(`${this.apiUrl}/api/users/register`, credentials).pipe(
       catchError(e => {
         this.showAlert(e.error.msg);
         throw new Error(e);
@@ -79,7 +79,7 @@ export class AuthService {
     });
   }
   getSpecialData() {
-    return this.http.get(`${this.apiUrl}/users/special`).pipe(
+    return this.http.get(`${this.apiUrl}/api/users/special`).pipe(
       catchError(e => {
         const status = e.status;
         if (status === 401) {

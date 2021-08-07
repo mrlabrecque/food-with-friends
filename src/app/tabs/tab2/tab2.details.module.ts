@@ -9,6 +9,7 @@ import { CardListComponent } from 'src/app/components/card-list/card-list.compon
 import { ChipSelectArrayComponent } from 'src/app/components/chip-select-array/chip-select-array.component';
 import { MatchListComponent } from 'src/app/components/match-list/match-list.component';
 import { AddGroupMemberModalComponent } from 'src/app/components/modals/add-group-member-modal/add-group-member-modal.component';
+import { SharedPageModule } from '../shared/shared.module';
 
 @NgModule({
   imports: [
@@ -16,8 +17,9 @@ import { AddGroupMemberModalComponent } from 'src/app/components/modals/add-grou
     CommonModule,
     FormsModule,
     NgxSliderModule,
+    SharedPageModule,
     RouterModule.forChild([{ path: '', component: GroupDetailPageComponent }]),
   ],
-  declarations: [GroupDetailPageComponent, CardListComponent, ChipSelectArrayComponent, MatchListComponent, AddGroupMemberModalComponent]
+  declarations: [GroupDetailPageComponent, CardListComponent, ChipSelectArrayComponent, AddGroupMemberModalComponent]
 })
 export class Tab2DetailsPageModule { }

@@ -10,15 +10,18 @@ import { SlidingListGroupsComponent } from 'src/app/components/sliding-list-grou
 import { AddGroupMemberModalComponent } from 'src/app/components/modals/add-group-member-modal/add-group-member-modal.component';
 // eslint-disable-next-line max-len
 import { ManageGroupModalComponent } from 'src/app/components/modals/manage-group-modal/manage-group-modal.component';
+import { SharedPageModule } from '../shared/shared.module';
+import { MetersToMilesPipe } from 'src/app/pipes/meters-to-miles.pipe';
 
 @NgModule({
   imports: [
     IonicModule,
     CommonModule,
     FormsModule,
+    SharedPageModule,
     RouterModule.forChild([{ path: '', component: HomePageComponent }])
   ],
-  declarations: [HomePageComponent, SlidingCardLargeComponent, SlidingCardSmallComponent, SlidingListGroupsComponent,
+  declarations: [HomePageComponent,
     ManageGroupModalComponent]
 })
 export class Tab1PageModule { }
