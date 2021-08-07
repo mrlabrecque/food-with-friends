@@ -50,6 +50,8 @@ app.use((req, res, next) => {
   res.header("Content-Type", "application/json");
   next();
 });
+app.use(express.static('www'));
+
 // Get our API routes
 const groupRoutes = require('./routes/group.routes');
 const userRoutes = require('./routes/user.routes');
