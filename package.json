@@ -13,6 +13,10 @@
       }
     }
   },
+  "engines": {
+    "node": "14.17.1",
+    "npm": "6.14.13"
+  },
   "scripts": {
     "ng": "ng",
     "start": "node server.js",
@@ -21,7 +25,7 @@
     "start-all-dev": "npm run serve && npm run start-nodemon",
     "preview": "ionic serve --lab",
     "clean": "ionic clean",
-    "build": "node --max_old_space_size=2560 node_modules/.bin/react-scripts build",
+    "build": "node --max_old_space_size=2560 node_modules/@angular/cli/bin/ng build",
     "test": "ng test",
     "lint": "ionic-app-scripts lint",
     "e2e": "ng e2e"
