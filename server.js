@@ -55,8 +55,8 @@ app.use((req, res, next) => {
 const groupRoutes = require('./routes/group.routes');
 const userRoutes = require('./routes/user.routes');
 //Requests
-app.use("/v1/users", userRoutes);
-app.use("/v1/groups", groupRoutes);
+app.use("/api/v1/users", userRoutes);
+app.use("/api/v1/groups", groupRoutes);
 
 
 
