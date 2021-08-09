@@ -25,7 +25,7 @@
     "start-all-dev": "npm run serve && npm run start-nodemon",
     "preview": "ionic serve --lab",
     "clean": "ionic clean",
-    "build": "node --max_old_space_size=2560 node_modules/@angular/cli/bin/ng build",
+    "build": "ng build --prod",
     "test": "ng test",
     "lint": "ionic-app-scripts lint",
     "e2e": "ng e2e"
@@ -107,6 +107,7 @@
     "karma-coverage-istanbul-reporter": "~3.0.2",
     "karma-jasmine": "~4.0.0",
     "karma-jasmine-html-reporter": "^1.7.0",
+    "lite-server": "^2.6.1",
     "nodemon": "^2.0.12",
     "protractor": "~7.0.0",
     "ts-node": "~8.3.0",

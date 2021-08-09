@@ -12,11 +12,11 @@ const config = require('./config/db.config.json');
 const fs = require('fs');
 const https = require('https');
 const passport = require('passport');
-const sslOptions = {
-  key: fs.readFileSync('key.pem'),
-  cert: fs.readFileSync('cert.pem'),
-  passphrase: "Joystick@5852"
-};
+// const sslOptions = {
+//   key: fs.readFileSync('key.pem'),
+//   cert: fs.readFileSync('cert.pem'),
+//   passphrase: "Joystick@5852"
+// };
 // Server configs
 
 app.use(cors());
