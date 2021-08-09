@@ -25,7 +25,7 @@
     "start-all-dev": "npm run serve && npm run start-nodemon",
     "preview": "ionic serve --lab",
     "clean": "ionic clean",
-    "build": "ng build --prod",
+    "build": "node --max_old_space_size=1028 node_modules/@angular/cli/bin/ng build --prod",
     "test": "ng test",
     "lint": "ionic-app-scripts lint",
     "e2e": "ng e2e"
