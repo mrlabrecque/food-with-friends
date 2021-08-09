@@ -21,9 +21,9 @@ export class FilterService {
 
   constructor(private http: HttpClient) { }
   public getFilterObjectById(id: number): Observable<any[]> {
-    return this.http.get<any[]>(`${this.apiUrl}/api/filters/${id}`);
+    return this.http.get<any[]>(`${this.apiUrl}/v1/filters/${id}`);
   }
   public getFilterParamObjectById(id: number, param: string): Observable<any[]> {
-    return this.http.get<any[]>(`${this.apiUrl}/api/filters/${param}/${id}`);
+    return this.http.get<any[]>(`${this.apiUrl}/v1/filters/${param}/${id}`);
   }
 }

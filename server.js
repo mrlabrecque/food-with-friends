@@ -55,8 +55,8 @@ app.use((req, res, next) => {
 const groupRoutes = require('./routes/group.routes');
 const userRoutes = require('./routes/user.routes');
 //Requests
-app.use("/api/users", userRoutes);
-app.use("/api/groups", groupRoutes);
+app.use("/v1/users", userRoutes);
+app.use("/v1/groups", groupRoutes);
 
 
 
@@ -98,7 +98,7 @@ app.get('/', (req, res) => {
 /**
  * Get port from environment and store in Express.
  */
-const port = process.env.PORT || 3000;
+const port = process.env.PORT || 12000;
 app.set('port', port);
 // const sslServer = https.createServer(sslOptions, app);
 

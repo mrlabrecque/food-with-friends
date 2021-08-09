@@ -22,16 +22,16 @@ export class GroupService {
     this.currentGroupFilters$.next(updatedGroupFilters);
   }
   public createGroup(newGroup: Group): Observable<Group> {
-    return this.http.post<Group>(`${this.apiUrl}/api/groups/new`, newGroup);
+    return this.http.post<Group>(`${this.apiUrl}/v1/groups/new`, newGroup);
   }
   public deleteGroupById(id: number): Observable<any[]> {
-    return this.http.delete<any[]>(`${this.apiUrl}/api/groups/${id}/delete`);
+    return this.http.delete<any[]>(`${this.apiUrl}/v1/groups/${id}/delete`);
   }
   public getGroupById(id: number): Observable<Group> {
-    return this.http.get<Group>(`${this.apiUrl}/api/groups/${id}`);
+    return this.http.get<Group>(`${this.apiUrl}/v1/groups/${id}`);
   }
   public getUsersGroupsByUserId(id: number): Observable<Group[]> {
-    return this.http.get<Group[]>(`${this.apiUrl}/api/groups/user/${id}`);
+    return this.http.get<Group[]>(`${this.apiUrl}/v1/groups/user/${id}`);
 
   }
   public refreshGroup() {
@@ -44,7 +44,7 @@ export class GroupService {
     headers.append('Content-Type', 'application/json');
     headers.append('Access-Control-Allow-Origin', '*');
 
-    return this.http.put<any>(`${this.apiUrl}/api/groups/${groupId}/updatefilters`, preparedGroup, { headers });
+    return this.http.put<any>(`${this.apiUrl}/v1/groups/${groupId}/updatefilters`, preparedGroup, { headers });
 
   }
   public removeMemberFromGroup(memberIdToRemove: number): Observable<any> {
@@ -52,12 +52,12 @@ export class GroupService {
     headers.append('Content-Type', 'application/json');
     headers.append('Access-Control-Allow-Origin', '*');
     const removeMember = { groupId: this.currentGroupId, memberId: memberIdToRemove };
-    return this.http.put<any>(`${this.apiUrl}/api/groups/${this.currentGroupId}/removemember/${memberIdToRemove}`, removeMember, { headers });
+    return this.http.put<any>(`${this.apiUrl}/v1/groups/${this.currentGroupId}/removemember/${memberIdToRemove}`, removeMember, { headers });
   }
   public addMembersToGroup(membersToBeAdded) {
     const headers = new HttpHeaders();
     headers.append('Content-Type', 'application/json');
     headers.append('Access-Control-Allow-Origin', '*');
-    return this.http.put<any>(`${this.apiUrl}/api/groups/${this.currentGroupId}/addmembers`, membersToBeAdded, { headers });
+    return this.http.put<any>(`${this.apiUrl}/v1/groups/${this.currentGroupId}/addmembers`, membersToBeAdded, { headers });
   }
 }

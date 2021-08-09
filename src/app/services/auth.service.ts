@@ -18,7 +18,7 @@ const TOKEN_KEY = 'token';
   providedIn: 'root'
 })
 export class AuthService {
-  apiUrl = `${environment.apiUrl}/api`;
+  apiUrl = `${environment.apiUrl}`;
   authenticationState = new BehaviorSubject(false);
 
   user: Observable<any>;
@@ -47,7 +47,7 @@ export class AuthService {
   }
   login(credentials) {
     console.log(credentials);
-    return this.http.post(`${this.apiUrl}/api/users/login`, credentials)
+    return this.http.post(`${this.apiUrl}/v1/users/login`, credentials)
       .pipe(
         tap(res => {
           this.storage.set(TOKEN_KEY, res['token']);
@@ -61,7 +61,7 @@ export class AuthService {
       );
   }
   register(credentials) {
-    return this.http.post(`${this.apiUrl}/api/users/register`, credentials).pipe(
+    return this.http.post(`${this.apiUrl}/v1/users/register`, credentials).pipe(
       catchError(e => {
         this.showAlert(e.error.msg);
         throw new Error(e);
@@ -79,7 +79,7 @@ export class AuthService {
     });
   }
   getSpecialData() {
-    return this.http.get(`${this.apiUrl}/api/users/special`).pipe(
+    return this.http.get(`${this.apiUrl}/v1/users/special`).pipe(
       catchError(e => {
         const status = e.status;
         if (status === 401) {

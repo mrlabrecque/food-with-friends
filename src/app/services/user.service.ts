@@ -18,6 +18,6 @@ export class UserService {
     return this.currentUser;
   }
   getAddedMembersOnNewGroup(addedGroupMembers) {
-    return this.http.post<any[]>(`${this.apiUrl}/api/users/getusersbyemails`, addedGroupMembers);
+    return this.http.post<any[]>(`${this.apiUrl}/v1/users/getusersbyemails`, addedGroupMembers);
   }
 }

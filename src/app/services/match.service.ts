@@ -13,12 +13,12 @@ export class MatchService {
     const headers = new HttpHeaders();
     headers.append('Content-Type', 'application/json');
     headers.append('Access-Control-Allow-Origin', '*');
-    return this.http.put<any>(`${this.apiUrl}/api/groups/${groupId}/addmatch`, restaurantToAdd, { headers });
+    return this.http.put<any>(`${this.apiUrl}/v1/groups/${groupId}/addmatch`, restaurantToAdd, { headers });
   }
   updateMatch(groupId, restaurantToAdd) {
     const headers = new HttpHeaders();
     headers.append('Content-Type', 'application/json');
     headers.append('Access-Control-Allow-Origin', '*');
-    return this.http.put<any>(`${this.apiUrl}/api/groups/${groupId}/updatematch`, restaurantToAdd, { headers });
+    return this.http.put<any>(`${this.apiUrl}/v1/groups/${groupId}/updatematch`, restaurantToAdd, { headers });
   }
 }
