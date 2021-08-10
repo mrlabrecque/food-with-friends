@@ -11,13 +11,11 @@ const dotenv = require('dotenv');
 const config = require('./config/db.config.json');
 const fs = require('fs');
 const https = require('https');
-const http = require('http');
 const passport = require('passport');
-// const sslOptions = {
-//   key: fs.readFileSync('key.pem'),
-//   cert: fs.readFileSync('cert.pem'),
-//   passphrase: "Joystick@5852"
-// };
+const sslOptions = {
+  key: fs.readFileSync('key.pem'),
+  cert: fs.readFileSync('cert.pem'),
+};
 // Server configs
 
 app.use(cors());
@@ -105,7 +103,7 @@ app.set('port', port);
 
 
 //remove this when developing locally
-const server = http.createServer(app)
+const server = https.createServer(sslOptions, app)
   .listen(port, () => {
     console.log('secure server running at ' + port)
   })
