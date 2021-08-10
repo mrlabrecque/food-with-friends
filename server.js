@@ -11,6 +11,7 @@ const dotenv = require('dotenv');
 const config = require('./config/db.config.json');
 const fs = require('fs');
 const https = require('https');
+const http = require('http');
 const passport = require('passport');
 // const sslOptions = {
 //   key: fs.readFileSync('key.pem'),
@@ -104,9 +105,9 @@ app.set('port', port);
 
 
 //remove this when developing locally
-// const server = https.createServer(sslOptions, app)
-//   .listen(port, () => {
-//     console.log('secure server running at ' + port)
-//   })
+const server = http.createServer(app)
+  .listen(port, () => {
+    console.log('secure server running at ' + port)
+  })
 
-app.listen(port, () => console.log(`API running on port:${port}`));
+// app.listen(port, () => console.log(`API running on port:${port}`));
