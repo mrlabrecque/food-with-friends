@@ -1,67 +1,18 @@
 <ng-container *ngIf="cardData">
   <ion-slides [options]="slideOpts" [pager]="true">
     <ion-slide *ngFor="let card of cardData">
-      <ion-card style="width: 100%; display: flex; height: 200px; max-height: 200px;" class="ion-text-start">
+      <ion-card style="width: 100%;" class="ion-text-start" (click)="onAdditionalDetailsClicked(card)" button="true">
         <ion-grid>
           <ion-row>
-            <ion-col size="3">
-              <div style="position: relative; height: 100%; overflow: hidden;">
-                <img class="sliding-card-large-image" [src]="card.image_url" />
+            <ion-col size="4">
+              <div>
+                <div #img class="card-left-image" [style.background-image]="'url(' + card?.photoUrl + ')'"></div>
               </div>
             </ion-col>
-            <ion-col>
-              <div style="height: 100%; position: relative;">
-                <div class="flex space-between">
-                  <div class="card-title">
-                    <b>{{card.name}}</b>
-                  </div>
-                  <div class="flex align-center">
-                    <div class="flex align-center">
-                      <ion-icon name="navigate-circle-outline"></ion-icon>
-                    </div>
-                    <div class="small-text">
-                      {{card.distance | metersToMiles}} miles
-                    </div>
-                  </div>
-                </div>
-                <div>
-                  <app-star-ratings [item]="card"></app-star-ratings>
-                </div>
-                <div style="position: absolute; bottom:0;width: 100%;">
-                  <div class="flex space-between">
-                    <div class="contact-info largest-text">
-                      {{card.display_phone}}
-                    </div>
-
-                    <ion-fab vertical="bottom" horizontal="end" slot="fixed">
-                      <ion-fab-button color="light">
-                        <ion-icon name="heart-outline"></ion-icon>
-                      </ion-fab-button>
-                    </ion-fab>
-
-
-
-
-                    <!-- <div class="largest-text action-icons">
-
-                      <ion-button shape="round" fill="outline" size="small">
-                        <ion-icon slot="icon-only" name="heart-outline"></ion-icon>
-                      </ion-button>
-
-                      <span (click)="onShareClicked(card)">
-                        <ion-icon name="share-outline"></ion-icon>
-                      </span>
-                      <span (click)="onFavoriteClicked(card)">
-                        <ion-icon name="heart-outline"></ion-icon>
-                      </span>
-                    </div> -->
-                  </div>
-
-                </div>
-              </div>
-
-
-
+            <ion-col size="8">
+              <ion-text color="medium">{{card.name}}</ion-text>
+              <app-star-ratings [item]="card"></app-star-ratings>
+              <app-price-dstance [item]="card"></app-price-dstance>
             </ion-col>
           </ion-row>
         </ion-grid>
@@ -70,7 +21,7 @@
   </ion-slides>
 </ng-container>
 
-<ng-container *ngIf="cardData.length == 0">
+<ng-container *ngIf="cardData?.length == 0">
   <ion-card class="ion-text-start">
     <ion-thumbnail slot="start">
       <ion-skeleton-text animated></ion-skeleton-text>

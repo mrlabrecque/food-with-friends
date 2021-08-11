@@ -71,22 +71,6 @@ ion-title {
   // font-weight: 800;
 }
 
-$restaurant-slider-image-height: 180px;
-
-.swiper-slide .sliding-card-large-image {
-  width: 100%;
-  height: $restaurant-slider-image-height;
-  // background-size: cover;
-  border-radius: 5px;
-}
-
-
-.sliding-card-large-content,
-.sliding-card-large-title {
-  display: flex;
-  justify-content: space-between;
-}
-
 .link-text {
   font-size: .8rem;
 

@@ -1,17 +1,17 @@
-<ion-item-sliding *ngFor="let card of cardData">
-  <ion-item>
+<ion-item-sliding *ngFor="let member of memberData">
+  <ion-item lines="none">
     <ion-avatar slot="start">
       <img src="https://gravatar.com/avatar/dba6bae8c566f9d4041fb9cd9ada7741?d=identicon&f=y">
     </ion-avatar>
 
     <ion-label>
-      <h2>{{card.name}}</h2>
-      <h3 *ngIf="card._id === groupOwner._id">Owner</h3>
+      <h2>{{member.name}}</h2>
+      <h3 *ngIf="member._id === groupOwner._id">Owner</h3>
     </ion-label>
   </ion-item>
-  <ng-container *ngIf="card._id !== currentUserId && isLoggedUserGroupOwner">
+  <ng-container *ngIf="member._id !== currentUserId && isLoggedUserGroupOwner">
     <ion-item-options side="end">
-      <ion-item-option color="danger" (click)="removeMember(card)">
+      <ion-item-option color="danger" (click)="removeMember(member)">
         <ion-icon slot="end" name="trash"></ion-icon>Remove
       </ion-item-option>
     </ion-item-options>

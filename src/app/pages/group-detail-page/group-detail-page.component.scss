@@ -1,10 +1,15 @@
 .group-details-card-content {
-  opacity: .8;
+  opacity: 0;
   height: 0;
-  // transition: 500ms ease-in-out;
+  margin-bottom: 0;
+  margin-top: 0;
+  transition: 500ms ease-in-out;
 
   &.show {
     height: 100%;
     opacity: 1;
+    margin-bottom: 15px;
+    margin-top: 15px;
+
   }
 }

@@ -5,12 +5,12 @@ import { GroupService } from '../../services/group.service';
 import { UserService } from '../../services/user.service';
 
 @Component({
-  selector: 'app-card-list',
-  templateUrl: './card-list.component.html',
-  styleUrls: ['./card-list.component.scss'],
+  selector: 'app-member-list',
+  templateUrl: './member-list.component.html',
+  styleUrls: ['./member-list.component.scss'],
 })
-export class CardListComponent implements OnInit, OnChanges {
-  @Input() cardData: any[];
+export class MemberListComponent implements OnInit, OnChanges {
+  @Input() memberData: any[];
   @Input() groupOwner: User;
   currentUserId: number;
   isLoggedUserGroupOwner = false;

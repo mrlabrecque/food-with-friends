@@ -1,5 +1,5 @@
 <ion-item-sliding *ngFor="let card of cardData" (click)="onAdditionalDetailsClicked(card)">
-  <ion-item class="ion-no-padding">
+  <ion-item lines="none">
     <ion-avatar slot="start">
       <img [src]="card.photoUrl">
     </ion-avatar>
@@ -9,7 +9,6 @@
       <app-star-ratings [item]="card"></app-star-ratings>
       <app-price-dstance [item]="card"></app-price-dstance>
     </ion-label>
-    <ion-icon name="share-outline" slot="end" color="primary"></ion-icon>
   </ion-item>
   <ng-container *ngIf="isLoggedUserGroupOwner">
     <ion-item-options side="end">

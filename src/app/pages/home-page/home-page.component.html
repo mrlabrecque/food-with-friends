@@ -23,47 +23,42 @@
       <ion-title size="large">Food with Friends</ion-title>
     </ion-toolbar>
   </ion-header>
-  <ion-grid>
-    <ion-row>
-      <ion-col>
-        <div class="flex space-between section-header">
-          <div>
-            <span>Hot & New</span>
-          </div>
-          <div>
-            <ion-text color="primary"><span class="link-text" (click)="presentModal()">see all</span></ion-text>
-          </div>
-        </div>
-        <app-sliding-card-large [incomingData]="hotAndNewRestaurants$"></app-sliding-card-large>
-
-      </ion-col>
-    </ion-row>
-    <ion-row>
-      <ion-col>
+  <ion-list>
+    <ion-list-header class="ion-padding-end">
+      <div class="flex space-between" style="width: 100%;">
+        <div>Hot & New</div>
         <div>
-          <div class="flex space-between section-header">
-            <div>
-              <span>Your Groups</span>
-            </div>
-            <div>
-              <span (click)="addGroup()">
-                <ion-icon size="large" class="action-icons" color="primary" slot="end" name="add-circle-outline">
-                </ion-icon>
-              </span>
-            </div>
-          </div>
-          <app-sliding-list-groups [listItems]="groups$ | async"></app-sliding-list-groups>
+          <ion-text color="primary"><span class="link-text" (click)="presentModal()">see all</span></ion-text>
         </div>
-
-      </ion-col>
-    </ion-row>
-    <ion-row>
-      <ion-col>
-        <span class="section-header">Favorites</span>
-        <app-sliding-card-small [cardData]="cardData"></app-sliding-card-small>
-      </ion-col>
-    </ion-row>
-  </ion-grid>
+      </div>
+    </ion-list-header>
+    <!-- <app-sliding-card-large [incomingData]="hotAndNewRestaurants$"></app-sliding-card-large> -->
+  </ion-list>
+  <!-- Start of list header -->
+  <ion-list>
+    <ion-list-header class="ion-padding-end">
+      <div class="flex space-between" style="width: 100%;">
+        <div>Your Groups</div>
+        <div (click)="addGroup()">
+          <ion-icon size="large" class="action-icons" color="primary" slot="end" name="add-circle-outline">
+          </ion-icon>
+        </div>
+      </div>
+    </ion-list-header>
+    <app-sliding-list-groups [listItems]="groups$ | async"></app-sliding-list-groups>
+  </ion-list>
+  <!-- End of list header -->
+  <ion-list>
+    <ion-list-header class="ion-padding-end">
+      <div class="flex space-between" style="width: 100%;">
+        <div>Your Likes</div>
+        <div>
+          <ion-text color="primary"><span class="link-text" (click)="presentModal()">see all</span></ion-text>
+        </div>
+      </div>
+    </ion-list-header>
+    <app-sliding-card-small [cardData]="cardData"></app-sliding-card-small>
+  </ion-list>
 
   <!-- <ion-header collapse="condense">
     <ion-toolbar>

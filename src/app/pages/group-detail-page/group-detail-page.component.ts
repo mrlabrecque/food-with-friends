@@ -108,8 +108,8 @@ export class GroupDetailPageComponent implements OnInit, OnDestroy {
 
   lat: number;
   long: number;
-  showFilters = false;
-  showMatches = false;
+  showFilters = true;
+  showMatches = true;
 
   constructor(private activatedRoute: ActivatedRoute,
     private router: Router,
@@ -221,5 +221,8 @@ export class GroupDetailPageComponent implements OnInit, OnDestroy {
   }
   toggleMatchesExpand() {
     this.showMatches = !this.showMatches;
+  }
+  onSeeAllMatchesClicked() {
+    console.log('see all matches clicked');
   }
 }
