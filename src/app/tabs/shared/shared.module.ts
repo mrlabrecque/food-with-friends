@@ -11,15 +11,18 @@ import { SlidingCardLargeComponent } from 'src/app/components/sliding-card-large
 import { SlidingCardSmallComponent } from 'src/app/components/sliding-card-small/sliding-card-small.component';
 import { SlidingListGroupsComponent } from 'src/app/components/sliding-list-groups/sliding-list-groups.component';
 import { StarRatingsComponent } from 'src/app/components/utility-components/star-ratings/star-ratings.component';
+import { PriceDistanceComponent } from 'src/app/components/utility-components/price-dstance/price-dstance.component';
 import { MetersToMilesPipe } from 'src/app/pipes/meters-to-miles.pipe';
 import { NgxStarsModule } from 'ngx-stars';
 import { RouterModule } from '@angular/router';
+import { RestaurantDetailsModalComponent } from 'src/app/components/modals/restaurant-details-modal/restaurant-details-modal.component';
+import { PricePice } from 'src/app/pipes/price.pipe';
 
 
 
 
 @NgModule({
-  declarations: [MatchListComponent, SlidingListGroupsComponent, ModalContainerComponent, RestaurantItemListComponent, MetersToMilesPipe, StarRatingsComponent, SlidingCardLargeComponent, SlidingCardSmallComponent,],
+  declarations: [PriceDistanceComponent, PricePice, MatchListComponent, RestaurantDetailsModalComponent, StarRatingsComponent, SlidingListGroupsComponent, ModalContainerComponent, RestaurantItemListComponent, MetersToMilesPipe, StarRatingsComponent, SlidingCardLargeComponent, SlidingCardSmallComponent,],
   imports: [
     IonicModule,
     RouterModule,
@@ -29,7 +32,7 @@ import { RouterModule } from '@angular/router';
     NgxStarsModule
   ],
   exports: [
-    MatchListComponent, SlidingListGroupsComponent, ModalContainerComponent, RestaurantItemListComponent, StarRatingsComponent, SlidingCardLargeComponent, SlidingCardSmallComponent, MetersToMilesPipe
+    PriceDistanceComponent, PricePice, MatchListComponent, SlidingListGroupsComponent, RestaurantDetailsModalComponent, StarRatingsComponent, ModalContainerComponent, RestaurantItemListComponent, StarRatingsComponent, SlidingCardLargeComponent, SlidingCardSmallComponent, MetersToMilesPipe
   ]
 })
 export class SharedPageModule { }

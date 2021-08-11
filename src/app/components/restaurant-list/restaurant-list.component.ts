@@ -150,6 +150,11 @@ export class RestaurantListComponent implements OnInit, OnDestroy, AfterViewInit
         name: rest.name,
         placeId: rest.place_id,
         photoUrl: rest.photoUrl,
+        // eslint-disable-next-line @typescript-eslint/naming-convention
+        price_level: rest.price_level,
+        rating: rest.rating,
+        // eslint-disable-next-line @typescript-eslint/naming-convention
+        user_ratings_total: rest.user_ratings_total,
         memberMatches: [this.currentUser._id],
         noOfMatches: 1,
         matchPercent: currentMatchPercent,

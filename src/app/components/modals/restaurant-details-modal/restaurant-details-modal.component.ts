@@ -1,4 +1,5 @@
 import { Component, Input, OnChanges, OnInit, SimpleChanges } from '@angular/core';
+import { ModalController } from '@ionic/angular';
 
 @Component({
   selector: 'app-restaurant-details-modal',
@@ -7,11 +8,15 @@ import { Component, Input, OnChanges, OnInit, SimpleChanges } from '@angular/cor
 })
 export class RestaurantDetailsModalComponent implements OnInit, OnChanges {
   @Input() restaurant: any;
-  constructor() { }
+  constructor(private modalController: ModalController) { }
 
   ngOnInit() { }
   ngOnChanges(simpleChanges: SimpleChanges) {
     this.restaurant = simpleChanges.restaurant;
   }
+  onCloseClicked() {
+    this.modalController.dismiss();
+  }
+
 
 }

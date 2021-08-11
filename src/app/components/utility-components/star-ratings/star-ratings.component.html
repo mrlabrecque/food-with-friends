@@ -1,6 +1,15 @@
-<div class="flex">
-  <div>
+<div class="star-rating-container">
+  <div class="flex-item-text-container">
     <ngx-stars [readonly]="true" [initialStars]="item.rating" color="#274C77"></ngx-stars>
   </div>
-  <div class="small-text">{{item.review_count}} Reviews</div>
+  <div class="flex-item-text-container">
+    <ion-text color="primary">
+      <span class="small-text flex-item-text" style="margin-right:3px">{{item.rating}}</span>
+    </ion-text>
+  </div>
+  <div class=" flex-item-text-container">
+    <ion-text color="medium">
+      <span class="smallest-text flex-item-text">({{item.user_ratings_total}}+)</span>
+    </ion-text>
+  </div>
 </div>

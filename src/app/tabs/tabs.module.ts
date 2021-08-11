@@ -7,7 +7,6 @@ import { IonicModule } from '@ionic/angular';
 import { TabsPageRoutingModule } from './tabs-routing.module';
 
 import { TabsPage } from './tabs.page';
-import { RestaurantDetailsModalComponent } from '../components/modals/restaurant-details-modal/restaurant-details-modal.component';
 
 
 
@@ -17,6 +16,6 @@ import { RestaurantDetailsModalComponent } from '../components/modals/restaurant
     CommonModule,
     FormsModule,
     TabsPageRoutingModule],
-  declarations: [TabsPage, RestaurantDetailsModalComponent],
+  declarations: [TabsPage],
 })
 export class TabsPageModule { }

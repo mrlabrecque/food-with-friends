@@ -9,6 +9,7 @@ export class StarRatingsComponent implements OnInit {
   @Input() item;
   constructor() { }
 
-  ngOnInit() { }
+  ngOnInit() {
+  }
 
 }
