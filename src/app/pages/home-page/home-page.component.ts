@@ -54,7 +54,7 @@ export class HomePageComponent implements OnInit {
   }];
   groupsSubscription: Subscription;
   groups$: BehaviorSubject<Group[]> = new BehaviorSubject([]);
-  newRestaurants$: BehaviorSubject<any[]> = new BehaviorSubject([]);
+  newRestaurants$: BehaviorSubject<any[]> = new BehaviorSubject(null);
   dealsRestaurants$: BehaviorSubject<any[]> = new BehaviorSubject([]);
 
   constructor(private restaurantService: RestaurantService,
@@ -91,8 +91,10 @@ export class HomePageComponent implements OnInit {
         query: 'New Restaurants near me'
       }, (results, status) => {
         if (status === google.maps.places.PlacesServiceStatus.OK) {
+          _.each(results, rest => {
+            rest.photoUrl = rest.photos[0].getUrl();
+          });
           this.newRestaurants$.next(results);
-          console.log(results);
         }
       });
     });

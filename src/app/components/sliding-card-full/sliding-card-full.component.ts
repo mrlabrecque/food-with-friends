@@ -1,0 +1,35 @@
+import { Component, OnInit, Input, OnChanges, SimpleChanges } from '@angular/core';
+
+@Component({
+  selector: 'app-sliding-card-full',
+  templateUrl: './sliding-card-full.component.html',
+  styleUrls: ['./sliding-card-full.component.scss'],
+})
+export class SlidingCardFullComponent implements OnInit, OnChanges {
+  @Input() incomingData: any[];
+  cardData: any[] = [];
+
+  slideOpts = {
+    spaceBetween: 0,
+    slidesPerView: 1,
+    direction: 'horizontal',
+    pagination: {
+      el: 'swiper-pagination'
+    }
+  };
+  constructor() { }
+
+  ngOnChanges(changes: SimpleChanges): void {
+    this.cardData = changes.incomingData.currentValue;
+
+    //Called before any other lifecycle hook. Use it to inject dependencies, but avoid any serious work here.
+    //Add '${implements OnChanges}' to the class.
+
+  }
+
+  ngOnInit() {
+    // this.cardData = this.incomingData;
+    // console.log(this.cardData);
+  }
+
+}

@@ -1,0 +1,30 @@
+<ion-slides [options]="slideOpts" [pager]="true">
+  <ion-slide *ngFor="let card of cardData">
+    <ion-card style="width: 100%;" class="ion-text-start">
+      <div #img class="header-image" [style.background-image]="'url(' + card?.photoUrl + ')'">
+      </div>
+      <ion-card-header>
+        <ion-card-title class="ion-text-nowrap">{{card.name}}</ion-card-title>
+      </ion-card-header>
+      <ion-card-content>
+        <app-star-ratings [item]="card"></app-star-ratings>
+        <app-price-dstance [item]="card"></app-price-dstance>
+      </ion-card-content>
+    </ion-card>
+  </ion-slide>
+</ion-slides>
+
+<ng-container *ngIf="!cardData">
+  <ion-card class="ion-text-start">
+    <div #img class="header-image loading">
+    </div>
+    <ion-card-header>
+      <ion-card-title>
+        <ion-skeleton-text animated style="width: 100%"></ion-skeleton-text>
+      </ion-card-title>
+    </ion-card-header>
+    <ion-card-content>
+      <ion-skeleton-text animated style="width: 50%"></ion-skeleton-text>
+    </ion-card-content>
+  </ion-card>
+</ng-container>

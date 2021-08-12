@@ -25,18 +25,12 @@ export class SlidingCardLargeComponent implements OnInit, OnChanges {
     private routerOutlet: IonRouterOutlet) { }
 
   ngOnInit() {
-    this.setSlideSize();
   }
   ngOnChanges(changes: SimpleChanges): void {
     this.cardData = changes.incomingData.currentValue;
     //Called before any other lifecycle hook. Use it to inject dependencies, but avoid any serious work here.
     //Add '${implements OnChanges}' to the class.
 
-  }
-  setSlideSize() {
-    if (this.size === 'small') {
-      this.slideOpts.slidesPerView = 2.25;
-    }
   }
   onShareClicked(item) {
     console.log("share clicked" + item);

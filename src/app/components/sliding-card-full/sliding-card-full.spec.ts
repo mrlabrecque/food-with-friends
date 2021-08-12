@@ -1,7 +1,7 @@
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { IonicModule } from '@ionic/angular';
 
-import { SlidingCardSmallComponent } from './sliding-card-small.component';
+import { SlidingCardSmallComponent } from './sliding-card-full.component';
 
 describe('SlidingCardSmallComponent', () => {
   let component: SlidingCardSmallComponent;

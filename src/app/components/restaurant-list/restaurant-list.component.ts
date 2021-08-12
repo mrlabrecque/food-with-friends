@@ -145,9 +145,6 @@ export class RestaurantListComponent implements OnInit, OnDestroy, AfterViewInit
         matchPercent: currentMatchPercent,
         trueMatch: currentMatchPercent >= this.currentGroup.filters.matchThreshhold ? true : false
       };
-      console.log(currentMatchPercent);
-      console.log(this.currentGroup.filters.matchThreshhold);
-      console.log(match.trueMatch);
       if (match.trueMatch) {
         this.trueMatchCreated.emit(match);
       }

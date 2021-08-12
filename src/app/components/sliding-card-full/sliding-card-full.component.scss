@@ -1,0 +1,15 @@
+.swiper-slide {
+  width: auto;
+}
+
+.header-image {
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: cover;
+  height: 150px;
+  will-change: transform;
+
+  &.loading {
+    background: var(--ion-color-medium);
+  }
+}

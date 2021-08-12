@@ -8,7 +8,7 @@ import { MatchListComponent } from 'src/app/components/match-list/match-list.com
 import { ModalContainerComponent } from 'src/app/components/modals/modal-container/modal-container.component';
 import { RestaurantItemListComponent } from 'src/app/components/restaurant-item-list/restaurant-item-list.component';
 import { SlidingCardLargeComponent } from 'src/app/components/sliding-card-large/sliding-card-large.component';
-import { SlidingCardSmallComponent } from 'src/app/components/sliding-card-small/sliding-card-small.component';
+import { SlidingCardFullComponent } from 'src/app/components/sliding-card-full/sliding-card-full.component';
 import { SlidingListGroupsComponent } from 'src/app/components/sliding-list-groups/sliding-list-groups.component';
 import { StarRatingsComponent } from 'src/app/components/utility-components/star-ratings/star-ratings.component';
 import { PriceDistanceComponent } from 'src/app/components/utility-components/price-dstance/price-dstance.component';
@@ -22,7 +22,7 @@ import { PricePice } from 'src/app/pipes/price.pipe';
 
 
 @NgModule({
-  declarations: [PriceDistanceComponent, PricePice, MatchListComponent, RestaurantDetailsModalComponent, StarRatingsComponent, SlidingListGroupsComponent, ModalContainerComponent, RestaurantItemListComponent, MetersToMilesPipe, StarRatingsComponent, SlidingCardLargeComponent, SlidingCardSmallComponent,],
+  declarations: [PriceDistanceComponent, PricePice, MatchListComponent, RestaurantDetailsModalComponent, StarRatingsComponent, SlidingListGroupsComponent, ModalContainerComponent, RestaurantItemListComponent, MetersToMilesPipe, StarRatingsComponent, SlidingCardLargeComponent, SlidingCardFullComponent,],
   imports: [
     IonicModule,
     RouterModule,
@@ -32,7 +32,7 @@ import { PricePice } from 'src/app/pipes/price.pipe';
     NgxStarsModule
   ],
   exports: [
-    PriceDistanceComponent, PricePice, MatchListComponent, SlidingListGroupsComponent, RestaurantDetailsModalComponent, StarRatingsComponent, ModalContainerComponent, RestaurantItemListComponent, StarRatingsComponent, SlidingCardLargeComponent, SlidingCardSmallComponent, MetersToMilesPipe
+    PriceDistanceComponent, PricePice, MatchListComponent, SlidingListGroupsComponent, RestaurantDetailsModalComponent, StarRatingsComponent, ModalContainerComponent, RestaurantItemListComponent, StarRatingsComponent, SlidingCardLargeComponent, SlidingCardFullComponent, MetersToMilesPipe
   ]
 })
 export class SharedPageModule { }
