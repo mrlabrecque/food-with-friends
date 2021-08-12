@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/dot-notation */
 /* eslint-disable @typescript-eslint/no-shadow */
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
@@ -8,6 +9,8 @@ import { JwtHelperService } from '@auth0/angular-jwt';
 import { BehaviorSubject, from, Observable, of } from 'rxjs';
 import { catchError, map, switchMap, take, tap } from 'rxjs/operators';
 import { environment } from '../../environments/environment';
+import { User } from '../models/user.model';
+import { UserService } from './user.service';
 
 const helper = new JwtHelperService();
 const TOKEN_KEY = 'token';
@@ -19,13 +22,13 @@ const TOKEN_KEY = 'token';
 })
 export class AuthService {
   apiUrl = `${environment.apiUrl}`;
-  authenticationState = new BehaviorSubject(false);
+  authenticationState: BehaviorSubject<boolean> = new BehaviorSubject(false);
 
-  user: Observable<any>;
-  private userData = new BehaviorSubject(null);
+  user: any;
+  authenticatedUser: BehaviorSubject<User> = new BehaviorSubject(null);
 
   constructor(private storage: Storage, private http: HttpClient, private plt: Platform,
-    private helper: JwtHelperService, private router: Router, private alertController: AlertController) {
+    private helper: JwtHelperService, private router: Router, private alertController: AlertController, private userService: UserService) {
     this.storage.create();
     this.plt.ready().then(() => {
       this.loadStoredToken();
@@ -35,27 +38,34 @@ export class AuthService {
     this.storage.get(TOKEN_KEY).then(token => {
       if (token) {
         const decoded = this.helper.decodeToken(token);
+        console.log(decoded);
         const isExpired = this.helper.isTokenExpired(token);
         if (!isExpired) {
           this.user = decoded;
-          this.authenticationState.next(true);
+          this.setAuthenticatedUser();
+
         } else {
           this.storage.remove(TOKEN_KEY);
         }
       }
     });
   }
+  setAuthenticatedUser() {
+    this.userService.getUserById(this.user.id).toPromise().then((res) => this.authenticatedUser.next(res));
+    this.authenticationState.next(true);
+  }
   login(credentials) {
-    console.log(credentials);
     return this.http.post(`${this.apiUrl}/v1/users/login`, credentials)
       .pipe(
         tap(res => {
           this.storage.set(TOKEN_KEY, res['token']);
           this.user = this.helper.decodeToken(res['token']);
+          console.log(res);
+          this.authenticatedUser.next(this.helper.decodeToken(res['user']));
           this.authenticationState.next(true);
         }),
         catchError(e => {
-          this.showAlert(e.error.msg);
+          this.showAlert(e.error);
           throw new Error(e);
         })
       );
@@ -69,13 +79,13 @@ export class AuthService {
     );
   }
   getUser() {
-    return this.userData.getValue();
+    return this.authenticatedUser.getValue();
   }
   logout() {
     this.storage.remove(TOKEN_KEY).then(() => {
       this.router.navigateByUrl('/');
       this.authenticationState.next(false);
-      this.userData.next(null);
+      this.authenticatedUser.next(null);
     });
   }
   getSpecialData() {

@@ -8,6 +8,8 @@ import { UserService } from 'src/app/services/user.service';
 import * as _ from 'underscore';
 import { RestaurantService } from '../../services/restaurant.service';
 import { AlertController } from '@ionic/angular';
+import { User } from 'src/app/models/user.model';
+import { AuthService } from 'src/app/services/auth.service';
 
 
 declare const google;
@@ -27,13 +29,14 @@ export class MatchPageComponent implements OnInit, AfterViewInit, OnDestroy {
   restaurants$: BehaviorSubject<any[]> = new BehaviorSubject([]);
   restaurants: any[];
   currentGroup: Group;
+  currentUser: User;
   groupId: number;
   restaurantSubscription: Subscription;
   groupSubscription: Subscription;
 
   constructor(private activatedRoute: ActivatedRoute, private groupService: GroupService,
     private restaurantService: RestaurantService, private router: Router, private userService: UserService,
-    public alertController: AlertController) {
+    public alertController: AlertController, private authService: AuthService) {
   }
 
   ngOnInit() {
@@ -43,6 +46,8 @@ export class MatchPageComponent implements OnInit, AfterViewInit, OnDestroy {
     this.groupId = +this.activatedRoute.snapshot.paramMap.get('id');
     this.groupSubscription = this.groupService.getGroupById(this.groupId).subscribe(
       gr => this.onGetGroupSuccess(gr));
+    this.currentUser = this.authService.authenticatedUser.value;
+
   }
   ngAfterViewInit() {
 
@@ -82,7 +87,7 @@ export class MatchPageComponent implements OnInit, AfterViewInit, OnDestroy {
           // eslint-disable-next-line max-len
           const currentUsersMatches = [];
           _.each(this.currentGroup.matches, (match) => {
-            const memberMatchedAlready = match.memberMatches.includes(this.userService.getCurrentUser()._id);
+            const memberMatchedAlready = match.memberMatches.includes(this.currentUser?._id);
             if (memberMatchedAlready) {
               currentUsersMatches.push(match);
             }

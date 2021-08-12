@@ -27,7 +27,9 @@ export class ManageGroupModalComponent implements OnInit {
   constructor(private userService: UserService, private groupService: GroupService, private modalController: ModalController,
     private router: Router) { }
 
-  ngOnInit() { }
+  ngOnInit() {
+    console.log(this.user);
+  }
   enterOnMemberAdd(e) {
     const keyCode = e.keyCode;
     if (keyCode === 13) {

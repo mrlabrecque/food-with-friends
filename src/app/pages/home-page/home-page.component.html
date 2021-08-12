@@ -57,7 +57,8 @@
         </div>
       </div>
     </ion-list-header>
-    <app-sliding-card-small [cardData]="cardData"></app-sliding-card-small>
+    <app-sliding-card-large [incomingData]="user?.likes" [size]="large"></app-sliding-card-large>
+    <!-- <app-sliding-card-small [cardData]="cardData"></app-sliding-card-small> -->
   </ion-list>
 
   <!-- <ion-header collapse="condense">

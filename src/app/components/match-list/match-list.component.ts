@@ -3,6 +3,7 @@ import { Component, Input, OnChanges, OnInit, SimpleChanges } from '@angular/cor
 import { IonRouterOutlet, ModalController } from '@ionic/angular';
 import { Matches } from 'src/app/models/matches.model';
 import { User } from 'src/app/models/user.model';
+import { AuthService } from 'src/app/services/auth.service';
 import { GroupService } from 'src/app/services/group.service';
 import { UserService } from 'src/app/services/user.service';
 import { RestaurantDetailsModalComponent } from '../modals/restaurant-details-modal/restaurant-details-modal.component';
@@ -16,17 +17,18 @@ export class MatchListComponent implements OnInit, OnChanges {
 
   @Input() cardData: Matches[];
   @Input() groupOwner: User;
-  currentUserId: number;
+  currentUser: User;
   isLoggedUserGroupOwner = false;
-  constructor(private userService: UserService, private groupService: GroupService, private modalController: ModalController,
+  constructor(private authService: AuthService, private groupService: GroupService, private modalController: ModalController,
     private routerOutlet: IonRouterOutlet) { }
 
   ngOnInit() {
-    this.currentUserId = this.userService.getCurrentUser()._id;
+
   }
   ngOnChanges(changes: SimpleChanges) {
+    // this.currentUser = this.authService.authenticatedUser.getValue();
     if (this.groupOwner) {
-      this.isLoggedUserGroupOwner = this.currentUserId === this.groupOwner._id ? true : false;
+      this.isLoggedUserGroupOwner = this.currentUser?._id === this.groupOwner?._id ? true : false;
     }
   }
   removeMember(memberToRemove) {

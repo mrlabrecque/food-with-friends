@@ -1,5 +1,6 @@
 /* eslint-disable no-underscore-dangle */
 import { Component, OnInit, Input, AfterViewInit, OnChanges, SimpleChanges } from '@angular/core';
+import { AuthService } from 'src/app/services/auth.service';
 import { User } from '../../models/user.model';
 import { GroupService } from '../../services/group.service';
 import { UserService } from '../../services/user.service';
@@ -12,16 +13,16 @@ import { UserService } from '../../services/user.service';
 export class MemberListComponent implements OnInit, OnChanges {
   @Input() memberData: any[];
   @Input() groupOwner: User;
-  currentUserId: number;
+  currentUser: User;
   isLoggedUserGroupOwner = false;
-  constructor(private userService: UserService, private groupService: GroupService) { }
+  constructor(private authService: AuthService, private groupService: GroupService) { }
 
   ngOnInit() {
-    this.currentUserId = this.userService.getCurrentUser()._id;
+    this.currentUser = this.authService.authenticatedUser.value;
   }
   ngOnChanges(changes: SimpleChanges) {
     if (this.groupOwner) {
-      this.isLoggedUserGroupOwner = this.currentUserId === this.groupOwner._id ? true : false;
+      this.isLoggedUserGroupOwner = this.currentUser?._id === this.groupOwner?._id ? true : false;
     }
   }
   removeMember(memberToRemove) {

@@ -9,6 +9,7 @@ import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 export class MatchButtonsComponent implements OnInit {
   // eslint-disable-next-line @angular-eslint/no-output-on-prefix
   @Output() onMatchClicked: EventEmitter<any> = new EventEmitter();
+  @Output() onLikeClicked: EventEmitter<any> = new EventEmitter();
   @Output() onNoMatchClicked: EventEmitter<any> = new EventEmitter();
 
   dislikeColor = 'rgba(255, 52, 0, 1)';
@@ -19,6 +20,9 @@ export class MatchButtonsComponent implements OnInit {
   ngOnInit() { }
   matchButtonClicked() {
     this.onMatchClicked.emit("Match Clicked");
+  }
+  likeButtonClicked() {
+    this.onLikeClicked.emit("Like Clicked");
   }
   noMatchButtonClicked() {
     this.onNoMatchClicked.emit("No Match Clicked");

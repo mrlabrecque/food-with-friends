@@ -8,6 +8,7 @@ router.get('/', userController.getUsers);
 router.get('/:id', userController.getUser);
 
 
+router.put('/:id/addlike', userController.addLike);
 router.put('/:id', userController.updateUser);
 
 router.post('/getusersbyemails', userController.getUsersByEmails);

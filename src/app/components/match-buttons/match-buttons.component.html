@@ -5,7 +5,7 @@
       <ion-icon name="thumbs-up-outline"></ion-icon>
     </span>
   </div>
-  <div class="match-button" [style.color]="favoriteColor">
+  <div class="match-button" [style.color]="favoriteColor" (click)="likeButtonClicked()">
     <!-- <span><i class="fa fa-heart"></i></span> -->
     <span>
       <ion-icon name="heart-outline"></ion-icon>

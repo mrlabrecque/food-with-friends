@@ -6,10 +6,11 @@ const config: CapacitorConfig = {
   appName: 'food-with-friends',
   webDir: 'www',
   bundledWebRuntime: true,
+  server: {
+    url: 'https://www.foodwithfriends.io/',
+    allowNavigation: ['https://www.foodwithfriends.io:12000/api']
+  },
   plugins: {
-    SplashScreen: {
-      launchAutoHide: false,
-    },
     LocalNotifications: {
       smallIcon: 'ic_stat_icon_config_sample',
       iconColor: '#CE0B7C',

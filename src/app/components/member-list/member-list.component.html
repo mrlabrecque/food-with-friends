@@ -9,7 +9,7 @@
       <h3 *ngIf="member._id === groupOwner._id">Owner</h3>
     </ion-label>
   </ion-item>
-  <ng-container *ngIf="member._id !== currentUserId && isLoggedUserGroupOwner">
+  <ng-container *ngIf="member._id !== currentUser._id && isLoggedUserGroupOwner">
     <ion-item-options side="end">
       <ion-item-option color="danger" (click)="removeMember(member)">
         <ion-icon slot="end" name="trash"></ion-icon>Remove

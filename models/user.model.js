@@ -5,10 +5,20 @@ const Schema = db.Schema;
 
 autoIncrement.initialize(db.connection);
 
+const likeSchema = new db.Schema({
+  name: String,
+  placeId: String,
+  photoUrl: String,
+  price_level: Number,
+  rating: Number,
+  user_ratings_total: Number,
+});
+
 const userSchema = new db.Schema({
   name: String,
   email: { type: String, unique: true, required: true, dropDups: true, lowercase: true, trim: true },
   password: { type: String, required: true, trim: true },
+  likes: [likeSchema],
   avatar: String
 });
 userSchema.pre('save', function (next) {

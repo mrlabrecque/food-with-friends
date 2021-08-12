@@ -23,6 +23,7 @@ export class LoginPageComponent implements OnInit {
   }
   onLoginSuccess(res) {
     console.log(res);
+    this.router.navigateByUrl('/members');
   }
   goToRegisterPage() {
     this.router.navigateByUrl('/register');

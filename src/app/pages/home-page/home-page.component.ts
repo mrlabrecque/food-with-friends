@@ -1,3 +1,4 @@
+/* eslint-disable no-underscore-dangle */
 import { Component, OnInit } from '@angular/core';
 import { RestaurantService } from '../../services/restaurant.service';
 import { HttpParams } from '@angular/common/http';
@@ -10,6 +11,8 @@ import { GroupService } from '../../services/group.service';
 import { Group } from '../../models/group-model';
 import { ModeService } from '../../services/mode.service';
 import { ManageGroupModalComponent } from '../../components/modals/manage-group-modal/manage-group-modal.component';
+import { User } from 'src/app/models/user.model';
+import { AuthService } from 'src/app/services/auth.service';
 
 @Component({
   selector: 'app-home-page',
@@ -18,13 +21,7 @@ import { ManageGroupModalComponent } from '../../components/modals/manage-group-
 })
 export class HomePageComponent implements OnInit {
 
-  devUser: any = {
-    _id: 0,
-    name: "Harry Potter",
-    email: "harrypotter@hogwarts.com",
-    avatar: ''
-  };
-  devUserId = 0;
+  currentUser: User;
   attbibutes: string[] = ['hot_and_new', 'deals'];
 
   cardData = [{
@@ -58,7 +55,8 @@ export class HomePageComponent implements OnInit {
     private modalController: ModalController,
     private routerOutlet: IonRouterOutlet,
     private groupService: GroupService,
-    private modeService: ModeService) { }
+    private modeService: ModeService,
+    private authService: AuthService) { }
 
   ngOnInit() {
     combineLatest(
@@ -74,8 +72,9 @@ export class HomePageComponent implements OnInit {
     this.modeService.getMode();
 
     //we will pub current user here as well
-
-    this.groupsSubscription = this.groupService.getUsersGroupsByUserId(this.devUserId).subscribe((res) => this.groups$.next(res));
+    this.currentUser = this.authService.authenticatedUser.getValue();
+    console.log(this.currentUser);
+    this.groupsSubscription = this.groupService.getUsersGroupsByUserId(this.currentUser?._id).subscribe((res) => this.groups$.next(res));
   }
   setParams(attr: string) {
     const paramsToRequest: HttpParams = new HttpParams().set('limit', '50')
@@ -116,7 +115,7 @@ export class HomePageComponent implements OnInit {
       swipeToClose: true,
       presentingElement: this.routerOutlet.nativeEl,
       componentProps: {
-        user: this.devUser,
+        user: this.currentUser,
         title: 'New Group'
       }
     });

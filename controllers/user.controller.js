@@ -77,14 +77,14 @@ exports.getUsersByEmails = (req, res) => {
 exports.getUser = (req, res) => {
   const user = User.findOne({ _id: req.params.id })
     .then((user) => {
-      res.json({ user: user })
+      res.json(user)
     })
     .catch((err) => console.log(err));
 };
 exports.updateUser = (req, res) => {
   const user = User.updateOne({ _id: req.params.id }, req.body)
     .then((user) => {
-      res.json({ user: user })
+      res.json(user)
     })
     .catch((err) => console.log(err));
 };
@@ -108,3 +108,12 @@ exports.createUser = (req, res) => {
   })
   console.log("CREATING USER: ", req.body);
 }
+
+exports.addLike = (req, res) => {
+  const userId = req.params.id;
+  const user = User.updateOne({ _id: +userId }, { $push: { "likes": { $each: req.body } } })
+    .then((user) => {
+      res.json(user)
+    })
+    .catch((err) => console.log(err));
+};

@@ -13,6 +13,8 @@ import { Group } from 'src/app/models/group-model';
 import { ActivatedRoute } from '@angular/router';
 import { UserService } from 'src/app/services/user.service';
 import { RestaurantDetailsModalComponent } from '../modals/restaurant-details-modal/restaurant-details-modal.component';
+import { AuthService } from 'src/app/services/auth.service';
+import { User } from 'src/app/models/user.model';
 
 @Component({
   selector: 'app-restaurant-list',
@@ -29,15 +31,15 @@ export class RestaurantListComponent implements OnInit, OnDestroy, AfterViewInit
   restraurantListSubscription$: Subscription;
   currentGroup: Group;
   currentGroupSubscription: Subscription;
-  currentUser: Group;
+  currentUser: User;
   currentUserSubscription: Subscription;
   showLoading$: BehaviorSubject<boolean> = new BehaviorSubject(true);
   counter = 0;
 
   constructor(private restaurantService: RestaurantService, private gestureCtrl: GestureController,
     private plt: Platform, private matchService: MatchService, private groupService: GroupService,
-    private activatedRoute: ActivatedRoute, private userService: UserService, private modalController: ModalController,
-    private routerOutlet: IonRouterOutlet) { }
+    private activatedRoute: ActivatedRoute, private authService: AuthService, private modalController: ModalController,
+    private routerOutlet: IonRouterOutlet, private userService: UserService) { }
 
   ngOnInit() {
   }
@@ -47,7 +49,7 @@ export class RestaurantListComponent implements OnInit, OnDestroy, AfterViewInit
     });
     this.currentGroupSubscription = this.groupService.getGroupById(+this.activatedRoute.snapshot.paramMap.get('id'))
       .subscribe((gr) => this.currentGroup = gr);
-    this.currentUser = this.userService.getCurrentUser();
+    this.currentUser = this.authService.authenticatedUser.value;
   }
   ngOnChanges(changes: SimpleChanges) {
     if (this.restaurants.length > 0) {
@@ -114,6 +116,12 @@ export class RestaurantListComponent implements OnInit, OnDestroy, AfterViewInit
     currentCard.nativeElement.style.transition = '.5s ease-out';
     currentCard.nativeElement.style.transform = `translateX(-${+this.plt.width() * 2}px) rotate(${-2000 / 2}deg)`;
     this.onThumbsDown();
+  }
+  onLikeClicked() {
+    this.addLike(this.restaurants[this.counter]);
+  }
+  addLike(rest) {
+    this.userService.addLikeToUser(rest);
   }
   addMatch(rest) {
     console.log(this.currentGroup);
