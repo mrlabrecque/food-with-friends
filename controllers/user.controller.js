@@ -110,8 +110,9 @@ exports.createUser = (req, res) => {
 }
 
 exports.addLike = (req, res) => {
+  console.log("getting to like add");
   const userId = req.params.id;
-  const user = User.updateOne({ _id: +userId }, { $push: { "likes": { $each: req.body } } })
+  const user = User.updateOne({ _id: +userId }, { $push: { "likes": req.body } })
     .then((user) => {
       res.json(user)
     })

@@ -121,7 +121,9 @@ export class RestaurantListComponent implements OnInit, OnDestroy, AfterViewInit
     this.addLike(this.restaurants[this.counter]);
   }
   addLike(rest) {
-    this.userService.addLikeToUser(rest);
+    const like: Matches = { ...rest };
+    this.userService.addLikeToUser(like, this.authService.authenticatedUser.value._id).subscribe((res) =>
+      console.log("like added"));
   }
   addMatch(rest) {
     console.log(this.currentGroup);

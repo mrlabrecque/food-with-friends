@@ -14,6 +14,13 @@ import { ManageGroupModalComponent } from '../../components/modals/manage-group-
 import { User } from 'src/app/models/user.model';
 import { AuthService } from 'src/app/services/auth.service';
 
+declare const google;
+const options = {
+  enableHighAccuracy: true,
+  timeout: 5000,
+  maximumAge: 0
+};
+
 @Component({
   selector: 'app-home-page',
   templateUrl: './home-page.component.html',
@@ -47,7 +54,7 @@ export class HomePageComponent implements OnInit {
   }];
   groupsSubscription: Subscription;
   groups$: BehaviorSubject<Group[]> = new BehaviorSubject([]);
-  hotAndNewRestaurants$: BehaviorSubject<any[]> = new BehaviorSubject([]);
+  newRestaurants$: BehaviorSubject<any[]> = new BehaviorSubject([]);
   dealsRestaurants$: BehaviorSubject<any[]> = new BehaviorSubject([]);
 
   constructor(private restaurantService: RestaurantService,
@@ -70,11 +77,25 @@ export class HomePageComponent implements OnInit {
         }
       });
     this.modeService.getMode();
+    this.getNewRestaurants();
 
     //we will pub current user here as well
     this.currentUser = this.authService.authenticatedUser.getValue();
-    console.log(this.currentUser);
     this.groupsSubscription = this.groupService.getUsersGroupsByUserId(this.currentUser?._id).subscribe((res) => this.groups$.next(res));
+  }
+  getNewRestaurants() {
+    navigator.geolocation.getCurrentPosition((location) => {
+      const service = new google.maps.places.PlacesService(document.createElement('div'));
+      service.textSearch({
+        location: { lat: location.coords.latitude, lng: location.coords.longitude },
+        query: 'New Restaurants near me'
+      }, (results, status) => {
+        if (status === google.maps.places.PlacesServiceStatus.OK) {
+          this.newRestaurants$.next(results);
+          console.log(results);
+        }
+      });
+    });
   }
   setParams(attr: string) {
     const paramsToRequest: HttpParams = new HttpParams().set('limit', '50')
@@ -87,14 +108,6 @@ export class HomePageComponent implements OnInit {
     //   .subscribe((res) => this.onGetFilteredRestaurantsSuccess(res, attr)
     //   );
   }
-  onGetFilteredRestaurantsSuccess(res, attr) {
-    if (attr === 'hot_and_new') {
-      this.hotAndNewRestaurants$.next(res);
-    }
-    if (attr === 'deals') {
-      this.dealsRestaurants$.next(res);
-    }
-  }
   async presentModal() {
     const modal = await this.modalController.create({
       component: ModalContainerComponent,
@@ -102,8 +115,8 @@ export class HomePageComponent implements OnInit {
       swipeToClose: true,
       presentingElement: this.routerOutlet.nativeEl,
       componentProps: {
-        listItems: this.hotAndNewRestaurants$.value,
-        title: 'Hot & New'
+        listItems: this.newRestaurants$,
+        title: 'New Near Me'
       }
     });
     return await modal.present();

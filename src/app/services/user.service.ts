@@ -21,8 +21,7 @@ export class UserService {
   getAddedMembersOnNewGroup(addedGroupMembers) {
     return this.http.post<any[]>(`${this.apiUrl}/v1/users/getusersbyemails`, addedGroupMembers);
   }
-  addLikeToUser(like) {
-    const userId = this.currentUser.value._id;
-    return this.http.post<any>(`${this.apiUrl}/v1/users/${userId}/addlike`, like);
+  addLikeToUser(like, userId: number) {
+    return this.http.put<any>(`${this.apiUrl}/v1/users/${userId}/addlike`, like);
   }
 }

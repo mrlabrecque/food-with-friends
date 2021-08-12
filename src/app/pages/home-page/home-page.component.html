@@ -26,13 +26,13 @@
   <ion-list>
     <ion-list-header class="ion-padding-end">
       <div class="flex space-between" style="width: 100%;">
-        <div>Hot & New</div>
+        <div>New new me</div>
         <div>
           <ion-text color="primary"><span class="link-text" (click)="presentModal()">see all</span></ion-text>
         </div>
       </div>
     </ion-list-header>
-    <!-- <app-sliding-card-large [incomingData]="hotAndNewRestaurants$"></app-sliding-card-large> -->
+    <app-sliding-card-large [incomingData]="newRestaurants$ | async"></app-sliding-card-large>
   </ion-list>
   <!-- Start of list header -->
   <ion-list>
@@ -57,7 +57,7 @@
         </div>
       </div>
     </ion-list-header>
-    <app-sliding-card-large [incomingData]="user?.likes" [size]="large"></app-sliding-card-large>
+    <app-sliding-card-large [incomingData]="currentUser?.likes" [size]="large"></app-sliding-card-large>
     <!-- <app-sliding-card-small [cardData]="cardData"></app-sliding-card-small> -->
   </ion-list>
 
