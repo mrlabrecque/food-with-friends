@@ -1,3 +1,4 @@
+/* eslint-disable max-len */
 /* eslint-disable no-underscore-dangle */
 /* eslint-disable no-fallthrough */
 import { ChangeDetectionStrategy, Component, NgZone, OnDestroy, OnInit } from '@angular/core';
@@ -14,10 +15,13 @@ import { GroupService } from '../../services/group.service';
 import { FilterService } from '../../services/filter.service';
 import { Group } from '../../models/group-model';
 import { FilterChip } from '../../models/filter-chip.model';
-import { IonRouterOutlet, ModalController } from '@ionic/angular';
+import { IonRouterOutlet, ModalController, PopoverController } from '@ionic/angular';
 import { Options } from '@angular-slider/ngx-slider';
 import { AddGroupMemberModalComponent } from '../../components/modals/add-group-member-modal/add-group-member-modal.component';
 import { animate, style, transition, trigger } from '@angular/animations';
+import { PopoverContainerComponent } from 'src/app/components/popovers/popover-container/popover-container.component';
+import { AuthService } from 'src/app/services/auth.service';
+import { User } from 'src/app/models/user.model';
 
 
 @Component({
@@ -110,6 +114,8 @@ export class GroupDetailPageComponent implements OnInit, OnDestroy {
   long: number;
   showFilters = true;
   showMatches = true;
+  isUserGroupOwner = false;
+  currentUser: User;
 
   constructor(private activatedRoute: ActivatedRoute,
     private router: Router,
@@ -119,7 +125,9 @@ export class GroupDetailPageComponent implements OnInit, OnDestroy {
     private filterService: FilterService,
     private modalController: ModalController,
     private routerOutlet: IonRouterOutlet,
-    private ngZone: NgZone
+    private ngZone: NgZone,
+    public popoverController: PopoverController,
+    private authService: AuthService,
   ) { }
 
   ngOnInit() {
@@ -128,6 +136,7 @@ export class GroupDetailPageComponent implements OnInit, OnDestroy {
       gr => this.onGetGroupSuccess(gr));
     this.lat = this.locationService.userLat.value;
     this.long = this.locationService.userLong.value;
+    this.currentUser = this.authService.authenticatedUser.value;
 
   }
   ngOnDestroy() {
@@ -136,6 +145,7 @@ export class GroupDetailPageComponent implements OnInit, OnDestroy {
   onGetGroupSuccess(selectedGroup) {
     this.group = { ...selectedGroup };
     this.groupService.currentGroupId = this.group._id;
+    this.isUserGroupOwner = this.group.owner._id === this.currentUser._id;
     if (selectedGroup.filters.foodPrices.length === 0 || selectedGroup.filters.foodTypes.length === 0) {
       this.createFiltersForNewGroup();
     } else {
@@ -172,6 +182,19 @@ export class GroupDetailPageComponent implements OnInit, OnDestroy {
         this.ngOnInit();
       });
     return await modal.present();
+  }
+  async matchThresholdPopover(ev: any) {
+    const message = 'This is used if you have a large group to customize the threshold of the percentage of users that need to like a restaurant to determine if match.'
+    const popover = await this.popoverController.create({
+      component: PopoverContainerComponent,
+      cssClass: 'my-custom-class',
+      event: ev,
+      componentProps: { message }
+    });
+    await popover.present();
+
+    const { role } = await popover.onDidDismiss();
+    console.log('onDidDismiss resolved with role', role);
   }
   refresh() {
     this.ngZone.run(() => {

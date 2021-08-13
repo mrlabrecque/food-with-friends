@@ -1,7 +1,9 @@
 <ion-item-sliding *ngFor="let member of memberData">
   <ion-item lines="none">
+
     <ion-avatar slot="start">
-      <img src="https://gravatar.com/avatar/dba6bae8c566f9d4041fb9cd9ada7741?d=identicon&f=y">
+      <ngx-avatar [name]="member.name" size="40" [round]="true">
+      </ngx-avatar>
     </ion-avatar>
 
     <ion-label>

@@ -1,7 +1,8 @@
 <ng-container *ngIf="cardData">
   <ion-slides [options]="slideOpts" [pager]="true">
-    <ion-slide *ngFor="let card of cardData">
-      <ion-card style="width: 100%;" class="ion-text-start" (click)="onAdditionalDetailsClicked(card)" button="true">
+    <ion-slide *ngFor="let card of cardData" class="ion-padding-start">
+      <ion-card style="width: 100%;" class="ion-text-start sliding-card" (click)="onAdditionalDetailsClicked(card)"
+        button="true">
         <ion-grid>
           <ion-row>
             <ion-col size="4">
@@ -21,7 +22,7 @@
   </ion-slides>
 </ng-container>
 
-<ng-container *ngIf="cardData?.length == 0">
+<ng-container *ngIf="cardData?.length == 0 && dataLoading">
   <ion-card class="ion-text-start">
     <ion-thumbnail slot="start">
       <ion-skeleton-text animated></ion-skeleton-text>
@@ -33,6 +34,15 @@
     </ion-card-header>
     <ion-card-content>
       <ion-skeleton-text animated style="width: 50%"></ion-skeleton-text>
+    </ion-card-content>
+  </ion-card>
+</ng-container>
+<ng-container *ngIf="cardData?.length == 0 && !dataLoading">
+  <ion-card>
+
+
+    <ion-card-content>
+      <p>Add {{dataType}} to get started</p>
     </ion-card-content>
   </ion-card>
 </ng-container>

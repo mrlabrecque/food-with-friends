@@ -1,8 +1,13 @@
 <ion-slides [options]="slideOpts" [pager]="true">
   <ion-slide *ngFor="let card of cardData">
-    <ion-card style="width: 100%;" class="ion-text-start">
+    <ion-card style="width: 100%;" class="ion-text-start sliding-card-full-container">
       <div #img class="header-image" [style.background-image]="'url(' + card?.photoUrl + ')'">
       </div>
+      <div class="badge-container">
+        <ion-badge color="success">highly rated</ion-badge>
+        <ion-badge color="secondary">nearby</ion-badge>
+      </div>
+
       <ion-card-header>
         <ion-card-title class="ion-text-nowrap">{{card.name}}</ion-card-title>
       </ion-card-header>

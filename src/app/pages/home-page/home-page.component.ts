@@ -1,10 +1,11 @@
+/* eslint-disable max-len */
 /* eslint-disable no-underscore-dangle */
 import { Component, OnInit } from '@angular/core';
 import { RestaurantService } from '../../services/restaurant.service';
 import { HttpParams } from '@angular/common/http';
 import { LocationService } from '../../services/location.service';
 import * as _ from 'underscore';
-import { Subscription, combineLatest, BehaviorSubject } from 'rxjs';
+import { Subscription, combineLatest, BehaviorSubject, Subject, Observable } from 'rxjs';
 import { ModalController, IonRouterOutlet } from '@ionic/angular';
 import { ModalContainerComponent } from '../../components/modals/modal-container/modal-container.component';
 import { GroupService } from '../../services/group.service';
@@ -54,6 +55,9 @@ export class HomePageComponent implements OnInit {
   }];
   groupsSubscription: Subscription;
   groups$: BehaviorSubject<Group[]> = new BehaviorSubject([]);
+  groups: Group[] = [];
+  newGroupsSubscription: Subscription;
+
   newRestaurants$: BehaviorSubject<any[]> = new BehaviorSubject(null);
   dealsRestaurants$: BehaviorSubject<any[]> = new BehaviorSubject([]);
 
@@ -81,7 +85,15 @@ export class HomePageComponent implements OnInit {
 
     //we will pub current user here as well
     this.currentUser = this.authService.authenticatedUser.getValue();
-    this.groupsSubscription = this.groupService.getUsersGroupsByUserId(this.currentUser?._id).subscribe((res) => this.groups$.next(res));
+    this.newGroupsSubscription = this.groups$.subscribe((res: Group[]) => {
+      this.groups = [...res];
+    });
+    this.groupsSubscription = this.groupService.getUsersGroupsByUserId(this.currentUser?._id).subscribe((res) => this.onFetchGroupsSuccess(res));
+  }
+
+  onFetchGroupsSuccess(res) {
+    this.groups$.next(res);
+    this.groups = res;
   }
   getNewRestaurants() {
     navigator.geolocation.getCurrentPosition((location) => {
@@ -91,9 +103,9 @@ export class HomePageComponent implements OnInit {
         query: 'New Restaurants near me'
       }, (results, status) => {
         if (status === google.maps.places.PlacesServiceStatus.OK) {
-          _.each(results, rest => {
-            rest.photoUrl = rest.photos[0].getUrl();
-          });
+          // _.each(results, rest => {
+          //   rest.photoUrl = rest.photos[0].getUrl();
+          // });
           this.newRestaurants$.next(results);
         }
       });
@@ -110,15 +122,15 @@ export class HomePageComponent implements OnInit {
     //   .subscribe((res) => this.onGetFilteredRestaurantsSuccess(res, attr)
     //   );
   }
-  async presentModal() {
+  async openLikesModal() {
     const modal = await this.modalController.create({
       component: ModalContainerComponent,
       cssClass: 'my-custom-class',
       swipeToClose: true,
       presentingElement: this.routerOutlet.nativeEl,
       componentProps: {
-        listItems: this.newRestaurants$,
-        title: 'New Near Me'
+        listItems: this.currentUser?.likes,
+        title: 'Likes'
       }
     });
     return await modal.present();
@@ -134,6 +146,11 @@ export class HomePageComponent implements OnInit {
         title: 'New Group'
       }
     });
+    modal.onDidDismiss()
+      .then((response) => {
+        this.groups.push(response.data);
+        this.groups$.next(this.groups);
+      });
     return await modal.present();
   }
 

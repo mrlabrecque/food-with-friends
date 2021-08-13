@@ -10,7 +10,8 @@ import { RestaurantDetailsModalComponent } from '../modals/restaurant-details-mo
 })
 export class SlidingCardLargeComponent implements OnInit, OnChanges {
   @Input() incomingData: any[];
-  @Input() size: string;
+  @Input() dataType: string;
+  dataLoading = true;
   cardData: any[] = [];
   slideOpts = {
     spaceBetween: 0,
@@ -28,6 +29,7 @@ export class SlidingCardLargeComponent implements OnInit, OnChanges {
   }
   ngOnChanges(changes: SimpleChanges): void {
     this.cardData = changes.incomingData.currentValue;
+    this.dataLoading = false;
     //Called before any other lifecycle hook. Use it to inject dependencies, but avoid any serious work here.
     //Add '${implements OnChanges}' to the class.
 

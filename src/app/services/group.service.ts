@@ -47,12 +47,12 @@ export class GroupService {
     return this.http.put<any>(`${this.apiUrl}/v1/groups/${groupId}/updatefilters`, preparedGroup, { headers });
 
   }
-  public removeMemberFromGroup(memberIdToRemove: number): Observable<any> {
+  public removeMemberFromGroup(incomingGroupId: number, memberIdToRemove: number): Observable<any> {
     const headers = new HttpHeaders();
     headers.append('Content-Type', 'application/json');
     headers.append('Access-Control-Allow-Origin', '*');
-    const removeMember = { groupId: this.currentGroupId, memberId: memberIdToRemove };
-    return this.http.put<any>(`${this.apiUrl}/v1/groups/${this.currentGroupId}/removemember/${memberIdToRemove}`, removeMember, { headers });
+    const removeMember = { groupId: incomingGroupId, memberId: memberIdToRemove };
+    return this.http.put<any>(`${this.apiUrl}/v1/groups/${incomingGroupId}/removemember/${memberIdToRemove}`, removeMember, { headers });
   }
   public addMembersToGroup(membersToBeAdded) {
     const headers = new HttpHeaders();

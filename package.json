@@ -75,6 +75,7 @@
     "morgan": "^1.10.0",
     "mysql": "^2.18.1",
     "mysql2": "^2.2.5",
+    "ngx-avatar": "^4.1.0",
     "ngx-stars": "^1.5.1",
     "passport": "^0.4.1",
     "passport-jwt": "^4.0.0",

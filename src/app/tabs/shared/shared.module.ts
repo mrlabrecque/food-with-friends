@@ -17,22 +17,27 @@ import { NgxStarsModule } from 'ngx-stars';
 import { RouterModule } from '@angular/router';
 import { RestaurantDetailsModalComponent } from 'src/app/components/modals/restaurant-details-modal/restaurant-details-modal.component';
 import { PricePice } from 'src/app/pipes/price.pipe';
+import { AvatarModule } from 'ngx-avatar';
+import { MemberListComponent } from 'src/app/components/member-list/member-list.component';
+import { PopoverContainerComponent } from 'src/app/components/popovers/popover-container/popover-container.component';
+
 
 
 
 
 @NgModule({
-  declarations: [PriceDistanceComponent, PricePice, MatchListComponent, RestaurantDetailsModalComponent, StarRatingsComponent, SlidingListGroupsComponent, ModalContainerComponent, RestaurantItemListComponent, MetersToMilesPipe, StarRatingsComponent, SlidingCardLargeComponent, SlidingCardFullComponent,],
+  declarations: [PopoverContainerComponent, PriceDistanceComponent, PricePice, MatchListComponent, RestaurantDetailsModalComponent, StarRatingsComponent, SlidingListGroupsComponent, ModalContainerComponent, RestaurantItemListComponent, MetersToMilesPipe, StarRatingsComponent, SlidingCardLargeComponent, SlidingCardFullComponent, MemberListComponent],
   imports: [
     IonicModule,
     RouterModule,
     CommonModule,
     FormsModule,
     NgxSliderModule,
-    NgxStarsModule
+    NgxStarsModule,
+    AvatarModule,
   ],
   exports: [
-    PriceDistanceComponent, PricePice, MatchListComponent, SlidingListGroupsComponent, RestaurantDetailsModalComponent, StarRatingsComponent, ModalContainerComponent, RestaurantItemListComponent, StarRatingsComponent, SlidingCardLargeComponent, SlidingCardFullComponent, MetersToMilesPipe
+    PopoverContainerComponent, PriceDistanceComponent, PricePice, MatchListComponent, SlidingListGroupsComponent, RestaurantDetailsModalComponent, StarRatingsComponent, ModalContainerComponent, RestaurantItemListComponent, StarRatingsComponent, SlidingCardLargeComponent, SlidingCardFullComponent, MetersToMilesPipe, MemberListComponent
   ]
 })
 export class SharedPageModule { }

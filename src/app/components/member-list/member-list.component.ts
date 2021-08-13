@@ -26,7 +26,8 @@ export class MemberListComponent implements OnInit, OnChanges {
     }
   }
   removeMember(memberToRemove) {
-    this.groupService.removeMemberFromGroup(memberToRemove._id).subscribe(res => this.reloadGroup());
+    const groupId = this.groupService.currentGroupId;
+    this.groupService.removeMemberFromGroup(groupId, memberToRemove._id).subscribe(res => this.reloadGroup());
   }
   reloadGroup() {
     this.groupService.refreshGroup();

@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { User } from 'src/app/models/user.model';
 import { AuthService } from 'src/app/services/auth.service';
 
 @Component({
@@ -7,10 +8,12 @@ import { AuthService } from 'src/app/services/auth.service';
   styleUrls: ['./profile-page.component.scss'],
 })
 export class ProfilePageComponent implements OnInit {
-
+  currentUser: User;
   constructor(private auth: AuthService) { }
 
-  ngOnInit() { }
+  ngOnInit() {
+    this.currentUser = this.auth.authenticatedUser.value;
+  }
   onLogoutClicked() {
     this.auth.logout();
   }
