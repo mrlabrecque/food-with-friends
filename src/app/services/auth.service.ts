@@ -42,6 +42,7 @@ export class AuthService {
         const isExpired = this.helper.isTokenExpired(token);
         if (!isExpired) {
           this.user = decoded;
+          console.log(this.user);
           this.setAuthenticatedUser();
 
         } else {
@@ -51,7 +52,7 @@ export class AuthService {
     });
   }
   setAuthenticatedUser() {
-    this.userService.getUserById(this.user.id).toPromise().then((res) => this.authenticatedUser.next(res));
+    this.userService.getUserById(+this.user.id).subscribe((res) => this.authenticatedUser.next(res));
     this.authenticationState.next(true);
   }
   login(credentials) {
@@ -60,9 +61,9 @@ export class AuthService {
         tap(res => {
           this.storage.set(TOKEN_KEY, res['token']);
           this.user = this.helper.decodeToken(res['token']);
-          console.log(res);
-          this.authenticatedUser.next(this.helper.decodeToken(res['user']));
-          this.authenticationState.next(true);
+          this.setAuthenticatedUser();
+          // this.authenticatedUser.next(this.user.user);
+          // this.authenticationState.next(true);
         }),
         catchError(e => {
           this.showAlert(e.error);

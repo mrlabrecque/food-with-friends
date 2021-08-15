@@ -8,13 +8,14 @@
 </ion-header> -->
 
 <ion-content padding>
+
   <div class="vertical-center">
+    <ion-img src="../../../assets/fwfLogoWhite.svg"></ion-img>
     <div>
       <ion-grid>
         <ion-row>
           <ion-col>
             <ion-card>
-              <ion-card-header>Login</ion-card-header>
               <ion-card-content>
                 <ion-list>
                   <ion-item>
@@ -29,8 +30,9 @@
                       ngDefaultControl></ion-input>
                   </ion-item>
                 </ion-list>
-                <ion-button color="secondary" expand="block" shape="round" (click)="onLoginClicked()">Login</ion-button>
-                <ion-text (click)="goToRegisterPage()">Don't have an accout?</ion-text>
+                <ion-button color="primary" expand="block" shape="round" (click)="onLoginClicked()">Login</ion-button>
+                <ion-button color="medium" expand="block" shape="round" (click)="goToRegisterPage()">Sign Up
+                </ion-button>
                 <ion-text>Forgot password?</ion-text>
               </ion-card-content>
             </ion-card>

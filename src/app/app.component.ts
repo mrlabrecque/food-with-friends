@@ -20,7 +20,6 @@ export class AppComponent {
   initializeApp() {
     this.platform.ready().then(() => {
       this.authService.authenticationState.subscribe(state => {
-        console.log(state);
         if (state) {
           this.router.navigateByUrl('/members');
         } else {

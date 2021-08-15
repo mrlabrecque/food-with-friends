@@ -1,5 +1,6 @@
 /* eslint-disable no-underscore-dangle */
-import { Component, OnInit, Input, OnChanges, SimpleChanges, ChangeDetectionStrategy } from '@angular/core';
+import { Component, OnInit, Input, OnChanges, SimpleChanges, ChangeDetectionStrategy, ChangeDetectorRef } from '@angular/core';
+import { ToastController } from '@ionic/angular';
 import { BehaviorSubject } from 'rxjs';
 import { User } from 'src/app/models/user.model';
 import { GroupService } from 'src/app/services/group.service';
@@ -17,7 +18,7 @@ export class SlidingListGroupsComponent implements OnChanges {
   @Input() currentUser: User;
   listItems$: BehaviorSubject<User[]> = new BehaviorSubject([]);
   incomingListItems = [];
-  constructor(private groupService: GroupService) {
+  constructor(private groupService: GroupService, private cd: ChangeDetectorRef, public toastController: ToastController) {
   }
 
   ngOnChanges(changes: SimpleChanges) {
@@ -31,12 +32,20 @@ export class SlidingListGroupsComponent implements OnChanges {
     this.groupService.removeMemberFromGroup(group._id, this.currentUser._id).subscribe(res => this.onLeaveGroupSuccess(group._id));
   }
   onRemoveGroupSuccess(groupId) {
-    const removedIndex = _.findIndex(this.listItems, (item) => item._id === groupId);
-    if (removedIndex > -1) {
-      this.listItems.splice(removedIndex, 1);
-    }
+    this.groupService.getUsersGroupsByUserId(this.currentUser._id).subscribe(res => {
+      this.listItems = res;
+      this.cd.markForCheck();
+      this.onRemoveGroupSuccessToast();
+    });
   }
   onLeaveGroupSuccess(groupId) {
 
+  }
+  async onRemoveGroupSuccessToast() {
+    const toast = await this.toastController.create({
+      message: 'Your group has been deleted.',
+      duration: 2000
+    });
+    toast.present();
   }
 }

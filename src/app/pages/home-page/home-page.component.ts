@@ -84,11 +84,19 @@ export class HomePageComponent implements OnInit {
     this.getNewRestaurants();
 
     //we will pub current user here as well
-    this.currentUser = this.authService.authenticatedUser.getValue();
+    this.authService.authenticatedUser.subscribe((user) => {
+      this.onFetchUserSuccess(user);
+    });
+
+  }
+  onFetchUserSuccess(user) {
+    this.currentUser = user;
     this.newGroupsSubscription = this.groups$.subscribe((res: Group[]) => {
       this.groups = [...res];
     });
-    this.groupsSubscription = this.groupService.getUsersGroupsByUserId(this.currentUser?._id).subscribe((res) => this.onFetchGroupsSuccess(res));
+    if (this.currentUser) {
+      this.groupsSubscription = this.groupService.getUsersGroupsByUserId(this.currentUser?._id).subscribe((res) => this.onFetchGroupsSuccess(res));
+    }
   }
 
   onFetchGroupsSuccess(res) {

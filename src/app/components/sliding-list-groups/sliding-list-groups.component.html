@@ -12,10 +12,10 @@
 
   <ion-item-options>
 
-    <ion-item-option *ngIf="currentUser._id === list.owner._id" color="danger" icon-only (click)="removeGroup(list)">
+    <ion-item-option *ngIf="currentUser?._id === list?.owner?._id" color="danger" icon-only (click)="removeGroup(list)">
       <ion-icon slot="end" name="trash"></ion-icon>
     </ion-item-option>
-    <ion-item-option *ngIf="currentUser._id !== list.owner._id" color="warning" icon-only (click)="leaveGroup(list)">
+    <ion-item-option *ngIf="currentUser?._id !== list?.owner?._id" color="warning" icon-only (click)="leaveGroup(list)">
       <ion-icon slot="end" name="exit-ouline"></ion-icon>
     </ion-item-option>
   </ion-item-options>
