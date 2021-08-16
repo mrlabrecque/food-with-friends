@@ -14,6 +14,15 @@
   margin: 0;
   height: 100%;
   width: 100%;
+
+  ion-card-header {
+    padding-bottom: 5px;
+  }
+
+  ion-card-content {
+    min-height: 20%;
+    max-height: 20%;
+  }
 }
 
 ion-card-title {

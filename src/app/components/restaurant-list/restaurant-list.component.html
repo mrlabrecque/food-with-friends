@@ -1,20 +1,36 @@
-<div class="restraurant-card-container">
-  <ng-container *ngIf="showLoading$ | async">
-    <div class="absolute-center">
+<ng-container *ngIf="showLoading$ | async">
+  <div class="absolute-center">
+    <div>
       <ion-spinner></ion-spinner>
     </div>
-  </ng-container>
 
-  <ion-card *ngFor="let rest of restaurants | reverse" class="restaurant-card" (click)="onAdditionalDetailsClicked()">
-    <div class="main-image-container" [style.background-image]="'url(' + rest.photoUrl + ')'"></div>
-    <ion-card-header [translucent]="true">
-      <ion-card-title>{{ rest.name }} </ion-card-title>
-      <app-star-ratings [item]="rest"></app-star-ratings>
-      <ion-card-subtitle>{{ rest.price_level }}</ion-card-subtitle>
-    </ion-card-header>
-  </ion-card>
-</div>
-<div class="match-buttons-container">
-  <app-match-buttons (onMatchClicked)="onMatchClicked()" (onNoMatchClicked)="onNoMatchClicked()"
-    (onLikeClicked)="onLikeClicked()"></app-match-buttons>
-</div>
+  </div>
+</ng-container>
+<ng-container *ngIf="(showLoading$ | async) === false">
+
+  <div class="restraurant-card-container">
+
+    <ion-card *ngFor="let rest of restaurants | reverse" class="restaurant-card" (click)="onAdditionalDetailsClicked()">
+      <div class="main-image-container" [style.background-image]="'url(' + rest.photoUrl + ')'">
+        <div class="badge-container">
+          <ion-badge color="success">highly rated</ion-badge>
+          <ion-badge color="secondary">nearby</ion-badge>
+        </div>
+      </div>
+      <div class="main-content-container">
+        <ion-card-header>
+          <ion-card-title class="ion-text-nowrap">{{rest.name}}</ion-card-title>
+        </ion-card-header>
+        <ion-card-content>
+          <app-star-ratings [item]="rest"></app-star-ratings>
+          <app-price-dstance [item]="rest"></app-price-dstance>
+        </ion-card-content>
+      </div>
+
+    </ion-card>
+  </div>
+  <div class="match-buttons-container">
+    <app-match-buttons (onMatchClicked)="onMatchClicked()" (onNoMatchClicked)="onNoMatchClicked()"
+      (onLikeClicked)="onLikeClicked()"></app-match-buttons>
+  </div>
+</ng-container>
