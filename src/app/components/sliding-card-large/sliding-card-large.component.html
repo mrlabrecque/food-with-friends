@@ -1,6 +1,6 @@
 <ng-container *ngIf="cardData">
-  <ion-slides [options]="slideOpts" [pager]="true">
-    <ion-slide *ngFor="let card of cardData" class="ion-padding-start">
+  <ion-slides [options]="slideOpts" [pager]="true" class="ion-padding-horizontal">
+    <ion-slide *ngFor="let card of cardData">
       <ion-card style="width: 100%;" class="ion-text-start sliding-card" (click)="onAdditionalDetailsClicked(card)"
         button="true">
         <ion-grid>

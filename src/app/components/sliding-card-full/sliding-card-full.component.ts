@@ -1,4 +1,6 @@
 import { Component, OnInit, Input, OnChanges, SimpleChanges } from '@angular/core';
+import { ModalController, IonRouterOutlet } from '@ionic/angular';
+import { RestaurantDetailsModalComponent } from '../modals/restaurant-details-modal/restaurant-details-modal.component';
 
 @Component({
   selector: 'app-sliding-card-full',
@@ -17,7 +19,8 @@ export class SlidingCardFullComponent implements OnInit, OnChanges {
       el: 'swiper-pagination'
     }
   };
-  constructor() { }
+  constructor(private modalController: ModalController,
+    private routerOutlet: IonRouterOutlet) { }
 
   ngOnChanges(changes: SimpleChanges): void {
     this.cardData = changes.incomingData.currentValue;
@@ -30,6 +33,19 @@ export class SlidingCardFullComponent implements OnInit, OnChanges {
   ngOnInit() {
     // this.cardData = this.incomingData;
     // console.log(this.cardData);
+  }
+  async onAdditionalDetailsClicked(card) {
+    const modal = await this.modalController.create({
+      component: RestaurantDetailsModalComponent,
+      cssClass: 'my-custom-class',
+      swipeToClose: true,
+      presentingElement: this.routerOutlet.nativeEl,
+      componentProps: {
+        restaurant: card,
+        title: card.name,
+      }
+    });
+    return await modal.present();
   }
 
 }

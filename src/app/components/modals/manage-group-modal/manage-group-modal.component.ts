@@ -55,7 +55,7 @@ export class ManageGroupModalComponent implements OnInit {
     newGroup.name = this.addedGroupName;
     newGroup.filters = {
       kids: true,
-      matchThreshhold: 100
+      matchThreshold: 100
     };
     //get members from db based on emails
     this.userService.getAddedMembersOnNewGroup(addedMembersWithUser)

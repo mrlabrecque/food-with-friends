@@ -15,7 +15,7 @@ export class Group {
     foodPrices?: FilterChip[];
     kids: boolean;
     distance?: number;
-    matchThreshhold?: number;
+    matchThreshold?: number;
   };
   matches?: Matches[];
   avatar?: string;

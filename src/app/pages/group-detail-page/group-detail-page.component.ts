@@ -1,7 +1,7 @@
 /* eslint-disable max-len */
 /* eslint-disable no-underscore-dangle */
 /* eslint-disable no-fallthrough */
-import { ChangeDetectionStrategy, Component, NgZone, OnDestroy, OnInit } from '@angular/core';
+import { AfterViewInit, ChangeDetectionStrategy, Component, ElementRef, NgZone, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Subject, Subscription, BehaviorSubject } from 'rxjs';
 import { AsyncPipe } from '@angular/common';
@@ -15,7 +15,7 @@ import { GroupService } from '../../services/group.service';
 import { FilterService } from '../../services/filter.service';
 import { Group } from '../../models/group-model';
 import { FilterChip } from '../../models/filter-chip.model';
-import { IonRouterOutlet, ModalController, PopoverController } from '@ionic/angular';
+import { IonCard, IonRouterOutlet, ModalController, PopoverController } from '@ionic/angular';
 import { Options } from '@angular-slider/ngx-slider';
 import { AddGroupMemberModalComponent } from '../../components/modals/add-group-member-modal/add-group-member-modal.component';
 import { animate, style, transition, trigger } from '@angular/animations';
@@ -223,7 +223,7 @@ export class GroupDetailPageComponent implements OnInit, OnDestroy {
         foodPrices: [...this.selectedPrices],
         kids: this.selectedKids,
         distance: this.selectedDistance,
-        matchThreshhold: this.matchThreshold
+        matchThreshold: this.matchThreshold
       },
       //  matches: []
     };

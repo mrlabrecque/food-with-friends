@@ -143,7 +143,7 @@ export class RestaurantListComponent implements OnInit, OnDestroy, AfterViewInit
         memberMatches: existingMatch.memberMatches,
         noOfMatches: noOfGroupMembersThatHaveMatched,
         matchPercent: currentMatchPercent,
-        trueMatch: currentMatchPercent >= this.currentGroup.filters.matchThreshhold ? true : false
+        trueMatch: currentMatchPercent >= this.currentGroup.filters.matchThreshold ? true : false
       };
       if (match.trueMatch) {
         this.trueMatchCreated.emit(match);
@@ -165,7 +165,7 @@ export class RestaurantListComponent implements OnInit, OnDestroy, AfterViewInit
         memberMatches: [this.currentUser._id],
         noOfMatches: 1,
         matchPercent: currentMatchPercent,
-        trueMatch: currentMatchPercent >= this.currentGroup.filters.matchThreshhold ? true : false
+        trueMatch: currentMatchPercent >= this.currentGroup.filters.matchThreshold ? true : false
       };
       if (match.trueMatch) {
         this.trueMatchCreated.emit(match);

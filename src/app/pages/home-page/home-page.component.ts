@@ -156,8 +156,10 @@ export class HomePageComponent implements OnInit {
     });
     modal.onDidDismiss()
       .then((response) => {
-        this.groups.push(response.data);
-        this.groups$.next(this.groups);
+        if (response.data) {
+          this.groups.push(response.data);
+          this.groups$.next(this.groups);
+        }
       });
     return await modal.present();
   }

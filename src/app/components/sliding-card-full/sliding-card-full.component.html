@@ -1,6 +1,7 @@
 <ion-slides [options]="slideOpts" [pager]="true">
   <ion-slide *ngFor="let card of cardData">
-    <ion-card style="width: 100%;" class="ion-text-start sliding-card-full-container">
+    <ion-card style="width: 100%;" class="ion-text-start sliding-card-full-container" button="true"
+      (click)="onAdditionalDetailsClicked(card)">
       <div #img class="header-image" [style.background-image]="'url(' + card?.photoUrl + ')'">
       </div>
       <div class="badge-container">

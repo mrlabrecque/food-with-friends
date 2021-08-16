@@ -33,7 +33,7 @@ const groupSchema = new db.Schema({
     foodPrices: [filterSchema],
     kids: Boolean,
     distance: Number,
-    matchThreshhold: Number
+    matchThreshold: Number
   },
   matches: [matchSchema],
   avatar: String

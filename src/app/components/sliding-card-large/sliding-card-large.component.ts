@@ -14,7 +14,7 @@ export class SlidingCardLargeComponent implements OnInit, OnChanges {
   dataLoading = true;
   cardData: any[] = [];
   slideOpts = {
-    spaceBetween: 0,
+    spaceBetween: 10,
     slidesPerView: 1.15,
     direction: 'horizontal',
     pager: true,
