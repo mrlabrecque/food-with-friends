@@ -10,22 +10,26 @@
 <ion-content padding>
 
   <div class="vertical-center">
-    <ion-img src="../../../assets/fwfLogoWhite.svg"></ion-img>
     <div>
       <ion-grid>
+        <ion-row>
+          <ion-col>
+            <ion-img src="../../../assets/fwfLogoWhite.svg"></ion-img>
+          </ion-col>
+        </ion-row>
         <ion-row>
           <ion-col>
             <ion-card>
               <ion-card-content>
                 <ion-list>
                   <ion-item>
-                    <ion-label position="floating">
+                    <ion-label position="stacked">
                       Email Address
                     </ion-label>
                     <ion-input name="email" [(ngModel)]="credentials.email" ngDefaultControl></ion-input>
                   </ion-item>
                   <ion-item>
-                    <ion-label position="floating">Password</ion-label>
+                    <ion-label position="stacked">Password</ion-label>
                     <ion-input placeholder="password" type="password" name="password" [(ngModel)]="credentials.password"
                       ngDefaultControl></ion-input>
                   </ion-item>

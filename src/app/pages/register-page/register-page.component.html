@@ -13,31 +13,36 @@
       <ion-grid>
         <ion-row>
           <ion-col>
+            <ion-img src="../../../assets/fwfLogoWhite.svg"></ion-img>
+          </ion-col>
+        </ion-row>
+        <ion-row>
+          <ion-col>
             <ion-card>
-              <ion-card-header>Create Account</ion-card-header>
               <ion-card-content>
                 <ion-list>
                   <ion-item>
-                    <ion-label position="floating">
+                    <ion-label position="stacked">
                       Name
                     </ion-label>
                     <ion-input name="name" [(ngModel)]="credentials.name" ngDefaultControl></ion-input>
                   </ion-item>
                   <ion-item>
-                    <ion-label position="floating">
+                    <ion-label position="stacked">
                       Email Address
                     </ion-label>
                     <ion-input name="email" [(ngModel)]="credentials.email" ngDefaultControl></ion-input>
                   </ion-item>
                   <ion-item>
-                    <ion-label position="floating">Password</ion-label>
+                    <ion-label position="stacked">Password</ion-label>
                     <ion-input placeholder="password" type="password" name="password" [(ngModel)]="credentials.password"
                       ngDefaultControl></ion-input>
                   </ion-item>
                 </ion-list>
-                <ion-button color="secondary" expand="block" shape="round" (click)="onRegisterClicked()">Register
+                <ion-button color="primary" expand="block" shape="round" (click)="onRegisterClicked()">Sign Up
                 </ion-button>
-                <ion-text (click)="goToLoginPage()">Already have an accout?</ion-text>
+                <ion-button color="medium" expand="block" shape="round" (click)="goToLoginPage()">Login</ion-button>
+
                 <ion-text>Forgot password?</ion-text>
               </ion-card-content>
             </ion-card>
