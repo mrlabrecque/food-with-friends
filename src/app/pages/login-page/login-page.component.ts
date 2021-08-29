@@ -22,7 +22,6 @@ export class LoginPageComponent implements OnInit {
     this.authService.login(this.credentials).subscribe(res => this.onLoginSuccess(res));
   }
   onLoginSuccess(res) {
-    console.log(res);
     this.router.navigateByUrl('/members');
   }
   goToRegisterPage() {

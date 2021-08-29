@@ -49,6 +49,9 @@ export class MatchPageComponent implements OnInit, AfterViewInit, OnDestroy {
     this.currentUser = this.authService.authenticatedUser.value;
 
   }
+  ionViewWillEnter() {
+
+  }
   ngAfterViewInit() {
 
 
@@ -79,10 +82,14 @@ export class MatchPageComponent implements OnInit, AfterViewInit, OnDestroy {
         type: this.currentGroup.filters.kids ? ['restaurant'] : ['bar'],
       }, (results, status) => {
         if (status === google.maps.places.PlacesServiceStatus.OK) {
-          // console.log(results);
-          // console.log(this.restaurants);
           _.each(results, rest => {
             rest.photoUrl = rest.photos[0].getUrl();
+            const found = _.find(this.currentUser.likes, (like) => like.name === rest.name);
+            if (found) {
+              rest.liked = true;
+            } else {
+              rest.liked = false;
+            }
           });
           // eslint-disable-next-line max-len
           const currentUsersMatches = [];
@@ -92,7 +99,6 @@ export class MatchPageComponent implements OnInit, AfterViewInit, OnDestroy {
               currentUsersMatches.push(match);
             }
           });
-          console.log(currentUsersMatches);
           if (currentUsersMatches.length > 0) {
             const filteredResults = results.filter(i => !currentUsersMatches.some(j => j.placeId === i.place_id));
             this.restaurants$.next(filteredResults);
@@ -109,7 +115,6 @@ export class MatchPageComponent implements OnInit, AfterViewInit, OnDestroy {
     }, options);
   }
   prepareSearchParams() {
-    console.log('prepared called');
     const distanceInMeters = this.currentGroup.filters.distance / 0.00062137;
     const types = _.pluck(_.filter(this.currentGroup.filters.foodTypes, (type) => type.selected), 'label');
     const prices = _.pluck(_.filter(this.currentGroup.filters.foodPrices, (type) => type.selected), 'name');

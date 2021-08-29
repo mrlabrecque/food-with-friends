@@ -7,5 +7,5 @@
 
 <ion-content fullscreen>
 
-  <app-match-list [cardData]="likes"></app-match-list>
+  <app-match-list [cardData]="likes | async" [dataType]="'likes'"></app-match-list>
 </ion-content>

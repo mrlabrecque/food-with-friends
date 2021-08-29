@@ -1,5 +1,5 @@
-<ion-item-sliding *ngFor="let card of cardData" (click)="onAdditionalDetailsClicked(card)">
-  <ion-item lines="none">
+<ion-item-sliding *ngFor="let card of cardData">
+  <ion-item lines="none" (click)="onAdditionalDetailsClicked(card)">
     <ion-avatar slot="start">
       <img [src]="card.photoUrl">
     </ion-avatar>
@@ -10,9 +10,9 @@
       <app-price-dstance [item]="card"></app-price-dstance>
     </ion-label>
   </ion-item>
-  <ng-container *ngIf="isLoggedUserGroupOwner">
+  <ng-container *ngIf="dataType === 'likes'">
     <ion-item-options side="end">
-      <ion-item-option color="danger" (click)="removeMember(card)">
+      <ion-item-option color="danger" (click)="removeLike(card)">
         <ion-icon slot="end" name="trash"></ion-icon>Remove
       </ion-item-option>
     </ion-item-options>

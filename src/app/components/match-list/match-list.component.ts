@@ -1,6 +1,6 @@
 /* eslint-disable no-underscore-dangle */
 import { Component, Input, OnChanges, OnInit, SimpleChanges } from '@angular/core';
-import { IonRouterOutlet, ModalController } from '@ionic/angular';
+import { IonRouterOutlet, ModalController, ToastController } from '@ionic/angular';
 import { Matches } from 'src/app/models/matches.model';
 import { User } from 'src/app/models/user.model';
 import { AuthService } from 'src/app/services/auth.service';
@@ -17,26 +17,33 @@ export class MatchListComponent implements OnInit, OnChanges {
 
   @Input() cardData: Matches[];
   @Input() groupOwner: User;
+  @Input() dataType: string;
   currentUser: User;
   isLoggedUserGroupOwner = false;
-  constructor(private authService: AuthService, private groupService: GroupService, private modalController: ModalController,
-    private routerOutlet: IonRouterOutlet) { }
+  // eslint-disable-next-line max-len
+  constructor(private authService: AuthService, private groupService: GroupService, private userService: UserService, private modalController: ModalController,
+    private routerOutlet: IonRouterOutlet, private toastController: ToastController) { }
 
   ngOnInit() {
 
   }
   ngOnChanges(changes: SimpleChanges) {
     // this.currentUser = this.authService.authenticatedUser.getValue();
-    if (this.groupOwner) {
-      this.isLoggedUserGroupOwner = this.currentUser?._id === this.groupOwner?._id ? true : false;
-    }
   }
-  removeMember(memberToRemove) {
-    // this.groupService.removeMemberFromGroup(memberToRemove._id).subscribe(res => this.reloadGroup());
+  removeLike(likeToRemove) {
+    this.userService.removeLikeFromUser(likeToRemove, this.authService.authenticatedUser.value._id).subscribe((res) => {
+      this.removeLikeSuccess();
+    });
   }
-  reloadGroup() {
-    // this.groupService.refreshGroup();
+  async removeLikeSuccess() {
+    this.authService.refreshUser();
+    const toast = await this.toastController.create({
+      message: 'Like removed',
+      duration: 1000
+    });
+    toast.present();
   }
+
 
   async onAdditionalDetailsClicked(card) {
     const modal = await this.modalController.create({

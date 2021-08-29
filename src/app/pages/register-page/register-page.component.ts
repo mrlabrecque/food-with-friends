@@ -21,7 +21,6 @@ export class RegisterPageComponent implements OnInit {
   }
   onRegisterSuccess(res) {
     this.authService.authenticationState.next(true);
-    console.log(res);
   }
   goToLoginPage() {
     this.router.navigateByUrl('/');

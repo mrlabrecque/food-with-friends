@@ -28,7 +28,6 @@ export class ManageGroupModalComponent implements OnInit {
     private router: Router) { }
 
   ngOnInit() {
-    console.log(this.user);
   }
   enterOnMemberAdd(e) {
     const keyCode = e.keyCode;

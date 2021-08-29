@@ -24,4 +24,7 @@ export class UserService {
   addLikeToUser(like, userId: number) {
     return this.http.put<any>(`${this.apiUrl}/v1/users/${userId}/addlike`, like);
   }
+  removeLikeFromUser(like, userId: number) {
+    return this.http.put<any>(`${this.apiUrl}/v1/users/${userId}/removelike`, like);
+  }
 }

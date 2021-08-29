@@ -30,7 +30,7 @@
     </ion-card>
   </div>
   <div class="match-buttons-container">
-    <app-match-buttons (onMatchClicked)="onMatchClicked()" (onNoMatchClicked)="onNoMatchClicked()"
-      (onLikeClicked)="onLikeClicked()"></app-match-buttons>
+    <app-match-buttons [liked]="restaurants[counter].liked" (onMatchClicked)="onMatchClicked()"
+      (onNoMatchClicked)="onNoMatchClicked()" (onLikeClicked)="onLikeClicked($event)"></app-match-buttons>
   </div>
 </ng-container>

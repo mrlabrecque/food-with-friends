@@ -31,8 +31,7 @@ export class SlidingCardFullComponent implements OnInit, OnChanges {
   }
 
   ngOnInit() {
-    // this.cardData = this.incomingData;
-    // console.log(this.cardData);
+
   }
   async onAdditionalDetailsClicked(card) {
     const modal = await this.modalController.create({

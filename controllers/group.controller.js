@@ -12,7 +12,6 @@ exports.getUsersGroups = (req, res) => {
   const id = req.params.id;
   const groups = Group.find({ "members._id": +id })
     .then((groups) => {
-      console.log(id)
       res.json(groups)
     })
     .catch((err) => console.log(err));
@@ -39,7 +38,6 @@ exports.updateGroupFilters = (req, res) => {
       res.json(group)
     })
     .catch((err) => console.log(err));
-  console.log("UPDATING GROUP: ", req.body);
 };
 exports.removeGroup = (req, res) => {
   const group = Group.findByIdAndRemove({ _id: +req.params.groupId })
@@ -84,7 +82,6 @@ exports.updateMatch = (req, res) => {
       res.json(group)
     })
     .catch((err) => console.log(err));
-  console.log("UPDATING MATCHES: ", req.body);
 };
 
 exports.createGroup = (req, res) => {
@@ -98,5 +95,4 @@ exports.createGroup = (req, res) => {
     }
     res.json(group)
   })
-  console.log("CREATING GROUP: ", req.body);
 }

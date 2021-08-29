@@ -5,7 +5,7 @@ import { createGesture, Gesture } from '@ionic/core';
 import { RestaurantService } from '../../services/restaurant.service';
 import { Subscription, BehaviorSubject } from 'rxjs';
 import * as _ from 'underscore';
-import { IonCard, GestureController, Platform, ModalController, IonRouterOutlet } from '@ionic/angular';
+import { IonCard, GestureController, Platform, ModalController, IonRouterOutlet, ToastController } from '@ionic/angular';
 import { MatchService } from 'src/app/services/match.service';
 import { GroupService } from 'src/app/services/group.service';
 import { Matches } from 'src/app/models/matches.model';
@@ -39,7 +39,7 @@ export class RestaurantListComponent implements OnInit, OnDestroy, AfterViewInit
   constructor(private restaurantService: RestaurantService, private gestureCtrl: GestureController,
     private plt: Platform, private matchService: MatchService, private groupService: GroupService,
     private activatedRoute: ActivatedRoute, private authService: AuthService, private modalController: ModalController,
-    private routerOutlet: IonRouterOutlet, private userService: UserService) { }
+    private routerOutlet: IonRouterOutlet, private userService: UserService, public toastController: ToastController) { }
 
   ngOnInit() {
   }
@@ -54,7 +54,6 @@ export class RestaurantListComponent implements OnInit, OnDestroy, AfterViewInit
   ngOnChanges(changes: SimpleChanges) {
     if (this.restaurants.length > 0) {
       this.showLoading$.next(false);
-      console.log(this.restaurants);
     }
   }
   ngOnDestroy() {
@@ -69,7 +68,6 @@ export class RestaurantListComponent implements OnInit, OnDestroy, AfterViewInit
         gestureName: 'swipe',
         onStart: ev => this.onStartHandler(ev),
         onMove: ev => {
-          console.log(ev.deltaX);
           rest.nativeElement.style.transform = `translateX(${ev.deltaX}px) rotate(${ev.deltaX / 10}deg)`;
         },
         onEnd: ev => {
@@ -117,16 +115,41 @@ export class RestaurantListComponent implements OnInit, OnDestroy, AfterViewInit
     currentCard.nativeElement.style.transform = `translateX(-${+this.plt.width() * 2}px) rotate(${-2000 / 2}deg)`;
     this.onThumbsDown();
   }
-  onLikeClicked() {
-    this.addLike(this.restaurants[this.counter]);
+  onLikeClicked(likedOrDisliked) {
+    if (likedOrDisliked) {
+      this.addLike(this.restaurants[this.counter]);
+    } else {
+      this.removeLike(this.restaurants[this.counter]);
+    }
   }
   addLike(rest) {
     const like: Matches = { ...rest };
     this.userService.addLikeToUser(like, this.authService.authenticatedUser.value._id).subscribe((res) =>
-      console.log("like added"));
+      this.addLikeSuccess());
+  }
+  async addLikeSuccess() {
+    this.authService.refreshUser();
+    const toast = await this.toastController.create({
+      message: 'Like added',
+      duration: 1000
+    });
+    toast.present();
+  }
+  removeLike(rest) {
+    const like: Matches = { ...rest };
+    this.userService.removeLikeFromUser(like, this.authService.authenticatedUser.value._id).subscribe((res) => {
+      this.removeLikeSuccess();
+    });
+  }
+  async removeLikeSuccess() {
+    this.authService.refreshUser();
+    const toast = await this.toastController.create({
+      message: 'Like removed',
+      duration: 1000
+    });
+    toast.present();
   }
   addMatch(rest) {
-    console.log(this.currentGroup);
     const currentMatches = this.currentGroup.matches;
     const existingMatch = _.findWhere(currentMatches, { placeId: rest.place_id });
     const noOfGroupMembers = this.currentGroup.members.length;

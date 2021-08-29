@@ -38,11 +38,9 @@ export class AuthService {
     this.storage.get(TOKEN_KEY).then(token => {
       if (token) {
         const decoded = this.helper.decodeToken(token);
-        console.log(decoded);
         const isExpired = this.helper.isTokenExpired(token);
         if (!isExpired) {
           this.user = decoded;
-          console.log(this.user);
           this.setAuthenticatedUser();
 
         } else {
@@ -54,6 +52,9 @@ export class AuthService {
   setAuthenticatedUser() {
     this.userService.getUserById(+this.user.id).subscribe((res) => this.authenticatedUser.next(res));
     this.authenticationState.next(true);
+  }
+  refreshUser() {
+    this.userService.getUserById(+this.user.id).subscribe((res) => this.authenticatedUser.next(res));
   }
   login(credentials) {
     return this.http.post(`${this.apiUrl}/v1/users/login`, credentials)
