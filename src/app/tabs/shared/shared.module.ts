@@ -20,13 +20,14 @@ import { PricePice } from 'src/app/pipes/price.pipe';
 import { AvatarModule } from 'ngx-avatar';
 import { MemberListComponent } from 'src/app/components/member-list/member-list.component';
 import { PopoverContainerComponent } from 'src/app/components/popovers/popover-container/popover-container.component';
+import { ModalListComponent } from 'src/app/components/modals/modal-list/modal-list.component';
 
 
 
 
 
 @NgModule({
-  declarations: [PopoverContainerComponent, PriceDistanceComponent, PricePice, MatchListComponent, RestaurantDetailsModalComponent, StarRatingsComponent, SlidingListGroupsComponent, ModalContainerComponent, RestaurantItemListComponent, MetersToMilesPipe, StarRatingsComponent, SlidingCardLargeComponent, SlidingCardFullComponent, MemberListComponent],
+  declarations: [PopoverContainerComponent, PriceDistanceComponent, PricePice, MatchListComponent, RestaurantDetailsModalComponent, StarRatingsComponent, SlidingListGroupsComponent, ModalContainerComponent, RestaurantItemListComponent, MetersToMilesPipe, SlidingCardLargeComponent, SlidingCardFullComponent, MemberListComponent, ModalListComponent],
   imports: [
     IonicModule,
     RouterModule,
@@ -37,7 +38,7 @@ import { PopoverContainerComponent } from 'src/app/components/popovers/popover-c
     AvatarModule,
   ],
   exports: [
-    PopoverContainerComponent, PriceDistanceComponent, PricePice, MatchListComponent, SlidingListGroupsComponent, RestaurantDetailsModalComponent, StarRatingsComponent, ModalContainerComponent, RestaurantItemListComponent, StarRatingsComponent, SlidingCardLargeComponent, SlidingCardFullComponent, MetersToMilesPipe, MemberListComponent
+    PopoverContainerComponent, PriceDistanceComponent, PricePice, MatchListComponent, SlidingListGroupsComponent, RestaurantDetailsModalComponent, StarRatingsComponent, ModalContainerComponent, RestaurantItemListComponent, SlidingCardLargeComponent, SlidingCardFullComponent, MetersToMilesPipe, MemberListComponent, ModalListComponent
   ]
 })
 export class SharedPageModule { }

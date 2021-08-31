@@ -1,7 +1,5 @@
-import { Component, OnInit, Input, SimpleChanges } from '@angular/core';
-import { Router } from '@angular/router';
-import { IonRouterOutlet, ModalController, ToastController } from '@ionic/angular';
-import { Matches } from 'src/app/models/matches.model';
+import { Component, Input, OnChanges, OnInit, SimpleChanges } from '@angular/core';
+import { ModalController, ToastController } from '@ionic/angular';
 import { User } from 'src/app/models/user.model';
 import { AuthService } from 'src/app/services/auth.service';
 import { GroupService } from 'src/app/services/group.service';
@@ -9,23 +7,24 @@ import { UserService } from 'src/app/services/user.service';
 import { RestaurantDetailsModalComponent } from '../restaurant-details-modal/restaurant-details-modal.component';
 
 @Component({
-  selector: 'app-modal-container',
-  templateUrl: './modal-container.component.html',
-  styleUrls: ['./modal-container.component.scss'],
+  selector: 'app-modal-list',
+  templateUrl: './modal-list.component.html',
+  styleUrls: ['./modal-list.component.scss'],
 })
-export class ModalContainerComponent implements OnInit {
-  @Input() title: string;
-  @Input() listData: any[];
-  @Input() groupOwner: User;
-  @Input() dataType: string;
+export class ModalListComponent implements OnInit {
+
+  title: string;
+  listData: any[];
+  groupOwner: User;
+  dataType: string;
   currentUser: User;
   isLoggedUserGroupOwner = false;
   // eslint-disable-next-line max-len
   constructor(private authService: AuthService, private groupService: GroupService, private userService: UserService, private modalController: ModalController,
-    private routerOutlet: IonRouterOutlet, private toastController: ToastController) { }
+    private toastController: ToastController) { }
 
   ngOnInit() {
-    console.log("loading");
+    console.log(this.listData);
 
   }
   removeLike(likeToRemove) {
@@ -49,7 +48,6 @@ export class ModalContainerComponent implements OnInit {
       component: RestaurantDetailsModalComponent,
       cssClass: 'my-custom-class',
       swipeToClose: true,
-      presentingElement: this.routerOutlet.nativeEl,
       componentProps: {
         restaurant: card,
         title: card.name,
@@ -62,3 +60,4 @@ export class ModalContainerComponent implements OnInit {
 
   }
 }
+

@@ -6,7 +6,7 @@ import { HttpParams } from '@angular/common/http';
 import { LocationService } from '../../services/location.service';
 import * as _ from 'underscore';
 import { Subscription, combineLatest, BehaviorSubject, Subject, Observable } from 'rxjs';
-import { ModalController, IonRouterOutlet } from '@ionic/angular';
+import { IonRouterOutlet, ModalController, ToastController } from '@ionic/angular';
 import { ModalContainerComponent } from '../../components/modals/modal-container/modal-container.component';
 import { GroupService } from '../../services/group.service';
 import { Group } from '../../models/group-model';
@@ -14,6 +14,10 @@ import { ModeService } from '../../services/mode.service';
 import { ManageGroupModalComponent } from '../../components/modals/manage-group-modal/manage-group-modal.component';
 import { User } from 'src/app/models/user.model';
 import { AuthService } from 'src/app/services/auth.service';
+import { MatchListComponent } from 'src/app/components/match-list/match-list.component';
+import { LikesPageComponent } from '../likes-page/likes-page.component';
+import { RestaurantDetailsModalComponent } from 'src/app/components/modals/restaurant-details-modal/restaurant-details-modal.component';
+import { ModalListComponent } from 'src/app/components/modals/modal-list/modal-list.component';
 
 declare const google;
 const options = {
@@ -28,6 +32,7 @@ const options = {
   styleUrls: ['./home-page.component.scss'],
 })
 export class HomePageComponent implements OnInit {
+
 
   currentUser: User;
   attbibutes: string[] = ['hot_and_new', 'deals'];
@@ -63,8 +68,8 @@ export class HomePageComponent implements OnInit {
 
   constructor(private restaurantService: RestaurantService,
     private locationService: LocationService,
-    private modalController: ModalController,
-    private routerOutlet: IonRouterOutlet,
+    public modalController: ModalController,
+    public routerOutlet: IonRouterOutlet,
     private groupService: GroupService,
     private modeService: ModeService,
     private authService: AuthService) { }
@@ -111,9 +116,9 @@ export class HomePageComponent implements OnInit {
         query: 'New Restaurants near me'
       }, (results, status) => {
         if (status === google.maps.places.PlacesServiceStatus.OK) {
-          // _.each(results, rest => {
-          //   rest.photoUrl = rest.photos[0].getUrl();
-          // });
+          _.each(results, rest => {
+            rest.photoUrl = rest.photos[0].getUrl();
+          });
           this.newRestaurants$.next(results);
         }
       });
@@ -131,14 +136,28 @@ export class HomePageComponent implements OnInit {
     //   );
   }
   async openLikesModal() {
+    console.log(this.currentUser?.likes);
     const modal = await this.modalController.create({
-      component: ModalContainerComponent,
+      component: ModalListComponent,
+      cssClass: 'my-custom-class',
+      swipeToClose: true,
+      componentProps: {
+        listData: this.currentUser?.likes,
+        title: 'Likes'
+      }
+    });
+    return await modal.present();
+  }
+  async openNearModal() {
+    console.log('CLICKED');
+    const modal = await this.modalController.create({
+      component: ModalListComponent,
       cssClass: 'my-custom-class',
       swipeToClose: true,
       presentingElement: this.routerOutlet.nativeEl,
       componentProps: {
-        listItems: this.currentUser?.likes,
-        title: 'Likes'
+        listData: this.newRestaurants$.value,
+        title: 'Restaurants Near Me'
       }
     });
     return await modal.present();
