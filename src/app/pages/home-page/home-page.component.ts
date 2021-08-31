@@ -141,6 +141,7 @@ export class HomePageComponent implements OnInit {
       component: ModalListComponent,
       cssClass: 'my-custom-class',
       swipeToClose: true,
+      presentingElement: this.routerOutlet.nativeEl,
       componentProps: {
         listData: this.currentUser?.likes,
         title: 'Likes'
