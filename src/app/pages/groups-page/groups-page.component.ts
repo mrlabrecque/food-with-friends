@@ -16,16 +16,20 @@ export class GroupsPageComponent implements OnInit, OnDestroy {
   currentUser: User;
   usersGroups: Group[];
   usersGroupsSubscription: Subscription;
+  currentUserSubscription: Subscription;
 
   constructor(private groupService: GroupService, private authService: AuthService) { }
 
   ngOnInit() {
-    this.currentUser = this.authService.authenticatedUser.value;
+    this.currentUserSubscription = this.authService.authenticatedUser.subscribe(
+      res => this.currentUser = res
+    );
     this.usersGroupsSubscription = this.groupService.getUsersGroupsByUserId(this.currentUser._id).subscribe(
       res => this.usersGroups = res
     );
   }
   ngOnDestroy() {
     this.usersGroupsSubscription.unsubscribe();
+    this.currentUserSubscription.unsubscribe();
   }
 }

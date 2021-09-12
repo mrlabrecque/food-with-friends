@@ -5,12 +5,18 @@
       <div #img class="header-image" [style.background-image]="'url(' + card?.photoUrl + ')'">
       </div>
       <div class="badge-container">
-        <ion-badge color="success">highly rated</ion-badge>
-        <ion-badge color="secondary">nearby</ion-badge>
+        <ng-container *ngIf="card.rating > 4">
+          <ion-badge color="success"><i class="fas fa-thumbs-up"></i> highly rated</ion-badge>
+        </ng-container>
+        <ion-badge color="secondary" style="margin-left: 5px;"><i class="fas fa-map-pin"></i> nearby</ion-badge>
       </div>
 
       <ion-card-header>
-        <ion-card-title class="ion-text-nowrap">{{card.name}}</ion-card-title>
+        <div>
+          <ion-card-title>
+            {{card.name}}</ion-card-title>
+        </div>
+
       </ion-card-header>
       <ion-card-content>
         <app-star-ratings [item]="card"></app-star-ratings>

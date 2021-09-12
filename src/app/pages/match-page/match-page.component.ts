@@ -81,8 +81,9 @@ export class MatchPageComponent implements OnInit, AfterViewInit, OnDestroy {
         maxPriceLevel: maxPrice,
         type: this.currentGroup.filters.kids ? ['restaurant'] : ['bar'],
       }, (results, status) => {
+        const noDupesResults: any[] = [...new Map(results.map(item => [item.name, item])).values()];
         if (status === google.maps.places.PlacesServiceStatus.OK) {
-          _.each(results, rest => {
+          _.each(noDupesResults, rest => {
             rest.photoUrl = rest.photos[0].getUrl();
             const found = _.find(this.currentUser.likes, (like) => like.name === rest.name);
             if (found) {
@@ -100,10 +101,10 @@ export class MatchPageComponent implements OnInit, AfterViewInit, OnDestroy {
             }
           });
           if (currentUsersMatches.length > 0) {
-            const filteredResults = results.filter(i => !currentUsersMatches.some(j => j.placeId === i.place_id));
+            const filteredResults = noDupesResults.filter(i => !currentUsersMatches.some(j => j.name === i.name));
             this.restaurants$.next(filteredResults);
           } else {
-            this.restaurants$.next(results);
+            this.restaurants$.next(noDupesResults);
           }
 
 

@@ -22,6 +22,7 @@ import { animate, style, transition, trigger } from '@angular/animations';
 import { PopoverContainerComponent } from 'src/app/components/popovers/popover-container/popover-container.component';
 import { AuthService } from 'src/app/services/auth.service';
 import { User } from 'src/app/models/user.model';
+import { ModalListComponent } from 'src/app/components/modals/modal-list/modal-list.component';
 
 
 @Component({
@@ -56,7 +57,7 @@ export class GroupDetailPageComponent implements OnInit, OnDestroy {
 
   groupMembers: number[] = [];
   groupId: number;
-  group: any;
+  group: Group;
   groupSubscription: Subscription;
 
   filters: any;
@@ -232,6 +233,7 @@ export class GroupDetailPageComponent implements OnInit, OnDestroy {
   }
   onUpdateGroupFiltersSuccess(updatedFilters) {
     this.groupService.updateCurrentGroupFilters(updatedFilters);
+    this.router.navigateByUrl(`/members/tab2/group/${this.groupId}/matches`,);
   }
   chipPricesSelectionChanged(selectedPrices) {
     this.selectedPrices = selectedPrices;
@@ -245,7 +247,17 @@ export class GroupDetailPageComponent implements OnInit, OnDestroy {
   toggleMatchesExpand() {
     this.showMatches = !this.showMatches;
   }
-  onSeeAllMatchesClicked() {
-    console.log('see all matches clicked');
+  async onSeeAllMatchesClicked() {
+    const modal = await this.modalController.create({
+      component: ModalListComponent,
+      cssClass: 'my-custom-class',
+      swipeToClose: true,
+      presentingElement: this.routerOutlet.nativeEl,
+      componentProps: {
+        listData: this.group.matches,
+        title: 'Matches'
+      }
+    });
+    return await modal.present();
   }
 }

@@ -11,7 +11,7 @@
         <ion-icon slot="icon-only" name="share-outline" color="primary"></ion-icon>
       </ion-button>
       <ion-button fill="solid" shape="round" color="light">
-        <ion-icon slot="icon-only" name="heart-outline" color="primary"></ion-icon>
+        <ion-icon slot="icon-only" [name]="restaurant.liked ? 'heart':'heart-outline'" color="primary"></ion-icon>
       </ion-button>
     </ion-buttons>
   </ion-toolbar>

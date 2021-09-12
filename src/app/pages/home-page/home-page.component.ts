@@ -72,7 +72,11 @@ export class HomePageComponent implements OnInit {
     public routerOutlet: IonRouterOutlet,
     private groupService: GroupService,
     private modeService: ModeService,
-    private authService: AuthService) { }
+    private authService: AuthService) {
+    this.authService.authenticatedUser.subscribe((user) => {
+      this.onFetchUserSuccess(user);
+    });
+  }
 
   ngOnInit() {
     combineLatest(
@@ -89,13 +93,12 @@ export class HomePageComponent implements OnInit {
     this.getNewRestaurants();
 
     //we will pub current user here as well
-    this.authService.authenticatedUser.subscribe((user) => {
-      this.onFetchUserSuccess(user);
-    });
+
 
   }
   onFetchUserSuccess(user) {
     this.currentUser = user;
+    console.log(this.currentUser);
     this.newGroupsSubscription = this.groups$.subscribe((res: Group[]) => {
       this.groups = [...res];
     });
@@ -116,9 +119,9 @@ export class HomePageComponent implements OnInit {
         query: 'New Restaurants near me'
       }, (results, status) => {
         if (status === google.maps.places.PlacesServiceStatus.OK) {
-          _.each(results, rest => {
-            rest.photoUrl = rest.photos[0].getUrl();
-          });
+          // _.each(results, rest => {
+          //   rest.photoUrl = rest.photos[0].getUrl();
+          // });
           this.newRestaurants$.next(results);
         }
       });
