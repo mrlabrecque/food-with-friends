@@ -119,9 +119,9 @@ export class HomePageComponent implements OnInit {
         query: 'New Restaurants near me'
       }, (results, status) => {
         if (status === google.maps.places.PlacesServiceStatus.OK) {
-          // _.each(results, rest => {
-          //   rest.photoUrl = rest.photos[0].getUrl();
-          // });
+          _.each(results, rest => {
+            rest.photoUrl = rest.photos[0].getUrl();
+          });
           this.newRestaurants$.next(results);
         }
       });
@@ -139,7 +139,6 @@ export class HomePageComponent implements OnInit {
     //   );
   }
   async openLikesModal() {
-    console.log(this.currentUser?.likes);
     const modal = await this.modalController.create({
       component: ModalListComponent,
       cssClass: 'my-custom-class',
@@ -153,7 +152,6 @@ export class HomePageComponent implements OnInit {
     return await modal.present();
   }
   async openNearModal() {
-    console.log('CLICKED');
     const modal = await this.modalController.create({
       component: ModalListComponent,
       cssClass: 'my-custom-class',
