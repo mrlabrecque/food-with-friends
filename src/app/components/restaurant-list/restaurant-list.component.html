@@ -1,11 +1,3 @@
-<ng-container *ngIf="showLoading$ | async">
-  <div class="absolute-center">
-    <div>
-      <ion-spinner></ion-spinner>
-    </div>
-
-  </div>
-</ng-container>
 <ng-container *ngIf="(showLoading$ | async) === false">
 
   <div class="restraurant-card-container">
@@ -13,8 +5,10 @@
     <ion-card *ngFor="let rest of restaurants | reverse" class="restaurant-card" (click)="onAdditionalDetailsClicked()">
       <div class="main-image-container" [style.background-image]="'url(' + rest.photoUrl + ')'">
         <div class="badge-container">
-          <ion-badge color="success">highly rated</ion-badge>
-          <ion-badge color="secondary">nearby</ion-badge>
+          <ng-container *ngIf="rest.rating > 4">
+            <ion-badge color="success"><i class="fas fa-thumbs-up"></i> highly rated</ion-badge>
+          </ng-container>
+          <ion-badge color="secondary" style="margin-left: 5px;"><i class="fas fa-map-pin"></i> nearby</ion-badge>
         </div>
       </div>
       <div class="main-content-container">

@@ -27,7 +27,10 @@ const options = {
 export class MatchPageComponent implements OnInit, AfterViewInit, OnDestroy {
   @ViewChild('map') mapElement: ElementRef;
   restaurants$: BehaviorSubject<any[]> = new BehaviorSubject([]);
+  emptyResults$: BehaviorSubject<boolean> = new BehaviorSubject(false);
+  isLoading$: BehaviorSubject<boolean> = new BehaviorSubject(true);
   restaurants: any[];
+  emptyEmoji = "&#128532;";
   currentGroup: Group;
   currentUser: User;
   groupId: number;
@@ -76,13 +79,14 @@ export class MatchPageComponent implements OnInit, AfterViewInit, OnDestroy {
       service.nearbySearch({
         location: { lat: location.coords.latitude, lng: location.coords.longitude },
         radius: distanceInMeters || 1000,
-        keyword: types.toString(),
+        keyword: types.toString().replace(',', ' '),
         minPriceLevel: minPrice,
         maxPriceLevel: maxPrice,
         type: this.currentGroup.filters.kids ? ['restaurant'] : ['bar'],
       }, (results, status) => {
-        const noDupesResults: any[] = [...new Map(results.map(item => [item.name, item])).values()];
-        if (status === google.maps.places.PlacesServiceStatus.OK) {
+
+        if (status === google.maps.places.PlacesServiceStatus.OK && results.length > 0) {
+          const noDupesResults: any[] = [...new Map(results.map(item => [item.name, item])).values()];
           _.each(noDupesResults, rest => {
             rest.photoUrl = rest.photos[0].getUrl();
             const found = _.find(this.currentUser.likes, (like) => like.name === rest.name);
@@ -103,11 +107,17 @@ export class MatchPageComponent implements OnInit, AfterViewInit, OnDestroy {
           if (currentUsersMatches.length > 0) {
             const filteredResults = noDupesResults.filter(i => !currentUsersMatches.some(j => j.name === i.name));
             this.restaurants$.next(filteredResults);
+            this.isLoading$.next(false);
           } else {
             this.restaurants$.next(noDupesResults);
+            this.isLoading$.next(false);
+
           }
 
 
+        } else {
+          this.emptyResults$.next(true);
+          this.isLoading$.next(false);
         }
       });
 

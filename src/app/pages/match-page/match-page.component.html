@@ -1,5 +1,5 @@
 <ion-header [translucent]="true">
-  <ion-toolbar>
+  <ion-toolbar color="primary">
     <ion-buttons slot="start">
       <ion-back-button defaultHref=""></ion-back-button>
     </ion-buttons>
@@ -9,10 +9,30 @@
 
 <ion-content>
   <div #map id="map"></div>
-  <div class="page-container">
-    <div class="restaurant-card-container">
-      <app-restaurant-list [restaurants]="restaurants" (trueMatchCreated)="trueMatchCreated($event)">
-      </app-restaurant-list>
+
+  <ng-container *ngIf="(isLoading$ | async)">
+    <div class="loading-container">
+      <ion-spinner>
+      </ion-spinner>
     </div>
-  </div>
+  </ng-container>
+  <ng-container *ngIf="(emptyResults$ | async) && ((isLoading$ | async) === false)">
+    <div class="loading-container">
+      <ion-card>
+        <ion-card-content>
+          <p>No results <span [innerHTML]="emptyEmoji"></span></p>
+        </ion-card-content>
+      </ion-card>
+
+    </div>
+  </ng-container>
+
+  <ng-container *ngIf="((emptyResults$ | async) === false) && ((isLoading$ | async) === false)">
+    <div class="page-container">
+      <div class="restaurant-card-container">
+        <app-restaurant-list [restaurants]="restaurants" (trueMatchCreated)="trueMatchCreated($event)">
+        </app-restaurant-list>
+      </div>
+    </div>
+  </ng-container>
 </ion-content>
