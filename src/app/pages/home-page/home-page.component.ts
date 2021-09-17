@@ -86,11 +86,11 @@ export class HomePageComponent implements OnInit {
       ([lat, long]) => {
         if (lat && long) {
           _.each(this.attbibutes, (attr) => this.setParams(attr));
+          this.getNewRestaurants();
 
         }
       });
     this.modeService.getMode();
-    this.getNewRestaurants();
 
     //we will pub current user here as well
 
@@ -112,19 +112,17 @@ export class HomePageComponent implements OnInit {
     this.groups = res;
   }
   getNewRestaurants() {
-    navigator.geolocation.getCurrentPosition((location) => {
-      const service = new google.maps.places.PlacesService(document.createElement('div'));
-      service.textSearch({
-        location: { lat: location.coords.latitude, lng: location.coords.longitude },
-        query: 'New Restaurants near me'
-      }, (results, status) => {
-        if (status === google.maps.places.PlacesServiceStatus.OK) {
-          _.each(results, rest => {
-            rest.photoUrl = rest.photos[0].getUrl();
-          });
-          this.newRestaurants$.next(results);
-        }
-      });
+    const service = new google.maps.places.PlacesService(document.createElement('div'));
+    service.textSearch({
+      location: { lat: this.locationService.userLat.value, lng: this.locationService.userLong.value },
+      query: 'New Restaurants near me'
+    }, (results, status) => {
+      if (status === google.maps.places.PlacesServiceStatus.OK) {
+        _.each(results, rest => {
+          rest.photoUrl = rest.photos[0].getUrl();
+        });
+        this.newRestaurants$.next(results);
+      }
     });
   }
   setParams(attr: string) {

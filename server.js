@@ -17,9 +17,26 @@ const sslOptions = {
   cert: fs.readFileSync('cert.pem'),
 };
 // Server configs
+const allowedOrigins = [
+  'capacitor://localhost',
+  'ionic://localhost',
+  'http://localhost',
+  'http://localhost:8080',
+  'http://localhost:8100'
+];
 
+// Reflect the origin if it's in the allowed list or not defined (cURL, Postman, etc.)
+const corsOptions = {
+  origin: (origin, callback) => {
+    if (allowedOrigins.includes(origin) || !origin) {
+      callback(null, true);
+    } else {
+      callback(new Error('Origin not allowed by CORS'));
+    }
+  }
+}
 app.use(cors());
-app.options('*', cors())
+app.options('*', cors(corsOptions));
 dotenv.config()
 mongoose.connect(process.env.DB_URI, {
   useUnifiedTopology: true,
@@ -90,7 +107,7 @@ app.use(express.static(path.join(__dirname, 'www')));
 //app.use('/api', api);
 
 // Catch all other routes and return the index file
-app.get('/', (req, res) => {
+app.get('/', cors(corsOptions), (req, res) => {
   res.sendFile(path.join(__dirname, 'www/index.html'));
 });
 

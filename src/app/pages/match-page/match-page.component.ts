@@ -10,6 +10,7 @@ import { RestaurantService } from '../../services/restaurant.service';
 import { AlertController } from '@ionic/angular';
 import { User } from 'src/app/models/user.model';
 import { AuthService } from 'src/app/services/auth.service';
+import { LocationService } from 'src/app/services/location.service';
 
 
 declare const google;
@@ -39,7 +40,7 @@ export class MatchPageComponent implements OnInit, AfterViewInit, OnDestroy {
 
   constructor(private activatedRoute: ActivatedRoute, private groupService: GroupService,
     private restaurantService: RestaurantService, private router: Router, private userService: UserService,
-    public alertController: AlertController, private authService: AuthService) {
+    public alertController: AlertController, private authService: AuthService, private locationService: LocationService) {
   }
 
   ngOnInit() {
@@ -69,58 +70,55 @@ export class MatchPageComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   initMap(types, minPrice, maxPrice, distanceInMeters) {
-    navigator.geolocation.getCurrentPosition((location) => {
-      map = new google.maps.Map(this.mapElement.nativeElement, {
-        center: { lat: location.coords.latitude, lng: location.coords.longitude },
-        zoom: 15
-      });
+    map = new google.maps.Map(this.mapElement.nativeElement, {
+      center: { lat: this.locationService.userLat.value, lng: this.locationService.userLong.value },
+      zoom: 15
+    });
 
-      const service = new google.maps.places.PlacesService(map);
-      service.nearbySearch({
-        location: { lat: location.coords.latitude, lng: location.coords.longitude },
-        radius: distanceInMeters || 1000,
-        keyword: types.toString().replace(',', ' '),
-        minPriceLevel: minPrice,
-        maxPriceLevel: maxPrice,
-        type: this.currentGroup.filters.kids ? ['restaurant'] : ['bar'],
-      }, (results, status) => {
+    const service = new google.maps.places.PlacesService(map);
+    service.nearbySearch({
+      location: { lat: this.locationService.userLat.value, lng: this.locationService.userLong.value },
+      radius: distanceInMeters || 1000,
+      keyword: types.toString().replace(',', ' '),
+      minPriceLevel: minPrice,
+      maxPriceLevel: maxPrice,
+      type: this.currentGroup.filters.kids ? ['restaurant'] : ['bar'],
+    }, (results, status) => {
 
-        if (status === google.maps.places.PlacesServiceStatus.OK && results.length > 0) {
-          const noDupesResults: any[] = [...new Map(results.map(item => [item.name, item])).values()];
-          _.each(noDupesResults, rest => {
-            rest.photoUrl = rest.photos[0].getUrl();
-            const found = _.find(this.currentUser.likes, (like) => like.name === rest.name);
-            if (found) {
-              rest.liked = true;
-            } else {
-              rest.liked = false;
-            }
-          });
-          // eslint-disable-next-line max-len
-          const currentUsersMatches = [];
-          _.each(this.currentGroup.matches, (match) => {
-            const memberMatchedAlready = match.memberMatches.includes(this.currentUser?._id);
-            if (memberMatchedAlready) {
-              currentUsersMatches.push(match);
-            }
-          });
-          if (currentUsersMatches.length > 0) {
-            const filteredResults = noDupesResults.filter(i => !currentUsersMatches.some(j => j.name === i.name));
-            this.restaurants$.next(filteredResults);
-            this.isLoading$.next(false);
+      if (status === google.maps.places.PlacesServiceStatus.OK && results.length > 0) {
+        const noDupesResults: any[] = [...new Map(results.map(item => [item.name, item])).values()];
+        _.each(noDupesResults, rest => {
+          rest.photoUrl = rest.photos[0].getUrl();
+          const found = _.find(this.currentUser.likes, (like) => like.name === rest.name);
+          if (found) {
+            rest.liked = true;
           } else {
-            this.restaurants$.next(noDupesResults);
-            this.isLoading$.next(false);
-
+            rest.liked = false;
           }
-
-
-        } else {
-          this.emptyResults$.next(true);
+        });
+        // eslint-disable-next-line max-len
+        const currentUsersMatches = [];
+        _.each(this.currentGroup.matches, (match) => {
+          const memberMatchedAlready = match.memberMatches.includes(this.currentUser?._id);
+          if (memberMatchedAlready) {
+            currentUsersMatches.push(match);
+          }
+        });
+        if (currentUsersMatches.length > 0) {
+          const filteredResults = noDupesResults.filter(i => !currentUsersMatches.some(j => j.name === i.name));
+          this.restaurants$.next(filteredResults);
           this.isLoading$.next(false);
-        }
-      });
+        } else {
+          this.restaurants$.next(noDupesResults);
+          this.isLoading$.next(false);
 
+        }
+
+
+      } else {
+        this.emptyResults$.next(true);
+        this.isLoading$.next(false);
+      }
     }, (error) => {
       console.log(error);
     }, options);

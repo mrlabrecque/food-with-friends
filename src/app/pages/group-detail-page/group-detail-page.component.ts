@@ -233,7 +233,7 @@ export class GroupDetailPageComponent implements OnInit, OnDestroy {
   }
   onUpdateGroupFiltersSuccess(updatedFilters) {
     this.groupService.updateCurrentGroupFilters(updatedFilters);
-    this.router.navigateByUrl(`/members/tab2/group/${this.groupId}/matches`,);
+    this.router.navigateByUrl(`/members/tab2/group/${this.groupId}/matches`);
   }
   chipPricesSelectionChanged(selectedPrices) {
     this.selectedPrices = selectedPrices;
