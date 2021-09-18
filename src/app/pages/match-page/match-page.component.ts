@@ -1,3 +1,4 @@
+/* eslint-disable max-len */
 /* eslint-disable no-underscore-dangle */
 import { AfterViewInit, Component, ElementRef, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
@@ -7,10 +8,11 @@ import { GroupService } from 'src/app/services/group.service';
 import { UserService } from 'src/app/services/user.service';
 import * as _ from 'underscore';
 import { RestaurantService } from '../../services/restaurant.service';
-import { AlertController } from '@ionic/angular';
+import { AlertController, ModalController } from '@ionic/angular';
 import { User } from 'src/app/models/user.model';
 import { AuthService } from 'src/app/services/auth.service';
 import { LocationService } from 'src/app/services/location.service';
+import { RestaurantItemOverviewComponent } from 'src/app/components/restaurant-item-overview/restaurant-item-overview.component';
 
 
 declare const google;
@@ -40,7 +42,7 @@ export class MatchPageComponent implements OnInit, AfterViewInit, OnDestroy {
 
   constructor(private activatedRoute: ActivatedRoute, private groupService: GroupService,
     private restaurantService: RestaurantService, private router: Router, private userService: UserService,
-    public alertController: AlertController, private authService: AuthService, private locationService: LocationService) {
+    public alertController: AlertController, private authService: AuthService, private locationService: LocationService, private modalController: ModalController) {
   }
 
   ngOnInit() {
@@ -111,10 +113,7 @@ export class MatchPageComponent implements OnInit, AfterViewInit, OnDestroy {
         } else {
           this.restaurants$.next(noDupesResults);
           this.isLoading$.next(false);
-
         }
-
-
       } else {
         this.emptyResults$.next(true);
         this.isLoading$.next(false);
@@ -161,10 +160,30 @@ export class MatchPageComponent implements OnInit, AfterViewInit, OnDestroy {
       cssClass: 'my-custom-class',
       header: 'New Match!',
       subHeader: `${match.name}`,
-      message: 'This is an alert message.',
-      buttons: ['Dismiss', 'View']
+      message: 'Your group has a new match!',
+      buttons: [{
+        text: 'Dismiss'
+      }, {
+        text: 'View',
+        handler: () => {
+          this.presentModal(match);
+        }
+      }]
     });
 
     await alert.present();
+  }
+  async presentModal(selectedItem) {
+    const modal = await this.modalController.create({
+      component: RestaurantItemOverviewComponent,
+      cssClass: 'my-custom-class',
+      swipeToClose: true,
+      presentingElement: await this.modalController.getTop(),
+      componentProps: {
+        item: selectedItem,
+        title: selectedItem.name
+      }
+    });
+    return await modal.present();
   }
 }

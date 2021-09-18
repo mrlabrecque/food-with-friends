@@ -44,9 +44,7 @@ export class RestaurantListComponent implements OnInit, OnDestroy, AfterViewInit
   ngOnInit() {
   }
   ngAfterViewInit() {
-    this.restraurantCards.changes.subscribe((newCards) => {
-      this.instanstiateSwipeGesture(newCards && newCards.toArray());
-    });
+    this.instanstiateSwipeGesture(this.restraurantCards && this.restraurantCards.toArray());
     this.currentGroupSubscription = this.groupService.getGroupById(+this.activatedRoute.snapshot.paramMap.get('id'))
       .subscribe((gr) => this.currentGroup = gr);
     this.currentUser = this.authService.authenticatedUser.value;
@@ -195,7 +193,7 @@ export class RestaurantListComponent implements OnInit, OnDestroy, AfterViewInit
       }
       this.matchService.addMatch(this.currentGroup._id, match).subscribe(res => { console.log("match added") });
     }
-
+    this.groupService.refreshGroup();
   }
   async onAdditionalDetailsClicked() {
     const modal = await this.modalController.create({
