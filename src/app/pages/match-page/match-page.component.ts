@@ -181,7 +181,7 @@ export class MatchPageComponent implements OnInit, AfterViewInit, OnDestroy {
       swipeToClose: true,
       presentingElement: await this.modalController.getTop(),
       componentProps: {
-        item: selectedItem,
+        restaurant: selectedItem,
         title: selectedItem.name
       }
     });

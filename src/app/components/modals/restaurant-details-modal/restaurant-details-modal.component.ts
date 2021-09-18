@@ -23,17 +23,8 @@ export class RestaurantDetailsModalComponent implements OnInit, OnChanges {
   }
   ngOnChanges(simpleChanges: SimpleChanges) {
     this.restaurant = simpleChanges.restaurant;
-    console.log(this.restaurant);
-    // const found = _.find(this.currentUser.likes, (like) => like.name === this.restaurant.name);
-    // if (found) {
-    //   rest.liked = true;
-    // } else {
-    //   rest.liked = false;
-    // }
   }
   onCloseClicked() {
     this.modalController.dismiss();
   }
-
-
 }
