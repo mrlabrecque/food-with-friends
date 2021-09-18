@@ -13,6 +13,7 @@ import { User } from 'src/app/models/user.model';
 import { AuthService } from 'src/app/services/auth.service';
 import { LocationService } from 'src/app/services/location.service';
 import { RestaurantItemOverviewComponent } from 'src/app/components/restaurant-item-overview/restaurant-item-overview.component';
+import { RestaurantDetailsModalComponent } from 'src/app/components/modals/restaurant-details-modal/restaurant-details-modal.component';
 
 
 declare const google;
@@ -175,7 +176,7 @@ export class MatchPageComponent implements OnInit, AfterViewInit, OnDestroy {
   }
   async presentModal(selectedItem) {
     const modal = await this.modalController.create({
-      component: RestaurantItemOverviewComponent,
+      component: RestaurantDetailsModalComponent,
       cssClass: 'my-custom-class',
       swipeToClose: true,
       presentingElement: await this.modalController.getTop(),
