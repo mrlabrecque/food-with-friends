@@ -1,13 +1,14 @@
+/* eslint-disable @typescript-eslint/naming-convention */
 export class Matches {
   _id?: number;
   name?: string;
-  placeId?: string;
-  photoUrl?: string;
+  id?: string;
+  image_url?: string;
   // eslint-disable-next-line @typescript-eslint/naming-convention
-  price_level?: number;
+  price?: number;
   rating?: number;
   // eslint-disable-next-line @typescript-eslint/naming-convention
-  user_ratings_total?: number;
+  review_count?: number;
   memberMatches?: number[];
   noOfMatches?: number;
   matchPercent?: number;

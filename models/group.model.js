@@ -12,11 +12,11 @@ const filterSchema = new db.Schema({
 })
 const matchSchema = new db.Schema({
   name: String,
-  placeId: String,
-  photoUrl: String,
-  price_level: Number,
+  id: String,
+  image_url: String,
+  price: Number,
   rating: Number,
-  user_ratings_total: Number,
+  review_count: Number,
   memberMatches: [Number],
   noOfMatches: Number,
   matchPercent: Number,

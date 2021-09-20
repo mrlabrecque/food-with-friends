@@ -1,6 +1,8 @@
+/* eslint-disable no-underscore-dangle */
 import { Component, Input, OnChanges, OnInit, SimpleChanges } from '@angular/core';
 import { ModalController } from '@ionic/angular';
 import { AuthService } from 'src/app/services/auth.service';
+import { UserService } from 'src/app/services/user.service';
 import * as _ from 'underscore';
 
 @Component({
@@ -10,15 +12,15 @@ import * as _ from 'underscore';
 })
 export class RestaurantDetailsModalComponent implements OnInit, OnChanges {
   @Input() restaurant: any;
-  constructor(private modalController: ModalController, private authService: AuthService) { }
+  liked = false;
+  currentUser;
+  constructor(private modalController: ModalController, private authService: AuthService, private userService: UserService) { }
 
   ngOnInit() {
-    const currentUser = this.authService.authenticatedUser.value;
-    const found = _.find(currentUser.likes, (like) => like.name === this.restaurant.name);
+    this.currentUser = this.authService.authenticatedUser.value;
+    const found = _.find(this.currentUser.likes, (like) => like.name === this.restaurant.name);
     if (found) {
-      this.restaurant.liked = true;
-    } else {
-      this.restaurant.liked = false;
+      this.liked = true;
     }
   }
   ngOnChanges(simpleChanges: SimpleChanges) {
@@ -27,4 +29,16 @@ export class RestaurantDetailsModalComponent implements OnInit, OnChanges {
   onCloseClicked() {
     this.modalController.dismiss();
   }
+  likeButtonClicked() {
+    this.liked = !this.liked;
+    this.onLikeClicked(this.liked);
+  }
+  onLikeClicked(likedOrDisliked) {
+    if (likedOrDisliked) {
+      this.userService.addLike(this.restaurant, this.currentUser._id);
+    } else {
+      this.userService.removeLike(this.restaurant, this.currentUser._id);
+    }
+  }
+
 }

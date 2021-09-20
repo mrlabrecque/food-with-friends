@@ -1,5 +1,6 @@
 import { Component, OnInit, Input, OnChanges, SimpleChanges } from '@angular/core';
 import { ModalController, IonRouterOutlet } from '@ionic/angular';
+import { Restaurant } from 'src/app/models/restaurant.model';
 import { RestaurantDetailsModalComponent } from '../modals/restaurant-details-modal/restaurant-details-modal.component';
 
 @Component({
@@ -8,7 +9,7 @@ import { RestaurantDetailsModalComponent } from '../modals/restaurant-details-mo
   styleUrls: ['./sliding-card-full.component.scss'],
 })
 export class SlidingCardFullComponent implements OnInit, OnChanges {
-  @Input() incomingData: any[];
+  @Input() incomingData: Restaurant[];
   cardData: any[] = [];
 
   slideOpts = {

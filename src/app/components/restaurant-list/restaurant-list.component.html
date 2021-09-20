@@ -3,7 +3,7 @@
   <div class="restraurant-card-container">
 
     <ion-card *ngFor="let rest of restaurants | reverse" class="restaurant-card" (click)="onAdditionalDetailsClicked()">
-      <div class="main-image-container" [style.background-image]="'url(' + rest.photoUrl + ')'">
+      <div class="main-image-container" [style.background-image]="'url(' + rest.image_url + ')'">
         <div class="badge-container">
           <ng-container *ngIf="rest.rating > 4">
             <ion-badge color="success"><i class="fas fa-thumbs-up"></i> highly rated</ion-badge>
@@ -24,7 +24,7 @@
     </ion-card>
   </div>
   <div class="match-buttons-container">
-    <app-match-buttons [liked]="restaurants[counter].liked" (onMatchClicked)="onMatchClicked()"
+    <app-match-buttons [currentRestaurantCard]="currentRestaurantCard" (onMatchClicked)="onMatchClicked()"
       (onNoMatchClicked)="onNoMatchClicked()" (onLikeClicked)="onLikeClicked($event)"></app-match-buttons>
   </div>
 </ng-container>

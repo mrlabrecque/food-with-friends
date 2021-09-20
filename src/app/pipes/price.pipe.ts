@@ -5,18 +5,18 @@ import { Pipe, PipeTransform } from '@angular/core';
 })
 export class PricePice implements PipeTransform {
 
-  transform(value: number) {
+  transform(value: string) {
     switch (value) {
-      case 1: {
+      case "$": {
         return `<i class="fas fa-dollar-sign"></i>`;
       }
-      case 2: {
+      case "$$": {
         return `<i class="fas fa-dollar-sign"></i><i class="fas fa-dollar-sign"></i>`;
       }
-      case 3: {
+      case "$$$": {
         return `<i class="fas fa-dollar-sign"></i><i class="fas fa-dollar-sign"></i><i class="fas fa-dollar-sign"></i>`;
       }
-      case 4: {
+      case "$$$$": {
         return `<i class="fas fa-dollar-sign"></i><i class="fas fa-dollar-sign"></i><i class="fas fa-dollar-sign"></i><i class="fas fa-dollar-sign"></i>`;
       }
       default: {

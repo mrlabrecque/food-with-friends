@@ -1,6 +1,7 @@
+/* eslint-disable @typescript-eslint/naming-convention */
 /* eslint-disable no-underscore-dangle */
 // eslint-disable-next-line max-len
-import { Component, OnInit, OnDestroy, ViewChildren, ElementRef, QueryList, AfterViewInit, Input, OnChanges, SimpleChanges, Output, EventEmitter } from '@angular/core';
+import { Component, OnInit, OnDestroy, ViewChildren, ElementRef, QueryList, AfterViewInit, Input, OnChanges, SimpleChanges, Output, EventEmitter, ChangeDetectorRef, NgZone } from '@angular/core';
 import { createGesture, Gesture } from '@ionic/core';
 import { RestaurantService } from '../../services/restaurant.service';
 import { Subscription, BehaviorSubject } from 'rxjs';
@@ -15,6 +16,7 @@ import { UserService } from 'src/app/services/user.service';
 import { RestaurantDetailsModalComponent } from '../modals/restaurant-details-modal/restaurant-details-modal.component';
 import { AuthService } from 'src/app/services/auth.service';
 import { User } from 'src/app/models/user.model';
+import { Restaurant } from 'src/app/models/restaurant.model';
 
 @Component({
   selector: 'app-restaurant-list',
@@ -26,22 +28,31 @@ export class RestaurantListComponent implements OnInit, OnDestroy, AfterViewInit
   // @ViewChildren(IonCard, { read: ElementRef }) restraurantCards: QueryList<ElementRef>;
   @ViewChildren(IonCard, { read: ElementRef }) restraurantCards: QueryList<ElementRef>;
   // instantiate posts to an empty array
-  @Input() restaurants: any[] = [];
+  @Input() restaurants: Restaurant[] = [];
   @Output() trueMatchCreated: EventEmitter<Matches> = new EventEmitter();
   restraurantListSubscription$: Subscription;
   currentGroup: Group;
   currentGroupSubscription: Subscription;
   currentUser: User;
   currentUserSubscription: Subscription;
+  currentUserLikesSubscription: Subscription;
+  currentUserLikes: Restaurant[];
   showLoading$: BehaviorSubject<boolean> = new BehaviorSubject(true);
+  currentRestaurantCard$: BehaviorSubject<Restaurant> = new BehaviorSubject(new Restaurant());
+  currentRestaurantCard: Restaurant;
   counter = 0;
 
   constructor(private restaurantService: RestaurantService, private gestureCtrl: GestureController,
     private plt: Platform, private matchService: MatchService, private groupService: GroupService,
     private activatedRoute: ActivatedRoute, private authService: AuthService, private modalController: ModalController,
-    private routerOutlet: IonRouterOutlet, private userService: UserService, public toastController: ToastController) { }
+    private routerOutlet: IonRouterOutlet, private userService: UserService, public toastController: ToastController, private ngZone: NgZone
+  ) { }
 
   ngOnInit() {
+    this.instanstiateSwipeGesture(this.restraurantCards && this.restraurantCards.toArray());
+    this.currentRestaurantCard$.subscribe(res => {
+      this.currentRestaurantCard = { ...res };
+    });
   }
   ngAfterViewInit() {
     this.instanstiateSwipeGesture(this.restraurantCards && this.restraurantCards.toArray());
@@ -52,6 +63,9 @@ export class RestaurantListComponent implements OnInit, OnDestroy, AfterViewInit
   ngOnChanges(changes: SimpleChanges) {
     if (this.restaurants.length > 0) {
       this.showLoading$.next(false);
+      this.currentUserLikesSubscription = this.userService.currentUserLikes$.subscribe(
+        (res: Restaurant[]) => { this.onSetCurrentUserLikesSuccess(res); }
+      );
     }
   }
   ngOnDestroy() {
@@ -68,7 +82,7 @@ export class RestaurantListComponent implements OnInit, OnDestroy, AfterViewInit
         onMove: ev => {
           rest.nativeElement.style.transform = `translateX(${ev.deltaX}px) rotate(${ev.deltaX / 10}deg)`;
         },
-        onEnd: ev => {
+        onEnd: ev => this.ngZone.run(() => {
           rest.nativeElement.style.transition = '.5s ease-out';
           if (ev.deltaX > 50) {
             rest.nativeElement.style.transform = `translateX(${+this.plt.width() * 2}px) rotate(${ev.deltaX / 2}deg)`;
@@ -80,6 +94,7 @@ export class RestaurantListComponent implements OnInit, OnDestroy, AfterViewInit
             rest.nativeElement.style.transform = '';
           }
         }
+        )
       });
       gesture.enable(true);
 
@@ -89,13 +104,27 @@ export class RestaurantListComponent implements OnInit, OnDestroy, AfterViewInit
   }
   onMoveHandler(ev) {
   }
+  onSetCurrentUserLikesSuccess(res: Restaurant[]) {
+    this.currentUserLikes = res;
+    _.each(this.restaurants, rest => {
+      const found = this.currentUserLikes.findIndex((like) => rest.id === like.id);
+      console.log(found);
+      if (found > -1) {
+        rest.liked = true;
+      }
+    });
+    this.currentRestaurantCard$.next(this.restaurants[this.counter]);
+  }
   onThumbsUp() {
     this.addMatch(this.restaurants[this.counter]);
     this.counter++;
+    this.currentRestaurantCard$.next(this.restaurants[this.counter]);
 
   }
   onThumbsDown() {
     this.counter++;
+    this.currentRestaurantCard$.next(this.restaurants[this.counter]);
+
   }
   onMatchClicked() {
     const restaurantCardArray = this.restraurantCards.toArray();
@@ -115,41 +144,14 @@ export class RestaurantListComponent implements OnInit, OnDestroy, AfterViewInit
   }
   onLikeClicked(likedOrDisliked) {
     if (likedOrDisliked) {
-      this.addLike(this.restaurants[this.counter]);
+      this.userService.addLike(this.restaurants[this.counter], this.authService.authenticatedUser.value._id);
     } else {
-      this.removeLike(this.restaurants[this.counter]);
+      this.userService.removeLike(this.restaurants[this.counter], this.authService.authenticatedUser.value._id);
     }
-  }
-  addLike(rest) {
-    const like: Matches = { ...rest };
-    this.userService.addLikeToUser(like, this.authService.authenticatedUser.value._id).subscribe((res) =>
-      this.addLikeSuccess());
-  }
-  async addLikeSuccess() {
-    this.authService.refreshUser();
-    const toast = await this.toastController.create({
-      message: 'Like added',
-      duration: 1000
-    });
-    toast.present();
-  }
-  removeLike(rest) {
-    const like: Matches = { ...rest };
-    this.userService.removeLikeFromUser(like, this.authService.authenticatedUser.value._id).subscribe((res) => {
-      this.removeLikeSuccess();
-    });
-  }
-  async removeLikeSuccess() {
-    this.authService.refreshUser();
-    const toast = await this.toastController.create({
-      message: 'Like removed',
-      duration: 1000
-    });
-    toast.present();
   }
   addMatch(rest) {
     const currentMatches = this.currentGroup.matches;
-    const existingMatch = _.findWhere(currentMatches, { placeId: rest.place_id });
+    const existingMatch = _.findWhere(currentMatches, { id: rest.id });
     const noOfGroupMembers = this.currentGroup.members.length;
     //plus one includes the update that is next
     let currentMatchPercent;
@@ -160,7 +162,7 @@ export class RestaurantListComponent implements OnInit, OnDestroy, AfterViewInit
       existingMatch.memberMatches.push(this.currentUser._id);
       const match: Matches = {
         name: existingMatch.name,
-        placeId: existingMatch.placeId,
+        id: existingMatch.id,
         memberMatches: existingMatch.memberMatches,
         noOfMatches: noOfGroupMembersThatHaveMatched,
         matchPercent: currentMatchPercent,
@@ -176,13 +178,13 @@ export class RestaurantListComponent implements OnInit, OnDestroy, AfterViewInit
       currentMatchPercent = 1 / noOfGroupMembers * 100;
       const match: Matches = {
         name: rest.name,
-        placeId: rest.place_id,
-        photoUrl: rest.photoUrl,
+        id: rest.id,
+        image_url: rest.image_url,
         // eslint-disable-next-line @typescript-eslint/naming-convention
-        price_level: rest.price_level,
+        price: rest.price,
         rating: rest.rating,
         // eslint-disable-next-line @typescript-eslint/naming-convention
-        user_ratings_total: rest.user_ratings_total,
+        review_count: rest.review_count,
         memberMatches: [this.currentUser._id],
         noOfMatches: 1,
         matchPercent: currentMatchPercent,

@@ -42,6 +42,7 @@
     </ion-list-header>
     <app-sliding-list-groups [listItems]="groups" [currentUser]="currentUser"></app-sliding-list-groups>
   </ion-list>
+
   <!-- End of list header -->
   <ion-list>
     <ion-list-header class="ion-padding-end">
@@ -52,6 +53,6 @@
         </div>
       </div>
     </ion-list-header>
-    <app-sliding-card-large [incomingData]="currentUser?.likes" dataType="likes"></app-sliding-card-large>
+    <app-sliding-card-large [incomingData]="currentUserLikes" dataType="likes"></app-sliding-card-large>
   </ion-list>
 </ion-content>

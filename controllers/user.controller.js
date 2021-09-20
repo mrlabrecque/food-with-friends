@@ -110,17 +110,17 @@ exports.createUser = (req, res) => {
 
 exports.addLike = (req, res) => {
   const userId = req.params.id;
-  const user = User.updateOne({ _id: +userId }, { $push: { "likes": req.body } })
+  const user = User.findByIdAndUpdate({ _id: +userId }, { $push: { "likes": req.body } }, { new: true })
     .then((user) => {
-      res.json(user)
+      res.send(user.likes)
     })
     .catch((err) => console.log(err));
 };
 exports.removeLike = (req, res) => {
   const userId = req.params.id;
-  const user = User.updateOne({ _id: +userId }, { $pull: { "likes": { name: req.body.name } } })
+  const user = User.findByIdAndUpdate({ _id: +userId }, { $pull: { "likes": { name: req.body.name } } }, { new: true })
     .then((user) => {
-      res.json(user)
+      res.send(user.likes)
     })
     .catch((err) => console.log(err));
 };

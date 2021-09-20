@@ -2,6 +2,7 @@
 import { Component, Input, OnChanges, OnInit, SimpleChanges } from '@angular/core';
 import { IonRouterOutlet, ModalController, ToastController } from '@ionic/angular';
 import { Matches } from 'src/app/models/matches.model';
+import { Restaurant } from 'src/app/models/restaurant.model';
 import { User } from 'src/app/models/user.model';
 import { AuthService } from 'src/app/services/auth.service';
 import { GroupService } from 'src/app/services/group.service';
@@ -15,7 +16,7 @@ import { RestaurantDetailsModalComponent } from '../modals/restaurant-details-mo
 })
 export class MatchListComponent implements OnInit, OnChanges {
 
-  @Input() cardData: Matches[];
+  @Input() cardData: Matches[] | Restaurant[];
   @Input() groupOwner: User;
   @Input() dataType: string;
   currentUser: User;

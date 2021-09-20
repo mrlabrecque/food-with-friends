@@ -6,12 +6,37 @@ const Schema = db.Schema;
 autoIncrement.initialize(db.connection);
 
 const likeSchema = new db.Schema({
-  name: String,
-  placeId: String,
-  photoUrl: String,
-  price_level: Number,
   rating: Number,
-  user_ratings_total: Number,
+  price: String,
+  phone: String,
+  id: String,
+  alias: String,
+  is_closed: Boolean,
+  categories: [
+    {
+      alias: String,
+      title: String,
+    }
+  ],
+  review_count: Number,
+  name: String,
+  url: String,
+  coordinates: {
+    latitude: Number,
+    longitude: Number,
+  },
+  image_url: String,
+  location: {
+    city: String,
+    country: String,
+    address2: String,
+    address3: String,
+    state: String,
+    address1: String,
+    zip_code: String,
+  },
+  distance: Number,
+  transactions: [String]
 });
 
 const userSchema = new db.Schema({

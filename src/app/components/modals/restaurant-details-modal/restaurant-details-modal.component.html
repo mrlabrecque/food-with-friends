@@ -10,15 +10,16 @@
       <ion-button fill="solid" shape="round" color="light">
         <ion-icon slot="icon-only" name="share-outline" color="primary"></ion-icon>
       </ion-button>
-      <ion-button fill="solid" shape="round" color="light">
-        <ion-icon slot="icon-only" [name]="restaurant.liked ? 'heart':'heart-outline'" color="primary"></ion-icon>
+      <ion-button fill="solid" shape="round" color="light" (click)="likeButtonClicked()">
+        <ion-icon slot="icon-only" [name]="liked ? 'heart':'heart-outline'" color="danger">
+        </ion-icon>
       </ion-button>
     </ion-buttons>
   </ion-toolbar>
 </ion-header>
 
 <ion-content [fullscreen]="true" scrollEvents="true">
-  <div #img class="header-image" [style.background-image]="'url(' + restaurant?.photoUrl + ')'">
+  <div #img class="header-image" [style.background-image]="'url(' + restaurant?.image_url + ')'">
   </div>
 
   <ion-header collapse="condense" class="ion-no-border">

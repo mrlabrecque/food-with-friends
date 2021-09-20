@@ -1,7 +1,7 @@
 <div class="flex">
-  <ng-container *ngIf="item.price_level">
+  <ng-container *ngIf="item.price">
     <div style="margin-right: 8px;">
-      <ion-text color="success"><span [innerHTML]="item.price_level | price"></span></ion-text>
+      <ion-text color="success"><span [innerHTML]="item.price | price"></span></ion-text>
     </div>
   </ng-container>
   <div>

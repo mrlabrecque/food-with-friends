@@ -6,7 +6,7 @@ import { HttpParams } from '@angular/common/http';
 import { LocationService } from '../../services/location.service';
 import * as _ from 'underscore';
 import { Subscription, combineLatest, BehaviorSubject, Subject, Observable } from 'rxjs';
-import { IonRouterOutlet, ModalController, ToastController } from '@ionic/angular';
+import { IonRouterOutlet, LoadingController, ModalController, ToastController } from '@ionic/angular';
 import { ModalContainerComponent } from '../../components/modals/modal-container/modal-container.component';
 import { GroupService } from '../../services/group.service';
 import { Group } from '../../models/group-model';
@@ -18,6 +18,8 @@ import { MatchListComponent } from 'src/app/components/match-list/match-list.com
 import { LikesPageComponent } from '../likes-page/likes-page.component';
 import { RestaurantDetailsModalComponent } from 'src/app/components/modals/restaurant-details-modal/restaurant-details-modal.component';
 import { ModalListComponent } from 'src/app/components/modals/modal-list/modal-list.component';
+import { Restaurant } from 'src/app/models/restaurant.model';
+import { UserService } from 'src/app/services/user.service';
 
 declare const google;
 const options = {
@@ -35,50 +37,38 @@ export class HomePageComponent implements OnInit {
 
 
   currentUser: User;
+  currentUserLikes: Restaurant[];
   attbibutes: string[] = ['hot_and_new', 'deals'];
-
-  cardData = [{
-    title: 'Title Here',
-    content: 'Content Here 1',
-    imageUrl: './avatar.svg'
-  }, {
-    title: 'Title Here',
-    content: 'Content Here 2 ',
-    imageUrl: './avatar.svg'
-  }, {
-    title: 'Title Here',
-    content: 'Content Here 3',
-    imageUrl: './avatar.svg'
-  }, {
-    title: 'Title Here',
-    content: 'Content Here 4',
-    imageUrl: './avatar.svg'
-  }, {
-    title: 'Title Here',
-    content: 'Content Here 5',
-    imageUrl: './avatar.svg'
-  }];
   groupsSubscription: Subscription;
+  likesSubscription: Subscription;
   groups$: BehaviorSubject<Group[]> = new BehaviorSubject([]);
   groups: Group[] = [];
   newGroupsSubscription: Subscription;
 
-  newRestaurants$: BehaviorSubject<any[]> = new BehaviorSubject(null);
-  dealsRestaurants$: BehaviorSubject<any[]> = new BehaviorSubject([]);
+  newRestaurants$: BehaviorSubject<Restaurant[]> = new BehaviorSubject(null);
+  dealsRestaurants$: BehaviorSubject<Restaurant[]> = new BehaviorSubject([]);
+  loading;
 
   constructor(private restaurantService: RestaurantService,
     private locationService: LocationService,
     public modalController: ModalController,
+    public loadingController: LoadingController,
     public routerOutlet: IonRouterOutlet,
     private groupService: GroupService,
     private modeService: ModeService,
-    private authService: AuthService) {
+    private authService: AuthService,
+    private userService: UserService) {
     this.authService.authenticatedUser.subscribe((user) => {
       this.onFetchUserSuccess(user);
     });
   }
 
   ngOnInit() {
+    this.openLoader();
+    this.likesSubscription = this.userService.currentUserLikes$.subscribe(res => {
+      this.currentUserLikes = res;
+    });
+
     combineLatest(
       [this.locationService.userLat,
       this.locationService.userLong]
@@ -86,7 +76,6 @@ export class HomePageComponent implements OnInit {
       ([lat, long]) => {
         if (lat && long) {
           _.each(this.attbibutes, (attr) => this.setParams(attr));
-          this.getNewRestaurants();
 
         }
       });
@@ -96,13 +85,17 @@ export class HomePageComponent implements OnInit {
 
 
   }
+  async openLoader() {
+    this.loading = await this.loadingController.create();
+    await this.loading.present();
+  }
   onFetchUserSuccess(user) {
     this.currentUser = user;
-    console.log(this.currentUser);
     this.newGroupsSubscription = this.groups$.subscribe((res: Group[]) => {
       this.groups = [...res];
     });
     if (this.currentUser) {
+      this.userService.currentUserLikes$.next(this.currentUser.likes);
       this.groupsSubscription = this.groupService.getUsersGroupsByUserId(this.currentUser?._id).subscribe((res) => this.onFetchGroupsSuccess(res));
     }
   }
@@ -111,30 +104,26 @@ export class HomePageComponent implements OnInit {
     this.groups$.next(res);
     this.groups = res;
   }
-  getNewRestaurants() {
-    const service = new google.maps.places.PlacesService(document.createElement('div'));
-    service.textSearch({
-      location: { lat: this.locationService.userLat.value, lng: this.locationService.userLong.value },
-      query: 'New Restaurants near me'
-    }, (results, status) => {
-      if (status === google.maps.places.PlacesServiceStatus.OK) {
-        _.each(results, rest => {
-          rest.photoUrl = rest.photos[0].getUrl();
-        });
-        this.newRestaurants$.next(results);
-      }
-    });
-  }
+
   setParams(attr: string) {
     const paramsToRequest: HttpParams = new HttpParams().set('limit', '50')
       .set('latitude', `${this.locationService.userLat.value}`)
       .set('longitude', `${this.locationService.userLong.value}`)
-      .set('radius', '40000')
-      .set('term', 'food')
+      .set('radius', '16000')
+      .set('categories', 'restaurants')
       .set('attributes', `${attr}`);
-    // this.restaurantService.searchRestaurants(paramsToRequest)
-    //   .subscribe((res) => this.onGetFilteredRestaurantsSuccess(res, attr)
-    //   );
+    this.restaurantService.searchRestaurants(paramsToRequest)
+      .subscribe((res) => this.onGetFilteredRestaurantsSuccess(res, attr)
+      );
+  }
+  onGetFilteredRestaurantsSuccess(res, attr) {
+    if (attr === 'hot_and_new') {
+      this.newRestaurants$.next(res);
+    }
+    if (attr === 'deals') {
+      this.dealsRestaurants$.next(res);
+    }
+    this.loading.dismiss();
   }
   async openLikesModal() {
     const modal = await this.modalController.create({
@@ -143,7 +132,7 @@ export class HomePageComponent implements OnInit {
       swipeToClose: true,
       presentingElement: this.routerOutlet.nativeEl,
       componentProps: {
-        listData: this.currentUser?.likes,
+        listData: this.currentUserLikes,
         title: 'Likes'
       }
     });

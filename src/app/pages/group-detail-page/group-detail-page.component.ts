@@ -23,6 +23,7 @@ import { PopoverContainerComponent } from 'src/app/components/popovers/popover-c
 import { AuthService } from 'src/app/services/auth.service';
 import { User } from 'src/app/models/user.model';
 import { ModalListComponent } from 'src/app/components/modals/modal-list/modal-list.component';
+import { Restaurant } from 'src/app/models/restaurant.model';
 
 
 @Component({
@@ -69,28 +70,28 @@ export class GroupDetailPageComponent implements OnInit, OnDestroy {
   availablePrices: Param[] = [
     {
       label: '$',
-      name: 'level_one',
+      name: '1',
       selected: false
     },
     {
       label: '$$',
-      name: 'level_two',
+      name: '2',
       selected: false
     },
     {
       label: '$$$',
-      name: 'level_three',
+      name: '3',
       selected: false
     },
     {
       label: '$$$$',
-      name: 'level_four',
+      name: '4',
       selected: false
     }];
   availableTypes: Param[] = [
     {
       label: 'American',
-      name: 'american',
+      name: 'tradamerican',
       selected: false
     },
     {
@@ -105,7 +106,7 @@ export class GroupDetailPageComponent implements OnInit, OnDestroy {
     },
     {
       label: 'Asian',
-      name: 'asian',
+      name: 'asianfusion',
       selected: false
     }];
   selectedTypes: FilterChip[] = [];
@@ -120,7 +121,7 @@ export class GroupDetailPageComponent implements OnInit, OnDestroy {
 
   constructor(private activatedRoute: ActivatedRoute,
     private router: Router,
-    private restraurantService: RestaurantService,
+    private restaurantService: RestaurantService,
     private locationService: LocationService,
     private groupService: GroupService,
     private filterService: FilterService,
@@ -207,12 +208,15 @@ export class GroupDetailPageComponent implements OnInit, OnDestroy {
     const selectedTypes = _.pluck(_.filter(this.availableTypes, (type) => type.selected === true), 'name');
     const selectedPrice = _.pluck(_.filter(this.availablePrices, (price) => price.selected === true), 'name');
     const convertedDistace = (this.selectedDistance * 1.6) * 1000;
+
     const paramsToRequest: HttpParams = new HttpParams().set('limit', '50')
-      .set('latitude', `${this.lat}`)
-      .set('longitude', `${this.long}`)
+      .set('latitude', `${this.locationService.userLat.value}`)
+      .set('longitude', `${this.locationService.userLong.value}`)
       .set('radius', `${Math.round(+convertedDistace)}`)
-      .set('categories', `${selectedTypes}`)
-      .set('price', `${selectedPrice}`);
+      .set('price', `${selectedPrice}`)
+      .set('categories', `${selectedTypes}`);
+    this.restaurantService.searchRestaurants(paramsToRequest)
+      .subscribe((res: Restaurant[]) => this.onGetFilteredRestaurantsResults(res));
 
     //send to service to update group filters
     const preparedGroup: Group = {
@@ -233,6 +237,16 @@ export class GroupDetailPageComponent implements OnInit, OnDestroy {
   }
   onUpdateGroupFiltersSuccess(updatedFilters) {
     this.groupService.updateCurrentGroupFilters(updatedFilters);
+  }
+  onGetFilteredRestaurantsResults(res) {
+    console.log(res);
+    _.each(res, rest => {
+      const found = _.findWhere(this.currentUser.likes, { id: rest.id });
+      if (found) {
+        res.liked = true;
+      }
+    });
+    this.restaurantService.restaurantResults$.next(res);
     this.router.navigateByUrl(`/members/tab2/group/${this.groupId}/matches`);
   }
   chipPricesSelectionChanged(selectedPrices) {
