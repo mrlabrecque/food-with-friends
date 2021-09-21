@@ -38,7 +38,7 @@ export class HomePageComponent implements OnInit {
 
   currentUser: User;
   currentUserLikes: Restaurant[];
-  attbibutes: string[] = ['hot_and_new', 'deals'];
+  attbibutes: string[] = ['hot_and_new'];
   groupsSubscription: Subscription;
   likesSubscription: Subscription;
   groups$: BehaviorSubject<Group[]> = new BehaviorSubject([]);

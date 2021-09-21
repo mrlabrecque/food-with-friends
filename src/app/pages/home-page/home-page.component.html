@@ -23,12 +23,13 @@
       <div class="flex space-between" style="width: 100%;">
         <div>New Near Me</div>
         <div (click)="openNearModal()">
-          <ion-text color="primary"><span class="link-text">See More</span></ion-text>
+          <ion-text color="primary"><span class="link-text">See All</span></ion-text>
         </div>
       </div>
     </ion-list-header>
     <app-sliding-card-full [incomingData]="newRestaurants$ | async"></app-sliding-card-full>
   </ion-list>
+
   <!-- Start of list header -->
   <ion-list>
     <ion-list-header class="ion-padding-end">
