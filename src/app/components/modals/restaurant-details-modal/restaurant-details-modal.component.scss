@@ -87,3 +87,17 @@ ion-slides {
   --border-radius: 30px;
   font-weight: 600;
 }
+
+.text-trim {
+  width: 100%;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.text-show {
+
+  white-space: normal;
+  overflow: show;
+  text-overflow: ellipsis;
+}

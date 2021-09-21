@@ -9,6 +9,7 @@ import { env } from 'process';
 import { environment } from 'src/environments/environment';
 import { Restaurant } from '../models/restaurant.model';
 import * as _ from 'underscore';
+import { Review } from '../models/review.model';
 
 @Injectable({
   providedIn: 'root'
@@ -37,6 +38,16 @@ export class RestaurantService {
         return restaurants;
       })
     );
+  }
+  getRestaurantReviews(id: string) {
+    return this.http.get(`${this.proxyUrl}/${this.yelpApiBaseUrl}/${id}/reviews`, { headers: this.requestOptions }).pipe(
+      map((res: any) => {
+        const reviews: Review[] = res.reviews;
+        _.each(reviews, rev => {
+          rev.moreShowing = false;
+        });
+        return reviews;
+      }));
   }
 
   // Get all posts from the API

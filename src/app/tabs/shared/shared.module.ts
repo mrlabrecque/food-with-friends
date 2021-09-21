@@ -21,13 +21,14 @@ import { AvatarModule } from 'ngx-avatar';
 import { MemberListComponent } from 'src/app/components/member-list/member-list.component';
 import { PopoverContainerComponent } from 'src/app/components/popovers/popover-container/popover-container.component';
 import { ModalListComponent } from 'src/app/components/modals/modal-list/modal-list.component';
+import { PhonePipe } from 'src/app/pipes/phone.pipe';
 
 
 
 
 
 @NgModule({
-  declarations: [PopoverContainerComponent, PriceDistanceComponent, PricePice, MatchListComponent, RestaurantDetailsModalComponent, StarRatingsComponent, SlidingListGroupsComponent, ModalContainerComponent, RestaurantItemListComponent, MetersToMilesPipe, SlidingCardLargeComponent, SlidingCardFullComponent, MemberListComponent, ModalListComponent],
+  declarations: [PopoverContainerComponent, PriceDistanceComponent, PricePice, MatchListComponent, RestaurantDetailsModalComponent, StarRatingsComponent, SlidingListGroupsComponent, ModalContainerComponent, RestaurantItemListComponent, MetersToMilesPipe, SlidingCardLargeComponent, SlidingCardFullComponent, MemberListComponent, ModalListComponent, PhonePipe],
   imports: [
     IonicModule,
     RouterModule,
@@ -38,7 +39,7 @@ import { ModalListComponent } from 'src/app/components/modals/modal-list/modal-l
     AvatarModule,
   ],
   exports: [
-    AvatarModule, PopoverContainerComponent, PriceDistanceComponent, PricePice, MatchListComponent, SlidingListGroupsComponent, RestaurantDetailsModalComponent, StarRatingsComponent, ModalContainerComponent, RestaurantItemListComponent, SlidingCardLargeComponent, SlidingCardFullComponent, MetersToMilesPipe, MemberListComponent, ModalListComponent
+    AvatarModule, PopoverContainerComponent, PriceDistanceComponent, PricePice, MatchListComponent, SlidingListGroupsComponent, RestaurantDetailsModalComponent, StarRatingsComponent, ModalContainerComponent, RestaurantItemListComponent, SlidingCardLargeComponent, SlidingCardFullComponent, MetersToMilesPipe, MemberListComponent, ModalListComponent, PhonePipe
   ]
 })
 export class SharedPageModule { }

@@ -33,8 +33,26 @@
       <ion-col size="12" class="light-bg ion-padding-start">
         <app-star-ratings [item]="restaurant"></app-star-ratings>
       </ion-col>
-      <ion-col size="12" class="light-bg ion-padding-start">
-        <app-price-dstance [item]="restaurant"></app-price-dstance>
+      <ion-col size="12" class="light-bg ion-padding-horizontal">
+        <div class="flex align-center space-between">
+          <div>
+            <app-price-dstance [item]="restaurant"></app-price-dstance>
+          </div>
+          <div>
+            <ion-label>{{restaurant.distance | metersToMiles}}<span *ngIf="restaurant.distance === 1"> mile</span><span
+                *ngIf="restaurant.distance !== 1"> miles</span></ion-label>
+          </div>
+        </div>
+
+
+      </ion-col>
+
+      <ion-col size="12" class="light-bg">
+        <ion-row class="ion-align-items-center">
+          <ion-chip *ngFor="let cat of restaurant.categories">
+            <ion-label>{{cat.title}}</ion-label>
+          </ion-chip>
+        </ion-row>
       </ion-col>
       <ion-col size="12" class="light-bg">
         <ion-row class="ion-align-items-center">
@@ -42,8 +60,16 @@
             <ion-icon color="medium" name="location-outline"></ion-icon>
           </ion-col>
           <ion-col size="10">
-            <ion-label>Restaurant info
-              <p>Map, allergene ad hygiene rating</p>
+            <ion-label>Address
+              <p>
+                <span>{{restaurant.location.address1}}</span>
+                <span *ngIf="restaurant.location.address2">, {{restaurant.location.address2}}</span>
+                <span *ngIf="restaurant.location.address3">, {{restaurant.location.address3}}</span><br>
+                <span>{{restaurant.location.city}}</span>
+                <span *ngIf="restaurant.location.state">, {{restaurant.location.state}}</span>
+                <span *ngIf="restaurant.location.zip_code"> {{restaurant.location.zip_code}}</span>
+                <span *ngIf="restaurant.location.country"> {{restaurant.location.country}}</span>
+              </p>
             </ion-label>
           </ion-col>
           <ion-col size="1">
@@ -51,59 +77,71 @@
           </ion-col>
         </ion-row>
       </ion-col>
+      <ion-col size="12" class="light-bg">
+        <ion-row class="ion-align-items-center">
+          <ion-col size="1">
+            <ion-icon color="medium" name="call-outline"></ion-icon>
+          </ion-col>
+          <ion-col size="10">
+            <ion-label>Contact
+              <p>{{restaurant.phone | phone}}</p>
+            </ion-label>
+          </ion-col>
+          <ion-col size="1">
+            <ion-icon color="primary" name="chevron-forward"></ion-icon>
+          </ion-col>
+        </ion-row>
+      </ion-col>
+      <ion-col size="12" class="light-bg">
+        <ion-row class="ion-align-items-center">
+          <ion-col size="1">
+            <ion-icon color="medium" name="globe-outline"></ion-icon>
+          </ion-col>
+          <ion-col size="10">
+            <ion-label>Website
+              <p class="text-trim">{{restaurant.url}}</p>
+            </ion-label>
+          </ion-col>
+          <ion-col size="1">
+            <ion-icon color="primary" name="chevron-forward"></ion-icon>
+          </ion-col>
+        </ion-row>
+      </ion-col>
+
     </ion-row>
   </div>
+  <ion-list lines="none">
+    <ion-list-header>Reviews</ion-list-header>
+    <ion-item *ngFor="let rev of reviews; let i = index">
+      <ion-thumbnail slot="start">
+        <img [src]="rev.user.image_url" />
+      </ion-thumbnail>
+      <ion-label>
+        <div class="flex space-between">
+          <div>
+            <h2>{{rev.user.name}}</h2>
+          </div>
+          <div>
+            <span class="small-text">
+              <ion-text color="medium">{{rev.time_created | date}}</ion-text>
+            </span>
+          </div>
+        </div>
 
-  <div *ngIf="restaurant" class="ion-padding">
-    Please do not call {{ restaurant.name }} for any amends to your order, as these cannot be made once your order is
-    received.
-  </div>
-  <div *ngIf="restaurant" class="ion-padding">
-    Please do not call {{ restaurant.name }} for any amends to your order, as these cannot be made once your order is
-    received.
-  </div>
-  <div *ngIf="restaurant" class="ion-padding">
-    Please do not call {{ restaurant.name }} for any amends to your order, as these cannot be made once your order is
-    received.
-  </div>
-  <div *ngIf="restaurant" class="ion-padding">
-    Please do not call {{ restaurant.name }} for any amends to your order, as these cannot be made once your order is
-    received.
-  </div>
-  <div *ngIf="restaurant" class="ion-padding">
-    Please do not call {{ restaurant.name }} for any amends to your order, as these cannot be made once your order is
-    received.
-  </div>
-  <div *ngIf="restaurant" class="ion-padding">
-    Please do not call {{ restaurant.name }} for any amends to your order, as these cannot be made once your order is
-    received.
-  </div>
+        <app-star-ratings [item]="rev"></app-star-ratings>
+        <p [ngClass]="{'text-trim' : rev.moreShowing === false,'text-show' : rev.moreShowing === true}">{{rev.text}}</p>
+        <div class="ion-float-right">
+          <p (click)="onShowMoreClicked(rev)">
+            <span *ngIf="rev.moreShowing" class="link-text">
+              <ion-text color="primary">show less</ion-text>
+            </span>
+            <span *ngIf="!rev.moreShowing" class="link-text">
+              <ion-text color="primary">show more</ion-text>
+            </span>
+          </p>
+        </div>
 
-  <!-- <div slot="fixed">
-    <ion-slides *ngIf="restaurant" [options]="opts" [ngClass]="{'slides-visible': categorySlidesVisible, 'slides-hidden': !categorySlidesVisible}">
-      <ion-slide *ngFor="let entry of data.food; let i = index;">
-
-      </ion-slide>
-    </ion-slides>
-  </div> -->
-
-
-  <!-- <ion-list *ngFor="let entry of data?.food">
-    <ion-list-header>
-      <ion-label>{{ entry.category}}</ion-label>
-    </ion-list-header>
-    <ion-row *ngFor="let meal of entry.meals" class="ion-padding meal-row">
-      <ion-col size="8" class="border-bottom">
-        <ion-label>
-          {{ meal.name }}
-          <p>{{ meal.info }}</p>
-        </ion-label>
-        <ion-text color="dark"><b>{{ meal.price | currency:'EUR' }}</b></ion-text>
-      </ion-col>
-      <ion-col size="4" class="border-bottom">
-        <div class="meal-image" [style.background-image]="'url(' + meal.img + ')'"></div>
-      </ion-col>
-    </ion-row>
-  </ion-list> -->
-
+      </ion-label>
+    </ion-item>
+  </ion-list>
 </ion-content>

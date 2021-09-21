@@ -7,7 +7,7 @@
       <span class="small-text flex-item-text" style="margin-right:3px">{{item.rating}}</span>
     </ion-text>
   </div>
-  <div class=" flex-item-text-container">
+  <div class=" flex-item-text-container" *ngIf="item.review_count">
     <ion-text color="medium">
       <span class="smallest-text flex-item-text" *ngIf="item.review_count">({{item.review_count}}+)</span>
       <span class="smallest-text flex-item-text" *ngIf="!item.review_count">No Reviews</span>
