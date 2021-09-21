@@ -87,6 +87,20 @@ ion-title {
   }
 }
 
+.text-trim {
+  width: 100%;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.text-show {
+
+  white-space: normal;
+  overflow: show;
+  text-overflow: ellipsis;
+}
+
 .action-icons {
 
   &:hover {

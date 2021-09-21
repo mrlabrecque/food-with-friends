@@ -50,9 +50,7 @@ ion-toolbar {
   border-bottom: 1px solid var(--ion-color-step-150, rgba(0, 0, 0, 0.07));
 }
 
-ion-list-header {
-  --background: #f1f1f1;
-}
+
 
 ion-list {
   --ion-background-color: #fff;
@@ -88,16 +86,4 @@ ion-slides {
   font-weight: 600;
 }
 
-.text-trim {
-  width: 100%;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-}
 
-.text-show {
-
-  white-space: normal;
-  overflow: show;
-  text-overflow: ellipsis;
-}

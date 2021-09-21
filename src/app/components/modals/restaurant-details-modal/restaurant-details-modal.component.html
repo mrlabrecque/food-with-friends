@@ -30,17 +30,32 @@
 
   <div *ngIf="restaurant">
     <ion-row>
-      <ion-col size="12" class="light-bg ion-padding-start">
-        <app-star-ratings [item]="restaurant"></app-star-ratings>
+
+      <ion-col size="12" class="light-bg ion-padding-horizontal">
+        <div class="flex align-center space-between">
+          <div>
+            <app-star-ratings [item]="restaurant"></app-star-ratings>
+          </div>
+          <div *ngIf="!restaurant.is_closed">
+            <span>
+              <ion-badge color="success">
+                <ion-icon name="storefront-outline"></ion-icon> Open Now
+              </ion-badge>
+            </span>
+          </div>
+        </div>
+
       </ion-col>
+
       <ion-col size="12" class="light-bg ion-padding-horizontal">
         <div class="flex align-center space-between">
           <div>
             <app-price-dstance [item]="restaurant"></app-price-dstance>
           </div>
-          <div>
-            <ion-label>{{restaurant.distance | metersToMiles}}<span *ngIf="restaurant.distance === 1"> mile</span><span
-                *ngIf="restaurant.distance !== 1"> miles</span></ion-label>
+          <div class="flex align-center">
+            <ion-icon name="navigate"></ion-icon>
+            <ion-label>{{restaurant.distance | metersToMiles}}<span *ngIf="restaurant.distance === 1">
+                mile</span><span *ngIf="restaurant.distance !== 1"> miles</span></ion-label>
           </div>
         </div>
 
@@ -55,6 +70,7 @@
         </ion-row>
       </ion-col>
       <ion-col size="12" class="light-bg">
+
         <ion-row class="ion-align-items-center">
           <ion-col size="1">
             <ion-icon color="medium" name="location-outline"></ion-icon>
@@ -78,6 +94,7 @@
         </ion-row>
       </ion-col>
       <ion-col size="12" class="light-bg">
+
         <ion-row class="ion-align-items-center">
           <ion-col size="1">
             <ion-icon color="medium" name="call-outline"></ion-icon>
@@ -93,6 +110,7 @@
         </ion-row>
       </ion-col>
       <ion-col size="12" class="light-bg">
+
         <ion-row class="ion-align-items-center">
           <ion-col size="1">
             <ion-icon color="medium" name="globe-outline"></ion-icon>
@@ -110,7 +128,7 @@
 
     </ion-row>
   </div>
-  <ion-list lines="none">
+  <ion-list lines="none" class="ion-padding-none">
     <ion-list-header>Reviews</ion-list-header>
     <ion-item *ngFor="let rev of reviews; let i = index">
       <ion-thumbnail slot="start">

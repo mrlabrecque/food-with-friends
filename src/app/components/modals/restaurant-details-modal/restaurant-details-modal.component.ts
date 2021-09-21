@@ -2,6 +2,8 @@
 /* eslint-disable no-underscore-dangle */
 import { Component, Input, OnChanges, OnInit, SimpleChanges } from '@angular/core';
 import { ModalController } from '@ionic/angular';
+import { Restaurant } from 'src/app/models/restaurant.model';
+import { Review } from 'src/app/models/review.model';
 import { AuthService } from 'src/app/services/auth.service';
 import { RestaurantService } from 'src/app/services/restaurant.service';
 import { UserService } from 'src/app/services/user.service';
@@ -13,10 +15,10 @@ import * as _ from 'underscore';
   styleUrls: ['./restaurant-details-modal.component.scss'],
 })
 export class RestaurantDetailsModalComponent implements OnInit, OnChanges {
-  @Input() restaurant: any;
+  @Input() restaurant: Restaurant;
   liked = false;
   currentUser;
-  reviews: any[];
+  reviews: Review[];
   constructor(private modalController: ModalController, private authService: AuthService, private userService: UserService, private restaurantService: RestaurantService) { }
 
   ngOnInit() {
@@ -27,8 +29,8 @@ export class RestaurantDetailsModalComponent implements OnInit, OnChanges {
       this.liked = true;
     }
   }
-  ngOnChanges(simpleChanges: SimpleChanges) {
-    this.restaurant = simpleChanges.restaurant;
+  ngOnChanges(simpleChanges: any) {
+    this.restaurant = simpleChanges.restaurant as Restaurant;
   }
   onCloseClicked() {
     this.modalController.dismiss();

@@ -8,13 +8,22 @@
         <ng-container *ngIf="card.rating > 4">
           <ion-badge color="success"><i class="fas fa-thumbs-up"></i> highly rated</ion-badge>
         </ng-container>
-        <ion-badge color="secondary" style="margin-left: 5px;"><i class="fas fa-map-pin"></i> nearby</ion-badge>
+
+        <ion-badge color="secondary" style="margin-left: 5px;">
+          <div class="flex align-center">
+            <ion-icon name="navigate"></ion-icon>
+            <span> nearby</span>
+          </div>
+        </ion-badge>
       </div>
 
       <ion-card-header>
         <div>
           <ion-card-title>
-            {{card.name}}</ion-card-title>
+            <div class="text-trim">
+              {{card.name}}
+            </div>
+          </ion-card-title>
         </div>
 
       </ion-card-header>
