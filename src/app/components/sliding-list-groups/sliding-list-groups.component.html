@@ -1,7 +1,11 @@
 <ion-item-sliding *ngFor="let list of listItems">
   <ion-item [routerLink]="['../tab2/group', list._id]" lines="none">
     <ion-avatar slot="start">
-      <span class="fa fa-users"></span>
+      <div>
+        <ion-icon name="people" size="large"></ion-icon>
+
+      </div>
+
     </ion-avatar>
 
     <ion-label>

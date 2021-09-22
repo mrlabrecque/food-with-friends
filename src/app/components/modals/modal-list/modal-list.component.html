@@ -23,9 +23,9 @@
       <ion-col>
         <ion-item-sliding *ngFor="let card of listData">
           <ion-item lines="none" (click)="onAdditionalDetailsClicked(card)">
-            <ion-avatar slot="start">
+            <ion-thumbnail slot="start">
               <img [src]="card?.image_url">
-            </ion-avatar>
+            </ion-thumbnail>
 
             <ion-label>
               <h2>{{card?.name}}</h2>

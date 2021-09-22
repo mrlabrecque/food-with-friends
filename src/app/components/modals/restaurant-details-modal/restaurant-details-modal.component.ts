@@ -8,6 +8,7 @@ import { AuthService } from 'src/app/services/auth.service';
 import { RestaurantService } from 'src/app/services/restaurant.service';
 import { UserService } from 'src/app/services/user.service';
 import * as _ from 'underscore';
+import { Share } from '@capacitor/share';
 
 @Component({
   selector: 'app-restaurant-details-modal',
@@ -51,6 +52,14 @@ export class RestaurantDetailsModalComponent implements OnInit, OnChanges {
     if (foundReview) {
       foundReview.moreShowing = !foundReview.moreShowing;
     }
+  }
+  async shareClicked() {
+    await Share.share({
+      title: `${this.restaurant.name}`,
+      text: `Send to friend`,
+      url: 'http://ionicframework.com/',
+      dialogTitle: `Send to friend`,
+    });
   }
 
 }

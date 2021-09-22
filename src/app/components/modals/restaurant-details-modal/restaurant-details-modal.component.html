@@ -7,7 +7,7 @@
     </ion-buttons>
     <ion-title>{{ restaurant?.name }}</ion-title>
     <ion-buttons slot="end">
-      <ion-button fill="solid" shape="round" color="light">
+      <ion-button fill="solid" shape="round" color="light" (click)="shareClicked()">
         <ion-icon slot="icon-only" name="share-outline" color="primary"></ion-icon>
       </ion-button>
       <ion-button fill="solid" shape="round" color="light" (click)="likeButtonClicked()">
@@ -62,22 +62,25 @@
 
       </ion-col>
 
-      <ion-col size="12" class="light-bg">
+      <ion-col size="12" class="light-bg ion-padding-horizontal">
         <ion-row class="ion-align-items-center">
           <ion-chip *ngFor="let cat of restaurant.categories">
             <ion-label>{{cat.title}}</ion-label>
           </ion-chip>
         </ion-row>
       </ion-col>
-      <ion-col size="12" class="light-bg">
+      <ion-col size="12" class="light-bg ion-padding-horizontal">
 
         <ion-row class="ion-align-items-center">
           <ion-col size="1">
             <ion-icon color="medium" name="location-outline"></ion-icon>
           </ion-col>
-          <ion-col size="10">
-            <ion-label>Address
-              <p>
+          <ion-col size="11">
+            <ion-label>Address </ion-label>
+
+            <a
+              href="https://maps.google.com/?q={{restaurant.location.address1}},{{restaurant.location.city}},{{restaurant.location.state}},{{restaurant.location.zip_code}}">
+              <p class="link-text ion-no-margin">
                 <span>{{restaurant.location.address1}}</span>
                 <span *ngIf="restaurant.location.address2">, {{restaurant.location.address2}}</span>
                 <span *ngIf="restaurant.location.address3">, {{restaurant.location.address3}}</span><br>
@@ -85,44 +88,40 @@
                 <span *ngIf="restaurant.location.state">, {{restaurant.location.state}}</span>
                 <span *ngIf="restaurant.location.zip_code"> {{restaurant.location.zip_code}}</span>
                 <span *ngIf="restaurant.location.country"> {{restaurant.location.country}}</span>
+
               </p>
-            </ion-label>
+            </a>
           </ion-col>
-          <ion-col size="1">
-            <ion-icon color="primary" name="chevron-forward"></ion-icon>
-          </ion-col>
+
         </ion-row>
       </ion-col>
-      <ion-col size="12" class="light-bg">
+      <ion-col size="12" class="light-bg ion-padding-horizontal">
 
         <ion-row class="ion-align-items-center">
           <ion-col size="1">
             <ion-icon color="medium" name="call-outline"></ion-icon>
           </ion-col>
-          <ion-col size="10">
+          <ion-col size="11">
             <ion-label>Contact
-              <p>{{restaurant.phone | phone}}</p>
+              <p class="link-text ion-no-margin"> <a href="'tel:'{{restaurant.phone}}">{{restaurant.phone | phone}}</a>
+              </p>
             </ion-label>
           </ion-col>
-          <ion-col size="1">
-            <ion-icon color="primary" name="chevron-forward"></ion-icon>
-          </ion-col>
+
         </ion-row>
       </ion-col>
-      <ion-col size="12" class="light-bg">
+      <ion-col size="12" class="light-bg ion-padding-horizontal">
 
         <ion-row class="ion-align-items-center">
           <ion-col size="1">
             <ion-icon color="medium" name="globe-outline"></ion-icon>
           </ion-col>
-          <ion-col size="10">
+          <ion-col size="11">
             <ion-label>Website
-              <p class="text-trim">{{restaurant.url}}</p>
+              <p class="link-text ion-no-margin text-trim"><a [href]="restaurant.url">{{restaurant.url}}</a></p>
             </ion-label>
           </ion-col>
-          <ion-col size="1">
-            <ion-icon color="primary" name="chevron-forward"></ion-icon>
-          </ion-col>
+
         </ion-row>
       </ion-col>
 

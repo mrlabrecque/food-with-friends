@@ -1,16 +1,11 @@
-<div class="star-rating-container">
-  <div class="flex-item-text-container">
-    <ngx-stars [readonly]="true" [initialStars]="item.rating" color="#274C77"></ngx-stars>
+<div class="flex align-center ratings-container">
+  <div class="star-ratings">
+    <img [src]="starUrl" />
   </div>
   <div class="flex-item-text-container">
-    <ion-text color="primary">
-      <span class="small-text flex-item-text" style="margin-right:3px">{{item.rating}}</span>
-    </ion-text>
-  </div>
-  <div class=" flex-item-text-container" *ngIf="item.review_count">
-    <ion-text color="medium">
-      <span class="smallest-text flex-item-text" *ngIf="item.review_count">({{item.review_count}}+)</span>
-      <span class="smallest-text flex-item-text" *ngIf="!item.review_count">No Reviews</span>
-    </ion-text>
+    <ion-text color="medium" class="smallest-text" *ngIf="item.review_count">
+      ({{item.review_count}}+ reviews) </ion-text>
+    <ion-text color="medium" class="smallest-text" *ngIf="!item.review_count">
+      No reviews</ion-text>
   </div>
 </div>

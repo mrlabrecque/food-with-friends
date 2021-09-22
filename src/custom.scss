@@ -1,3 +1,9 @@
+//Ionic ovrerrides
+ion-thumbnail img {
+  border-radius: 5px;
+}
+
+
 //Text utilities
 .card-title {
   font-size: 17px;
@@ -9,6 +15,8 @@
 
 .smallest-text {
   font-size: .6rem;
+  height: .6rem;
+  line-height: .6rem;
 }
 
 .large-text {
@@ -89,9 +97,9 @@ ion-title {
 
 .text-trim {
   width: 100%;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
+  white-space: nowrap !important;
+  overflow: hidden !important;
+  text-overflow: ellipsis !important;
 }
 
 .text-show {

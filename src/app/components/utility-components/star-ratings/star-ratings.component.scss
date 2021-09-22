@@ -1,12 +1,15 @@
-.star-rating-container {
-  position: relative;
-  display: flex;
-  align-items: center;
-  padding: 0;
+.ratings-container {
+  margin-bottom: 3px;
+  margin-top: 3px;
+}
 
+.star-ratings {
+  flex-basis: 40%;
+  margin-bottom: -3px;
 }
 
 .flex-item-text-container {
-  padding: 3px 0;
+  // padding: 3px 0;
   line-height: 10px;
+  margin-left: 3px;
 }
