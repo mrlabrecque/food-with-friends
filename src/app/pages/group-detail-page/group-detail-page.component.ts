@@ -60,6 +60,7 @@ export class GroupDetailPageComponent implements OnInit, OnDestroy {
   groupId: number;
   group: Group;
   groupSubscription: Subscription;
+  groupMatches: Restaurant[];
 
   filters: any;
   selectedKids = false;
@@ -146,6 +147,7 @@ export class GroupDetailPageComponent implements OnInit, OnDestroy {
   }
   onGetGroupSuccess(selectedGroup) {
     this.group = { ...selectedGroup };
+    this.groupMatches = _.pluck(this.group.matches, 'restaurant');
     this.groupService.currentGroupId = this.group._id;
     this.isUserGroupOwner = this.group.owner._id === this.currentUser._id;
     if (selectedGroup.filters.foodPrices.length === 0 || selectedGroup.filters.foodTypes.length === 0) {
@@ -196,7 +198,6 @@ export class GroupDetailPageComponent implements OnInit, OnDestroy {
     await popover.present();
 
     const { role } = await popover.onDidDismiss();
-    console.log('onDidDismiss resolved with role', role);
   }
   refresh() {
     this.ngZone.run(() => {
@@ -239,7 +240,6 @@ export class GroupDetailPageComponent implements OnInit, OnDestroy {
     this.groupService.updateCurrentGroupFilters(updatedFilters);
   }
   onGetFilteredRestaurantsResults(res) {
-    console.log(res);
     _.each(res, rest => {
       const found = _.findWhere(this.currentUser.likes, { id: rest.id });
       if (found) {
@@ -262,13 +262,14 @@ export class GroupDetailPageComponent implements OnInit, OnDestroy {
     this.showMatches = !this.showMatches;
   }
   async onSeeAllMatchesClicked() {
+
     const modal = await this.modalController.create({
       component: ModalListComponent,
       cssClass: 'my-custom-class',
       swipeToClose: true,
       presentingElement: this.routerOutlet.nativeEl,
       componentProps: {
-        listData: this.group.matches,
+        listData: this.groupMatches,
         title: 'Matches'
       }
     });

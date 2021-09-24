@@ -77,7 +77,6 @@ export class MatchPageComponent implements OnInit, AfterViewInit, OnDestroy {
     this.sendMatchAlert(match);
   }
   async sendMatchAlert(match) {
-    console.log(match);
     const alert = await this.alertController.create({
       cssClass: 'my-custom-class',
       header: 'New Match!',
@@ -88,24 +87,11 @@ export class MatchPageComponent implements OnInit, AfterViewInit, OnDestroy {
       }, {
         text: 'View',
         handler: () => {
-          this.presentModal(match);
+          this.router.navigateByUrl(`/restaurant/${match.id}`, { state: { restaurant: match } });
         }
       }]
     });
 
     await alert.present();
-  }
-  async presentModal(selectedItem) {
-    const modal = await this.modalController.create({
-      component: RestaurantDetailsModalComponent,
-      cssClass: 'my-custom-class',
-      swipeToClose: true,
-      presentingElement: await this.modalController.getTop(),
-      componentProps: {
-        restaurant: selectedItem,
-        title: selectedItem.name
-      }
-    });
-    return await modal.present();
   }
 }

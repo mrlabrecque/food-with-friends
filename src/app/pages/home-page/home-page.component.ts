@@ -47,12 +47,14 @@ export class HomePageComponent implements OnInit {
 
   newRestaurants$: BehaviorSubject<Restaurant[]> = new BehaviorSubject(null);
   dealsRestaurants$: BehaviorSubject<Restaurant[]> = new BehaviorSubject([]);
-  loading;
+  loading: any;
+  pageLoading = true;
 
   constructor(private restaurantService: RestaurantService,
+    private loadingController: LoadingController,
     private locationService: LocationService,
     public modalController: ModalController,
-    public loadingController: LoadingController,
+
     public routerOutlet: IonRouterOutlet,
     private groupService: GroupService,
     private modeService: ModeService,
@@ -64,7 +66,8 @@ export class HomePageComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.openLoader();
+    this.authService.pageLoading$.subscribe(res => this.pageLoading = res);
+    this.authService.openLoader();
     this.likesSubscription = this.userService.currentUserLikes$.subscribe(res => {
       this.currentUserLikes = res;
     });
@@ -84,10 +87,6 @@ export class HomePageComponent implements OnInit {
     //we will pub current user here as well
 
 
-  }
-  async openLoader() {
-    this.loading = await this.loadingController.create();
-    await this.loading.present();
   }
   onFetchUserSuccess(user) {
     this.currentUser = user;
@@ -123,7 +122,11 @@ export class HomePageComponent implements OnInit {
     if (attr === 'deals') {
       this.dealsRestaurants$.next(res);
     }
-    this.loading.dismiss();
+    this.finishLoading();
+
+  }
+  finishLoading() {
+    this.authService.loadingComplete();
   }
   async openLikesModal() {
     const modal = await this.modalController.create({

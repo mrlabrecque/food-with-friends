@@ -4,6 +4,40 @@ const autoIncrement = require('mongoose-auto-increment');
 const Schema = db.Schema;
 autoIncrement.initialize(db.connection);
 
+const restaurantSchema = new db.Schema({
+  rating: Number,
+  price: String,
+  phone: String,
+  id: String,
+  alias: String,
+  is_closed: Boolean,
+  categories: [
+    {
+      alias: String,
+      title: String,
+    }
+  ],
+  review_count: Number,
+  name: String,
+  url: String,
+  coordinates: {
+    latitude: Number,
+    longitude: Number,
+  },
+  image_url: String,
+  location: {
+    city: String,
+    country: String,
+    address2: String,
+    address3: String,
+    state: String,
+    address1: String,
+    zip_code: String,
+  },
+  distance: Number,
+  transactions: [String]
+});
+
 
 const filterSchema = new db.Schema({
   name: String,
@@ -11,12 +45,7 @@ const filterSchema = new db.Schema({
   selected: Boolean
 })
 const matchSchema = new db.Schema({
-  name: String,
-  id: String,
-  image_url: String,
-  price: Number,
-  rating: Number,
-  review_count: Number,
+  restaurant: restaurantSchema,
   memberMatches: [Number],
   noOfMatches: Number,
   matchPercent: Number,

@@ -1,5 +1,6 @@
 /* eslint-disable no-underscore-dangle */
 import { Component, Input, OnChanges, OnInit, SimpleChanges } from '@angular/core';
+import { Router } from '@angular/router';
 import { IonRouterOutlet, ModalController, ToastController } from '@ionic/angular';
 import { Matches } from 'src/app/models/matches.model';
 import { Restaurant } from 'src/app/models/restaurant.model';
@@ -23,7 +24,7 @@ export class MatchListComponent implements OnInit, OnChanges {
   isLoggedUserGroupOwner = false;
   // eslint-disable-next-line max-len
   constructor(private authService: AuthService, private groupService: GroupService, private userService: UserService, private modalController: ModalController,
-    private routerOutlet: IonRouterOutlet, private toastController: ToastController) { }
+    private routerOutlet: IonRouterOutlet, private toastController: ToastController, private router: Router) { }
 
   ngOnInit() {
 
@@ -47,17 +48,7 @@ export class MatchListComponent implements OnInit, OnChanges {
 
 
   async onAdditionalDetailsClicked(card) {
-    const modal = await this.modalController.create({
-      component: RestaurantDetailsModalComponent,
-      cssClass: 'my-custom-class',
-      swipeToClose: true,
-      presentingElement: this.routerOutlet.nativeEl,
-      componentProps: {
-        restaurant: card,
-        title: card.name,
-      }
-    });
-    return await modal.present();
+    this.router.navigateByUrl(`/restaurant/${card.id}`, { state: { restaurant: card } });
   }
 
 }

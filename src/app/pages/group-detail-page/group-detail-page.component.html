@@ -84,9 +84,7 @@
       </div>
 
     </ion-list-header>
-    <!-- <app-match-list [cardData]="group?.matches" [groupOwner]="group?.owner" (ngModelChange)="groupMembers">
-    </app-match-list> -->
-    <app-sliding-card-large [incomingData]="group?.matches" dataType='matches'></app-sliding-card-large>
+    <app-sliding-card-large [incomingData]="groupMatches" dataType='matches'></app-sliding-card-large>
   </ion-list>
 </ion-content>
 <ion-footer class="ion-no-border">

@@ -18,7 +18,7 @@
   </ion-toolbar>
 </ion-header>
 
-<ion-content [fullscreen]="true" scrollEvents="true">
+<ion-content [fullscreen]="true" scrollEvents="true" *ngIf="!pageLoading">
   <div #img class="header-image" [style.background-image]="'url(' + restaurant?.image_url + ')'">
   </div>
 
@@ -79,15 +79,15 @@
             <ion-label>Address </ion-label>
 
             <a
-              href="https://maps.google.com/?q={{restaurant.location.address1}},{{restaurant.location.city}},{{restaurant.location.state}},{{restaurant.location.zip_code}}">
+              href="https://maps.google.com/?q={{restaurant?.location?.address1}},{{restaurant?.location?.city}},{{restaurant?.location?.state}},{{restaurant?.location?.zip_code}}">
               <p class="link-text ion-no-margin">
-                <span>{{restaurant.location.address1}}</span>
-                <span *ngIf="restaurant.location.address2">, {{restaurant.location.address2}}</span>
-                <span *ngIf="restaurant.location.address3">, {{restaurant.location.address3}}</span><br>
-                <span>{{restaurant.location.city}}</span>
-                <span *ngIf="restaurant.location.state">, {{restaurant.location.state}}</span>
-                <span *ngIf="restaurant.location.zip_code"> {{restaurant.location.zip_code}}</span>
-                <span *ngIf="restaurant.location.country"> {{restaurant.location.country}}</span>
+                <span>{{restaurant?.location?.address1}}</span>
+                <span *ngIf="restaurant?.location?.address2">, {{restaurant?.location?.address2}}</span>
+                <span *ngIf="restaurant?.location?.address3">, {{restaurant?.location?.address3}}</span><br>
+                <span>{{restaurant?.location?.city}}</span>
+                <span *ngIf="restaurant?.location?.state">, {{restaurant?.location?.state}}</span>
+                <span *ngIf="restaurant?.location?.zip_code"> {{restaurant?.location?.zip_code}}</span>
+                <span *ngIf="restaurant?.location?.country"> {{restaurant?.location?.country}}</span>
 
               </p>
             </a>
@@ -103,7 +103,8 @@
           </ion-col>
           <ion-col size="11">
             <ion-label>Contact
-              <p class="link-text ion-no-margin"> <a href="'tel:'{{restaurant.phone}}">{{restaurant.phone | phone}}</a>
+              <p class="link-text ion-no-margin"> <a href="'tel:'{{restaurant?.phone}}">{{restaurant?.phone |
+                  phone}}</a>
               </p>
             </ion-label>
           </ion-col>
@@ -118,7 +119,7 @@
           </ion-col>
           <ion-col size="11">
             <ion-label>Website
-              <p class="link-text ion-no-margin text-trim"><a [href]="restaurant.url">{{restaurant.url}}</a></p>
+              <p class="link-text ion-no-margin text-trim"><a [href]="restaurant?.url">{{restaurant?.url}}</a></p>
             </ion-label>
           </ion-col>
 

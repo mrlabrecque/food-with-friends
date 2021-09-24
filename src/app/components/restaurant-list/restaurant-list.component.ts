@@ -11,7 +11,7 @@ import { MatchService } from 'src/app/services/match.service';
 import { GroupService } from 'src/app/services/group.service';
 import { Matches } from 'src/app/models/matches.model';
 import { Group } from 'src/app/models/group-model';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { UserService } from 'src/app/services/user.service';
 import { RestaurantDetailsModalComponent } from '../modals/restaurant-details-modal/restaurant-details-modal.component';
 import { AuthService } from 'src/app/services/auth.service';
@@ -29,7 +29,7 @@ export class RestaurantListComponent implements OnInit, OnDestroy, AfterViewInit
   @ViewChildren(IonCard, { read: ElementRef }) restraurantCards: QueryList<ElementRef>;
   // instantiate posts to an empty array
   @Input() restaurants: Restaurant[] = [];
-  @Output() trueMatchCreated: EventEmitter<Matches> = new EventEmitter();
+  @Output() trueMatchCreated: EventEmitter<Restaurant> = new EventEmitter();
   restraurantListSubscription$: Subscription;
   currentGroup: Group;
   currentGroupSubscription: Subscription;
@@ -44,7 +44,7 @@ export class RestaurantListComponent implements OnInit, OnDestroy, AfterViewInit
 
   constructor(private restaurantService: RestaurantService, private gestureCtrl: GestureController,
     private plt: Platform, private matchService: MatchService, private groupService: GroupService,
-    private activatedRoute: ActivatedRoute, private authService: AuthService, private modalController: ModalController,
+    private activatedRoute: ActivatedRoute, private authService: AuthService, private modalController: ModalController, private router: Router,
     private routerOutlet: IonRouterOutlet, private userService: UserService, public toastController: ToastController, private ngZone: NgZone
   ) { }
 
@@ -108,7 +108,6 @@ export class RestaurantListComponent implements OnInit, OnDestroy, AfterViewInit
     this.currentUserLikes = res;
     _.each(this.restaurants, rest => {
       const found = this.currentUserLikes.findIndex((like) => rest.id === like.id);
-      console.log(found);
       if (found > -1) {
         rest.liked = true;
       }
@@ -149,21 +148,22 @@ export class RestaurantListComponent implements OnInit, OnDestroy, AfterViewInit
       this.userService.removeLike(this.restaurants[this.counter], this.authService.authenticatedUser.value._id);
     }
   }
-  addMatch(rest) {
+  addMatch(rest: Restaurant) {
     const currentMatches = this.currentGroup.matches;
-    const existingMatch = _.findWhere(currentMatches, { id: rest.id });
+
+
+    const existingGroupMatch = _.find(currentMatches, (match: Matches) => match.restaurant.id === rest.id);
     const noOfGroupMembers = this.currentGroup.members.length;
     //plus one includes the update that is next
     let currentMatchPercent;
-    if (existingMatch) {
+    if (existingGroupMatch) {
       //update match
-      const noOfGroupMembersThatHaveMatched = existingMatch.memberMatches.length + 1;
+      const noOfGroupMembersThatHaveMatched = existingGroupMatch.memberMatches.length + 1;
       currentMatchPercent = noOfGroupMembersThatHaveMatched / noOfGroupMembers * 100;
-      existingMatch.memberMatches.push(this.currentUser._id);
+      existingGroupMatch.memberMatches.push(this.currentUser._id);
       const match: Matches = {
-        name: existingMatch.name,
-        id: existingMatch.id,
-        memberMatches: existingMatch.memberMatches,
+        restaurant: rest,
+        memberMatches: existingGroupMatch.memberMatches,
         noOfMatches: noOfGroupMembersThatHaveMatched,
         matchPercent: currentMatchPercent,
         trueMatch: currentMatchPercent >= this.currentGroup.filters.matchThreshold ? true : false
@@ -177,14 +177,7 @@ export class RestaurantListComponent implements OnInit, OnDestroy, AfterViewInit
     } else {
       currentMatchPercent = 1 / noOfGroupMembers * 100;
       const match: Matches = {
-        name: rest.name,
-        id: rest.id,
-        image_url: rest.image_url,
-        // eslint-disable-next-line @typescript-eslint/naming-convention
-        price: rest.price,
-        rating: rest.rating,
-        // eslint-disable-next-line @typescript-eslint/naming-convention
-        review_count: rest.review_count,
+        restaurant: rest,
         memberMatches: [this.currentUser._id],
         noOfMatches: 1,
         matchPercent: currentMatchPercent,
@@ -198,17 +191,8 @@ export class RestaurantListComponent implements OnInit, OnDestroy, AfterViewInit
     this.groupService.refreshGroup();
   }
   async onAdditionalDetailsClicked() {
-    const modal = await this.modalController.create({
-      component: RestaurantDetailsModalComponent,
-      cssClass: 'my-custom-class',
-      swipeToClose: true,
-      presentingElement: this.routerOutlet.nativeEl,
-      componentProps: {
-        restaurant: this.restaurants[this.counter],
-        title: 'New Group'
-      }
-    });
-    return await modal.present();
+    const currentCard = this.restaurants[this.counter];
+    this.router.navigateByUrl(`/restaurant/${currentCard.id}`, { state: { restaurant: currentCard } });
   }
 
 }

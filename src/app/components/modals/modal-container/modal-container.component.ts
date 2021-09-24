@@ -25,7 +25,6 @@ export class ModalContainerComponent implements OnInit {
     private routerOutlet: IonRouterOutlet, private toastController: ToastController) { }
 
   ngOnInit() {
-    console.log("loading");
 
   }
   removeLike(likeToRemove) {

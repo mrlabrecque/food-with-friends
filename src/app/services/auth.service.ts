@@ -3,7 +3,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
-import { AlertController, Platform } from '@ionic/angular';
+import { AlertController, LoadingController, Platform } from '@ionic/angular';
 import { Storage } from '@ionic/storage-angular';
 import { JwtHelperService } from '@auth0/angular-jwt';
 import { BehaviorSubject, from, Observable, of } from 'rxjs';
@@ -25,10 +25,13 @@ export class AuthService {
   authenticationState: BehaviorSubject<boolean> = new BehaviorSubject(false);
 
   user: any;
+  loading;
   authenticatedUser: BehaviorSubject<User> = new BehaviorSubject(null);
+  pageLoading$: BehaviorSubject<boolean> = new BehaviorSubject(null);
 
   constructor(private storage: Storage, private http: HttpClient, private plt: Platform,
-    private helper: JwtHelperService, private router: Router, private alertController: AlertController, private userService: UserService) {
+    private helper: JwtHelperService, private router: Router, private alertController: AlertController, private userService: UserService,
+    public loadingController: LoadingController) {
     this.storage.create();
     this.plt.ready().then(() => {
       this.loadStoredToken();
@@ -113,5 +116,27 @@ export class AuthService {
       buttons: ['OK']
     });
     alert.then(alert => alert.present());
+  }
+
+
+
+  openLoader() {
+    this.loadingController.create({
+      message: 'Loading...'
+    }).then((response) => {
+      response.present();
+    });
+    this.pageLoading(true);
+  }
+  pageLoading(loading: boolean) {
+    this.pageLoading$.next(loading);
+  }
+  loadingComplete() {
+    this.loadingController.dismiss().then((response) => {
+      console.log('Loader closed!', response);
+    }).catch((err) => {
+      console.log('Error occured : ', err);
+    });
+    this.pageLoading(false);
   }
 }

@@ -31,15 +31,13 @@ export class SlidingCardLargeComponent implements OnInit, OnChanges {
   ngOnChanges(changes: SimpleChanges): void {
     this.cardData = changes.incomingData.currentValue;
     this.dataLoading = false;
-    //Called before any other lifecycle hook. Use it to inject dependencies, but avoid any serious work here.
-    //Add '${implements OnChanges}' to the class.
 
   }
   onShareClicked(item) {
-    console.log("share clicked" + item);
+    console.log('share clicked' + item);
   }
   onFavoriteClicked(item) {
-    console.log("favorite clicked" + item);
+    console.log('favorite clicked' + item);
   }
   async onAdditionalDetailsClicked(card) {
     this.router.navigateByUrl(`/restaurant/${card.id}`, { state: { restaurant: card } });

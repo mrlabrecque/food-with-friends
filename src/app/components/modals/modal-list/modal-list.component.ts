@@ -1,4 +1,5 @@
 import { Component, Input, OnChanges, OnInit, SimpleChanges } from '@angular/core';
+import { Router } from '@angular/router';
 import { ModalController, ToastController } from '@ionic/angular';
 import { User } from 'src/app/models/user.model';
 import { AuthService } from 'src/app/services/auth.service';
@@ -21,11 +22,10 @@ export class ModalListComponent implements OnInit {
   isLoggedUserGroupOwner = false;
   // eslint-disable-next-line max-len
   constructor(private authService: AuthService, private groupService: GroupService, private userService: UserService, private modalController: ModalController,
-    private toastController: ToastController) { }
+    private toastController: ToastController, private router: Router) { }
 
   ngOnInit() {
     console.log(this.listData);
-
   }
   removeLike(likeToRemove) {
     // eslint-disable-next-line no-underscore-dangle
@@ -44,20 +44,11 @@ export class ModalListComponent implements OnInit {
 
 
   async onAdditionalDetailsClicked(card) {
-    const modal = await this.modalController.create({
-      component: RestaurantDetailsModalComponent,
-      cssClass: 'my-custom-class',
-      swipeToClose: true,
-      componentProps: {
-        restaurant: card,
-        title: card.name,
-      }
-    });
-    return await modal.present();
+    this.router.navigateByUrl(`/restaurant/${card.id}`, { state: { restaurant: card } });
+    this.modalController.dismiss();
   }
   onCloseClicked() {
     this.modalController.dismiss();
-
   }
 }
 

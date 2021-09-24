@@ -5,6 +5,9 @@ import { Injectable, Pipe, PipeTransform } from '@angular/core';
 })
 export class PhonePipe implements PipeTransform {
   transform(tel) {
+    if (!tel) {
+      return;
+    }
     const value = tel.toString().trim().replace(/^\+/, '');
 
     if (value.match(/[^0-9]/)) {

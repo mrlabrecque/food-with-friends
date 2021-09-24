@@ -1,7 +1,7 @@
 /* eslint-disable max-len */
 /* eslint-disable no-underscore-dangle */
 import { Component, Input, OnChanges, OnInit, SimpleChanges } from '@angular/core';
-import { ModalController, NavController } from '@ionic/angular';
+import { LoadingController, ModalController, NavController } from '@ionic/angular';
 import { Restaurant } from 'src/app/models/restaurant.model';
 import { Review } from 'src/app/models/review.model';
 import { AuthService } from 'src/app/services/auth.service';
@@ -20,10 +20,14 @@ export class RestaurantDetailsModalComponent implements OnInit, OnChanges {
   restaurant: Restaurant;
   liked = false;
   currentUser;
-  reviews: Review[];
-  constructor(private navCtrl: NavController, private activatedRoute: ActivatedRoute, private modalController: ModalController, private router: Router, private authService: AuthService, private userService: UserService, private restaurantService: RestaurantService) { }
+  reviews: Review[] = [];
+  loading: any;
+  pageLoading = true;
+  constructor(private loadingController: LoadingController, private navCtrl: NavController, private activatedRoute: ActivatedRoute, private modalController: ModalController, private router: Router, private authService: AuthService, private userService: UserService, private restaurantService: RestaurantService) { }
 
   ngOnInit() {
+    this.authService.pageLoading$.subscribe(res => this.pageLoading = res);
+    this.authService.openLoader();
     this.currentUser = this.authService.authenticatedUser.value;
     if (this.router.getCurrentNavigation()?.extras?.state?.restaurant) {
       this.onGetRestaurantDetailsSuccess(this.router.getCurrentNavigation().extras.state.restaurant);
@@ -37,13 +41,22 @@ export class RestaurantDetailsModalComponent implements OnInit, OnChanges {
   onGetRestaurantDetailsSuccess(res) {
     this.restaurant = res;
     if (this.restaurant) {
-      this.restaurantService.getRestaurantReviews(this.restaurant.id).subscribe(rev => this.reviews = rev);
+      this.restaurantService.getRestaurantReviews(this.restaurant.id).subscribe(rev => {
+        this.reviews = rev;
+      });
+
       const found = _.find(this.currentUser.likes, (like) => like.name === this.restaurant.name);
       if (found) {
         this.liked = true;
       }
+      this.finishLoading();
     }
 
+  }
+  finishLoading() {
+    setTimeout(() => {
+      this.authService.loadingComplete();
+    }, 1000);
   }
   ngOnChanges(simpleChanges: any) {
     this.restaurant = simpleChanges.restaurant as Restaurant;

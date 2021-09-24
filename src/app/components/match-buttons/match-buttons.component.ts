@@ -28,7 +28,6 @@ export class MatchButtonsComponent implements OnInit, OnChanges {
   ngOnChanges(changes: SimpleChanges) {
     this.currentRestaurantCard = changes.currentRestaurantCard.currentValue;
     this.liked = this.currentRestaurantCard.liked;
-    console.log(changes);
   }
   matchButtonClicked() {
     this.onMatchClicked.emit("Match Clicked");
