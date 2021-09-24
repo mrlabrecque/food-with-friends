@@ -133,7 +133,8 @@ export class HomePageComponent implements OnInit {
       presentingElement: this.routerOutlet.nativeEl,
       componentProps: {
         listData: this.currentUserLikes,
-        title: 'Likes'
+        title: 'Likes',
+        dataType: 'likes'
       }
     });
     return await modal.present();

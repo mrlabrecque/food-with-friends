@@ -39,6 +39,14 @@ export class RestaurantService {
       })
     );
   }
+  getRestaurantDetails(id: string) {
+    return this.http.get(`${this.proxyUrl}/${this.yelpApiBaseUrl}/${id}`, { headers: this.requestOptions }).pipe(
+      map((res: any) => {
+        const restaurant: Restaurant = res;
+        restaurant.liked = false;
+        return restaurant;
+      }));
+  }
   getRestaurantReviews(id: string) {
     return this.http.get(`${this.proxyUrl}/${this.yelpApiBaseUrl}/${id}/reviews`, { headers: this.requestOptions }).pipe(
       map((res: any) => {

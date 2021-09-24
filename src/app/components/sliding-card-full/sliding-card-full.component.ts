@@ -1,4 +1,5 @@
 import { Component, OnInit, Input, OnChanges, SimpleChanges } from '@angular/core';
+import { Router } from '@angular/router';
 import { ModalController, IonRouterOutlet } from '@ionic/angular';
 import { Restaurant } from 'src/app/models/restaurant.model';
 import { RestaurantDetailsModalComponent } from '../modals/restaurant-details-modal/restaurant-details-modal.component';
@@ -20,32 +21,18 @@ export class SlidingCardFullComponent implements OnInit, OnChanges {
       el: 'swiper-pagination'
     }
   };
-  constructor(private modalController: ModalController,
-    private routerOutlet: IonRouterOutlet) { }
+  constructor(
+    private router: Router,
+  ) { }
 
   ngOnChanges(changes: SimpleChanges): void {
     this.cardData = changes.incomingData.currentValue;
-
-    //Called before any other lifecycle hook. Use it to inject dependencies, but avoid any serious work here.
-    //Add '${implements OnChanges}' to the class.
-
   }
 
   ngOnInit() {
 
   }
-  async onAdditionalDetailsClicked(card) {
-    const modal = await this.modalController.create({
-      component: RestaurantDetailsModalComponent,
-      cssClass: 'my-custom-class',
-      swipeToClose: true,
-      presentingElement: this.routerOutlet.nativeEl,
-      componentProps: {
-        restaurant: card,
-        title: card.name,
-      }
-    });
-    return await modal.present();
+  async onAdditionalDetailsClicked(card: Restaurant) {
+    this.router.navigateByUrl(`/restaurant/${card.id}`, { state: { restaurant: card } });
   }
-
 }

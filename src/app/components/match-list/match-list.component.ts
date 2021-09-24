@@ -16,7 +16,7 @@ import { RestaurantDetailsModalComponent } from '../modals/restaurant-details-mo
 })
 export class MatchListComponent implements OnInit, OnChanges {
 
-  @Input() cardData: Matches[] | Restaurant[];
+  @Input() cardData: any[];
   @Input() groupOwner: User;
   @Input() dataType: string;
   currentUser: User;

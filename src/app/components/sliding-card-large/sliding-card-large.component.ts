@@ -1,4 +1,5 @@
 import { Component, OnInit, Input, AfterViewInit, SimpleChanges, SimpleChange, OnChanges } from '@angular/core';
+import { Router } from '@angular/router';
 import { IonRouterOutlet, ModalController } from '@ionic/angular';
 import { Observable } from 'rxjs';
 import { RestaurantDetailsModalComponent } from '../modals/restaurant-details-modal/restaurant-details-modal.component';
@@ -23,7 +24,7 @@ export class SlidingCardLargeComponent implements OnInit, OnChanges {
     }
   };
   constructor(private modalController: ModalController,
-    private routerOutlet: IonRouterOutlet) { }
+    private routerOutlet: IonRouterOutlet, private router: Router) { }
 
   ngOnInit() {
   }
@@ -41,16 +42,6 @@ export class SlidingCardLargeComponent implements OnInit, OnChanges {
     console.log("favorite clicked" + item);
   }
   async onAdditionalDetailsClicked(card) {
-    const modal = await this.modalController.create({
-      component: RestaurantDetailsModalComponent,
-      cssClass: 'my-custom-class',
-      swipeToClose: true,
-      presentingElement: this.routerOutlet.nativeEl,
-      componentProps: {
-        restaurant: card,
-        title: card.name,
-      }
-    });
-    return await modal.present();
+    this.router.navigateByUrl(`/restaurant/${card.id}`, { state: { restaurant: card } });
   }
 }

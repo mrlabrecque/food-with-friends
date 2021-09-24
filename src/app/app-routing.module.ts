@@ -17,6 +17,11 @@ const routes: Routes = [
     path: 'register',
     loadChildren: () => import('./tabs/register/register.module').then(m => m.RegisterModule)
   },
+  {
+    path: 'restaurant/:id',
+    loadChildren: () =>
+      import('./tabs/restaurantdetails/restaurantdetails.module').then(m => m.RestaurantDetailsModule),
+  },
 ];
 
 @NgModule({

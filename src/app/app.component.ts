@@ -16,7 +16,13 @@ export class AppComponent {
     private router: Router,
     private locationService: LocationService
   ) {
-    this.initializeApp();
+    let incomingUrl = window.location.href;
+    if (incomingUrl.indexOf('restaurant') === -1) {
+      this.initializeApp();
+    } else {
+      incomingUrl = incomingUrl.substring(incomingUrl.indexOf('/restaurant/') + 1);
+      this.router.navigateByUrl(`${incomingUrl}`);
+    }
   }
 
   initializeApp() {
