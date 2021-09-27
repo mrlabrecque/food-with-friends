@@ -25,6 +25,8 @@ import { User } from 'src/app/models/user.model';
 import { MatchListComponent } from 'src/app/components/lists/match-list/match-list.component';
 import { Restaurant } from 'src/app/models/restaurant.model';
 import { RestaurantType } from 'src/app/models/restaurant-type.enum';
+import { LikesListComponent } from 'src/app/components/lists/likes-list/likes-list.component';
+import { debugOutputAstAsTypeScript } from '@angular/compiler';
 
 
 @Component({
@@ -140,7 +142,6 @@ export class GroupDetailPageComponent implements OnInit, OnDestroy {
       gr => this.onGetGroupSuccess(gr));
     this.groupService.currentGroupMatches$.subscribe(res => {
       const matches = _.pluck(res, 'restaurant');
-      console.log("subscribe called");
       this.groupMatches = matches;
     });
     this.lat = this.locationService.userLat.value;
@@ -153,7 +154,7 @@ export class GroupDetailPageComponent implements OnInit, OnDestroy {
   }
   onGetGroupSuccess(selectedGroup) {
     this.group = { ...selectedGroup };
-    this.groupMatches = _.pluck(this.group.matches, 'restaurant');
+    console.log(this.group);
     this.groupService.currentGroupMatches$.next(this.group.matches);
     this.groupService.currentGroupId = this.group._id;
     this.isUserGroupOwner = this.group.owner._id === this.currentUser._id;
@@ -271,13 +272,14 @@ export class GroupDetailPageComponent implements OnInit, OnDestroy {
   async onSeeAllMatchesClicked() {
 
     const modal = await this.modalController.create({
-      component: MatchListComponent,
+      component: LikesListComponent,
       cssClass: 'my-custom-class',
       swipeToClose: true,
       presentingElement: this.routerOutlet.nativeEl,
       componentProps: {
         listData: this.groupMatches,
-        title: 'Matches'
+        title: 'Matches',
+        dataType: RestaurantType.Match
       }
     });
     return await modal.present();

@@ -14,10 +14,10 @@ import { RestaurantDetailsModalComponent } from '../modals/restaurant-details-mo
   styleUrls: ['./sliding-card-large.component.scss'],
 })
 export class SlidingCardLargeComponent implements OnInit, OnChanges {
-  @Input() incomingData: any[];
+  @Input() cardData: any[] = [];
+
   @Input() dataType: RestaurantType;
   dataLoading = true;
-  cardData: any[] = [];
   slideOpts = {
     spaceBetween: 10,
     slidesPerView: 1.15,

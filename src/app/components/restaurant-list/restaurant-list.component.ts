@@ -151,8 +151,10 @@ export class RestaurantListComponent implements OnInit, OnDestroy, AfterViewInit
   addMatch(rest: Restaurant) {
     const currentMatches = this.currentGroup.matches;
 
+    console.log(currentMatches);
 
-    const existingGroupMatch = _.find(currentMatches, (match: Matches) => match.restaurant.id === rest.id);
+    const existingGroupMatch = _.find(currentMatches, (match: Matches) => match?.restaurant?.id === rest?.id);
+    console.log(existingGroupMatch);
     const noOfGroupMembers = this.currentGroup.members.length;
     //plus one includes the update that is next
     let currentMatchPercent;

@@ -10,6 +10,7 @@ export class MatchService {
   apiUrl = environment.apiUrl;
   constructor(private http: HttpClient) { }
   addMatch(groupId, restaurantToAdd) {
+    console.log(restaurantToAdd);
     const headers = new HttpHeaders();
     headers.append('Content-Type', 'application/json');
     headers.append('Access-Control-Allow-Origin', '*');
