@@ -168,12 +168,7 @@ export class RestaurantListComponent implements OnInit, OnDestroy, AfterViewInit
         matchPercent: currentMatchPercent,
         trueMatch: currentMatchPercent >= this.currentGroup.filters.matchThreshold ? true : false
       };
-      if (match.trueMatch) {
-        this.trueMatchCreated.emit(rest);
-      }
-      this.matchService.updateMatch(this.currentGroup._id, match).subscribe(res => { console.log("match updated") });
-
-
+      this.matchService.updateMatch(this.currentGroup._id, match).subscribe(res => { this.onMatchAddedSuccess(match, rest); });
     } else {
       currentMatchPercent = 1 / noOfGroupMembers * 100;
       const match: Matches = {
@@ -183,10 +178,14 @@ export class RestaurantListComponent implements OnInit, OnDestroy, AfterViewInit
         matchPercent: currentMatchPercent,
         trueMatch: currentMatchPercent >= this.currentGroup.filters.matchThreshold ? true : false
       };
-      if (match.trueMatch) {
-        this.trueMatchCreated.emit(rest);
-      }
-      this.matchService.addMatch(this.currentGroup._id, match).subscribe(res => { console.log("match added") });
+      this.matchService.addMatch(this.currentGroup._id, match).subscribe(res => { this.onMatchAddedSuccess(match, rest); });
+
+    }
+
+  }
+  onMatchAddedSuccess(match, rest) {
+    if (match.trueMatch) {
+      this.trueMatchCreated.emit(rest);
     }
     this.groupService.refreshGroup();
   }

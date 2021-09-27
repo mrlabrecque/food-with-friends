@@ -1,19 +1,19 @@
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { IonicModule } from '@ionic/angular';
 
-import { ModalListComponent } from './modal-list.component';
+import { GroupListComponent } from './group-list.component';
 
-describe('ModalListComponent', () => {
-  let component: ModalListComponent;
-  let fixture: ComponentFixture<ModalListComponent>;
+describe('GroupListComponent', () => {
+  let component: GroupListComponent;
+  let fixture: ComponentFixture<GroupListComponent>;
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      declarations: [ ModalListComponent ],
+      declarations: [ GroupListComponent ],
       imports: [IonicModule.forRoot()]
     }).compileComponents();
 
-    fixture = TestBed.createComponent(ModalListComponent);
+    fixture = TestBed.createComponent(GroupListComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   }));

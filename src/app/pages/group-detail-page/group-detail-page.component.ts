@@ -22,8 +22,9 @@ import { animate, style, transition, trigger } from '@angular/animations';
 import { PopoverContainerComponent } from 'src/app/components/popovers/popover-container/popover-container.component';
 import { AuthService } from 'src/app/services/auth.service';
 import { User } from 'src/app/models/user.model';
-import { ModalListComponent } from 'src/app/components/modals/modal-list/modal-list.component';
+import { MatchListComponent } from 'src/app/components/lists/match-list/match-list.component';
 import { Restaurant } from 'src/app/models/restaurant.model';
+import { RestaurantType } from 'src/app/models/restaurant-type.enum';
 
 
 @Component({
@@ -55,7 +56,7 @@ import { Restaurant } from 'src/app/models/restaurant.model';
   ]
 })
 export class GroupDetailPageComponent implements OnInit, OnDestroy {
-
+  restaurantType: RestaurantType;
   groupMembers: number[] = [];
   groupId: number;
   group: Group;
@@ -137,6 +138,11 @@ export class GroupDetailPageComponent implements OnInit, OnDestroy {
     this.groupId = +this.activatedRoute.snapshot.paramMap.get('id');
     this.groupSubscription = this.groupService.getGroupById(this.groupId).subscribe(
       gr => this.onGetGroupSuccess(gr));
+    this.groupService.currentGroupMatches$.subscribe(res => {
+      const matches = _.pluck(res, 'restaurant');
+      console.log("subscribe called");
+      this.groupMatches = matches;
+    });
     this.lat = this.locationService.userLat.value;
     this.long = this.locationService.userLong.value;
     this.currentUser = this.authService.authenticatedUser.value;
@@ -148,6 +154,7 @@ export class GroupDetailPageComponent implements OnInit, OnDestroy {
   onGetGroupSuccess(selectedGroup) {
     this.group = { ...selectedGroup };
     this.groupMatches = _.pluck(this.group.matches, 'restaurant');
+    this.groupService.currentGroupMatches$.next(this.group.matches);
     this.groupService.currentGroupId = this.group._id;
     this.isUserGroupOwner = this.group.owner._id === this.currentUser._id;
     if (selectedGroup.filters.foodPrices.length === 0 || selectedGroup.filters.foodTypes.length === 0) {
@@ -188,7 +195,7 @@ export class GroupDetailPageComponent implements OnInit, OnDestroy {
     return await modal.present();
   }
   async matchThresholdPopover(ev: any) {
-    const message = 'This is used if you have a large group to customize the threshold of the percentage of users that need to like a restaurant to determine if match.'
+    const message = 'This is used if you have a large group to customize the threshold of the percentage of users that need to like a restaurant to determine if match.';
     const popover = await this.popoverController.create({
       component: PopoverContainerComponent,
       cssClass: 'my-custom-class',
@@ -264,7 +271,7 @@ export class GroupDetailPageComponent implements OnInit, OnDestroy {
   async onSeeAllMatchesClicked() {
 
     const modal = await this.modalController.create({
-      component: ModalListComponent,
+      component: MatchListComponent,
       cssClass: 'my-custom-class',
       swipeToClose: true,
       presentingElement: this.routerOutlet.nativeEl,

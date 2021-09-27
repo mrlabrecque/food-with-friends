@@ -1,4 +1,4 @@
-<ng-container *ngIf="cardData">
+<ng-container *ngIf="cardData.length > 0">
   <ion-slides [options]="slideOpts" [pager]="true" class="ion-padding-horizontal">
     <ion-slide *ngFor="let card of cardData">
       <ion-card style="width: 100%;" class="ion-text-start sliding-card" (click)="onAdditionalDetailsClicked(card)"
@@ -11,7 +11,7 @@
               </div>
             </ion-col>
             <ion-col size="8">
-              <ion-text color="medium">{{card.name}}</ion-text>
+              <ion-text color="medium">{{card?.name}}</ion-text>
               <app-star-ratings [item]="card"></app-star-ratings>
               <app-price-dstance [item]="card"></app-price-dstance>
             </ion-col>

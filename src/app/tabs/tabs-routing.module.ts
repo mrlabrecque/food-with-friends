@@ -61,7 +61,17 @@ const routes: Routes = [
             path: '',
             loadChildren: () =>
               import('../tabs/tab4/tab4.module').then(m => m.Tab4PageModule)
-          }
+          },
+          {
+            path: 'settings',
+            loadChildren: () =>
+              import('../tabs/tab4/settings.module').then(m => m.SettingsModule),
+          },
+          {
+            path: 'purchase',
+            loadChildren: () =>
+              import('../tabs/tab4/purchase.module').then(m => m.PurchaseModule),
+          },
         ]
       }
     ]

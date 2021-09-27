@@ -44,7 +44,8 @@ const userSchema = new db.Schema({
   email: { type: String, unique: true, required: true, dropDups: true, lowercase: true, trim: true },
   password: { type: String, required: true, trim: true },
   likes: [likeSchema],
-  avatar: String
+  avatar: String,
+  pro: Boolean
 });
 userSchema.pre('save', function (next) {
   let user = this;

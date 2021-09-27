@@ -1,0 +1,62 @@
+<!-- <ion-header>
+  <ion-toolbar color="primary">
+    <ion-buttons slot="start">
+      <ion-back-button></ion-back-button>
+    </ion-buttons>
+    <ion-title>Purchases</ion-title>
+    <ion-img slot="end" src="../../../assets/fwfPlusIcon.svg" style="width:50px; margin-right: 16px;">
+    </ion-img>
+
+  </ion-toolbar>
+
+
+</ion-header> -->
+
+<ion-content fullscreen class="ion-padding" scroll-y="false">
+  <ion-slides>
+
+    <ion-slide>
+      <div class="slide">
+        <img src="../../../assets/FullLogo_Color.svg" />
+        <h2>Why upgrade?
+        </h2>
+        <p>With <ion-img src="../../../assets/fwfPlusIcon.svg" style="width:50px; display: inline-block;">
+          </ion-img> you can enjoy benefits like:</p>
+      </div>
+    </ion-slide>
+
+    <ion-slide>
+      <img src="../../../assets/plus-slides/more_groups.svg" />
+      <h2>Unlimited groups</h2>
+      <p>You won't have to worry about juggling groups. With <ion-img src="../../../assets/fwfPlusIcon.svg"
+          style="width:50px; display: inline-block;">
+        </ion-img> you can created as many as you need.</p>
+    </ion-slide>
+
+    <ion-slide>
+      <img src="../../../assets/plus-slides/more_people.svg" />
+      <h2>Unlimited members</h2>
+      <div style="position: relative;">
+        <p>With <ion-img src="../../../assets/fwfPlusIcon.svg" style="width:50px; display: inline-block;">
+          </ion-img> you can add members from 3 - <span [innerHTML]="infinity"></span>. More
+          members = <span [innerHTML]="party"></span>
+        </p>
+      </div>
+    </ion-slide>
+    <ion-slide>
+      <img src="../../../assets/plus-slides/more_nav.svg" />
+      <h2>Route to restaurant</h2>
+      <div style="position: relative;">
+        <p>Nobody likes to copy and paste addresses. With <ion-img src="../../../assets/fwfPlusIcon.svg"
+            style="width:50px; display: inline-block;">
+          </ion-img> you can open addresses in maps to get route information.
+        </p>
+      </div>
+      <div *ngFor="let p of products">
+        <ion-button color="success" (click)="purchase(p)">Upgrade Now</ion-button>
+      </div>
+
+    </ion-slide>
+
+  </ion-slides>
+</ion-content>

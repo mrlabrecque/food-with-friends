@@ -11,7 +11,8 @@ export class RegisterPageComponent implements OnInit {
   credentials = {
     name: '',
     email: '',
-    password: ''
+    password: '',
+    pro: false
   };
   constructor(private authService: AuthService, private router: Router) { }
 

@@ -67,11 +67,13 @@ export class ManageGroupModalComponent implements OnInit {
     //close window
   }
   onGetNewMembersSuccess(newGroup: Group) {
-    this.groupService.createGroup(newGroup).subscribe(res => this.onCreateGroupSuccess(res));
+    this.groupService.createGroup(newGroup).subscribe(res => this.onCreateGroupSuccess());
   }
-  onCreateGroupSuccess(res) {
-    this.modalController.dismiss(res);
-    //this.router.navigate(['/folder/Groups', res._id]);
+  onCreateGroupSuccess() {
+    this.modalController.dismiss();
+    this.groupService.getUsersGroupsByUserId(this.user._id).subscribe(res => {
+      this.userService.currentUserGroups$.next(res);
+    }); //this.router.navigate(['/folder/Groups', res._id]);
   }
   onCloseClicked() {
     this.modalController.dismiss();

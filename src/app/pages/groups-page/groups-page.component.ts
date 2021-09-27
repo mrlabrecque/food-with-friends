@@ -23,15 +23,13 @@ export class GroupsPageComponent implements OnInit, OnDestroy {
   groups: Group[] = [];
 
   constructor(private groupService: GroupService, private authService: AuthService, public modalController: ModalController,
-    public routerOutlet: IonRouterOutlet) { }
+    public routerOutlet: IonRouterOutlet, private userService: UserService) { }
 
   ngOnInit() {
     this.currentUserSubscription = this.authService.authenticatedUser.subscribe(
       res => this.currentUser = res
     );
-    this.usersGroupsSubscription = this.groupService.getUsersGroupsByUserId(this.currentUser._id).subscribe(
-      res => this.usersGroups = res
-    );
+    this.usersGroupsSubscription = this.userService.currentUserGroups$.subscribe(res => this.usersGroups = res);
   }
   ngOnDestroy() {
     this.usersGroupsSubscription.unsubscribe();
@@ -51,8 +49,8 @@ export class GroupsPageComponent implements OnInit, OnDestroy {
     modal.onDidDismiss()
       .then((response) => {
         if (response.data) {
-          this.groups.push(response.data);
-          this.groups$.next(this.groups);
+          this.usersGroups.push(response.data);
+          this.userService.currentUserGroups$.next(this.groups);
         }
       });
     return await modal.present();

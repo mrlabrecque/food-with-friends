@@ -6,6 +6,7 @@ import { BehaviorSubject, Observable, of } from 'rxjs';
 import { catchError, map } from 'rxjs/operators';
 import { Group } from '../models/group-model';
 import { User } from '../models/user.model';
+import { Matches } from '../models/matches.model';
 
 @Injectable({
   providedIn: 'root'
@@ -13,6 +14,7 @@ import { User } from '../models/user.model';
 export class GroupService {
   currentGroupId: number;
   currentGroupFilters$: BehaviorSubject<Group> = new BehaviorSubject(null);
+  currentGroupMatches$: BehaviorSubject<Matches[]> = new BehaviorSubject(null);
   apiUrl = environment.apiUrl;
 
 
@@ -35,7 +37,8 @@ export class GroupService {
 
   }
   public refreshGroup() {
-    this.getGroupById(this.currentGroupId);
+    this.getGroupById(this.currentGroupId).subscribe(res =>
+      this.currentGroupMatches$.next(res.matches));
   }
 
   public updateGroupFilters(groupId: number, preparedGroup: Group): Observable<any> {

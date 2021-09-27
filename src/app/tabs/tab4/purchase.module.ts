@@ -3,8 +3,8 @@ import { RouterModule } from '@angular/router';
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { LikesPageComponent } from 'src/app/pages/likes-page/likes-page.component';
 import { SharedPageModule } from '../shared/shared.module';
+import { PurchasePageComponent } from 'src/app/pages/purchase-page/purchase-page.component';
 
 @NgModule({
   imports: [
@@ -12,8 +12,8 @@ import { SharedPageModule } from '../shared/shared.module';
     CommonModule,
     FormsModule,
     SharedPageModule,
-    RouterModule.forChild([{ path: '', component: LikesPageComponent }])
+    RouterModule.forChild([{ path: '', component: PurchasePageComponent }])
   ],
-  declarations: [LikesPageComponent]
+  declarations: [PurchasePageComponent]
 })
-export class Tab3PageModule { }
+export class PurchaseModule { }

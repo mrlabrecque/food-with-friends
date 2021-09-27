@@ -14,12 +14,13 @@ import { ModeService } from '../../services/mode.service';
 import { ManageGroupModalComponent } from '../../components/modals/manage-group-modal/manage-group-modal.component';
 import { User } from 'src/app/models/user.model';
 import { AuthService } from 'src/app/services/auth.service';
-import { MatchListComponent } from 'src/app/components/match-list/match-list.component';
+import { MatchListComponent } from 'src/app/components/lists/match-list/match-list.component';
 import { LikesPageComponent } from '../likes-page/likes-page.component';
 import { RestaurantDetailsModalComponent } from 'src/app/components/modals/restaurant-details-modal/restaurant-details-modal.component';
-import { ModalListComponent } from 'src/app/components/modals/modal-list/modal-list.component';
+import { LikesListComponent } from 'src/app/components/lists/likes-list/likes-list.component';
 import { Restaurant } from 'src/app/models/restaurant.model';
 import { UserService } from 'src/app/services/user.service';
+import { RestaurantType } from 'src/app/models/restaurant-type.enum';
 
 declare const google;
 const options = {
@@ -27,6 +28,7 @@ const options = {
   timeout: 5000,
   maximumAge: 0
 };
+
 
 @Component({
   selector: 'app-home-page',
@@ -71,6 +73,9 @@ export class HomePageComponent implements OnInit {
     this.likesSubscription = this.userService.currentUserLikes$.subscribe(res => {
       this.currentUserLikes = res;
     });
+    this.userService.currentUserGroups$.subscribe(res => {
+      this.groups = res;
+    });
 
     combineLatest(
       [this.locationService.userLat,
@@ -90,9 +95,6 @@ export class HomePageComponent implements OnInit {
   }
   onFetchUserSuccess(user) {
     this.currentUser = user;
-    this.newGroupsSubscription = this.groups$.subscribe((res: Group[]) => {
-      this.groups = [...res];
-    });
     if (this.currentUser) {
       this.userService.currentUserLikes$.next(this.currentUser.likes);
       this.groupsSubscription = this.groupService.getUsersGroupsByUserId(this.currentUser?._id).subscribe((res) => this.onFetchGroupsSuccess(res));
@@ -100,8 +102,7 @@ export class HomePageComponent implements OnInit {
   }
 
   onFetchGroupsSuccess(res) {
-    this.groups$.next(res);
-    this.groups = res;
+    this.userService.currentUserGroups$.next(res);
   }
 
   setParams(attr: string) {
@@ -130,27 +131,28 @@ export class HomePageComponent implements OnInit {
   }
   async openLikesModal() {
     const modal = await this.modalController.create({
-      component: ModalListComponent,
+      component: LikesListComponent,
       cssClass: 'my-custom-class',
       swipeToClose: true,
       presentingElement: this.routerOutlet.nativeEl,
       componentProps: {
         listData: this.currentUserLikes,
         title: 'Likes',
-        dataType: 'likes'
+        dataType: RestaurantType.Like
       }
     });
     return await modal.present();
   }
   async openNearModal() {
     const modal = await this.modalController.create({
-      component: ModalListComponent,
+      component: LikesListComponent,
       cssClass: 'my-custom-class',
       swipeToClose: true,
       presentingElement: this.routerOutlet.nativeEl,
       componentProps: {
         listData: this.newRestaurants$.value,
-        title: 'Restaurants Near Me'
+        title: 'Restaurants Near Me',
+        dataType: RestaurantType.Near
       }
     });
     return await modal.present();
@@ -169,8 +171,7 @@ export class HomePageComponent implements OnInit {
     modal.onDidDismiss()
       .then((response) => {
         if (response.data) {
-          this.groups.push(response.data);
-          this.groups$.next(this.groups);
+          this.groupService.getUsersGroupsByUserId(this.currentUser?._id).subscribe((res) => this.onFetchGroupsSuccess(res));
         }
       });
     return await modal.present();

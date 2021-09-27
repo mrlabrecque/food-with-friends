@@ -2,9 +2,9 @@
 import { Component, OnInit, Input, AfterViewInit, OnChanges, SimpleChanges } from '@angular/core';
 import { ToastController } from '@ionic/angular';
 import { AuthService } from 'src/app/services/auth.service';
-import { User } from '../../models/user.model';
-import { GroupService } from '../../services/group.service';
-import { UserService } from '../../services/user.service';
+import { User } from '../../../models/user.model';
+import { GroupService } from '../../../services/group.service';
+import { UserService } from '../../../services/user.service';
 
 @Component({
   selector: 'app-member-list',

@@ -4,6 +4,7 @@ import { ToastController } from '@ionic/angular';
 import { BehaviorSubject } from 'rxjs';
 import { User } from 'src/app/models/user.model';
 import { GroupService } from 'src/app/services/group.service';
+import { UserService } from 'src/app/services/user.service';
 import * as _ from 'underscore';
 
 @Component({
@@ -12,17 +13,24 @@ import * as _ from 'underscore';
   templateUrl: './sliding-list-groups.component.html',
   styleUrls: ['./sliding-list-groups.component.scss'],
 })
-export class SlidingListGroupsComponent implements OnChanges {
+export class SlidingListGroupsComponent implements OnInit, OnChanges {
 
   @Input() listItems = [];
   @Input() currentUser: User;
   listItems$: BehaviorSubject<User[]> = new BehaviorSubject([]);
   incomingListItems = [];
-  constructor(private groupService: GroupService, private cd: ChangeDetectorRef, public toastController: ToastController) {
+  constructor(private groupService: GroupService, private cd: ChangeDetectorRef,
+    public toastController: ToastController, private userService: UserService) {
   }
-
+  ngOnInit() {
+    this.groupService.getUsersGroupsByUserId(this.currentUser._id).subscribe(res => {
+      this.userService.currentUserGroups$.next(res);
+    });
+    this.userService.currentUserGroups$.subscribe(res => {
+      this.listItems = res;
+    });
+  }
   ngOnChanges(changes: SimpleChanges) {
-    this.listItems = changes.listItems.currentValue;
     // this.incomingListItems = changes;
   }
   removeGroup(group) {
@@ -33,17 +41,19 @@ export class SlidingListGroupsComponent implements OnChanges {
   }
   onRemoveGroupSuccess(groupId) {
     this.groupService.getUsersGroupsByUserId(this.currentUser._id).subscribe(res => {
-      this.listItems = res;
-      this.cd.markForCheck();
-      this.onRemoveGroupSuccessToast();
+      this.userService.currentUserGroups$.next(res);
+      this.onRemoveGroupSuccessToast(true);
     });
   }
   onLeaveGroupSuccess(groupId) {
-
+    this.groupService.getUsersGroupsByUserId(this.currentUser._id).subscribe(res => {
+      this.userService.currentUserGroups$.next(res);
+      this.onRemoveGroupSuccessToast(false);
+    });
   }
-  async onRemoveGroupSuccessToast() {
+  async onRemoveGroupSuccessToast(deleted: boolean) {
     const toast = await this.toastController.create({
-      message: 'Your group has been deleted.',
+      message: deleted ? 'Your group has been deleted.' : 'You have been removed from the group',
       duration: 2000
     });
     toast.present();

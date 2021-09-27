@@ -8,7 +8,7 @@ import { User } from 'src/app/models/user.model';
 import { AuthService } from 'src/app/services/auth.service';
 import { GroupService } from 'src/app/services/group.service';
 import { UserService } from 'src/app/services/user.service';
-import { RestaurantDetailsModalComponent } from '../modals/restaurant-details-modal/restaurant-details-modal.component';
+import { RestaurantDetailsModalComponent } from '../../modals/restaurant-details-modal/restaurant-details-modal.component';
 
 @Component({
   selector: 'app-match-list',

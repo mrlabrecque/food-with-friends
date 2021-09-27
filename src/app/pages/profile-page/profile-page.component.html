@@ -23,7 +23,7 @@
 
   <ion-card>
     <ion-card-content>
-      <ion-list>
+      <ion-list lines="none">
         <ion-list-header class="ion-no-padding">
           <ion-avatar slot=" start">
             <ngx-avatar [name]="currentUser.name" size="40" [round]="true">
@@ -32,11 +32,11 @@
         </ion-list-header>
 
 
-        <ion-item class="ion-no-padding">
+        <ion-item class="ion-no-padding" [routerLink]="['../tab4/settings']">
           <ion-icon slot="end" name="cog-outline"></ion-icon>
           <ion-label>Settings</ion-label>
         </ion-item>
-        <ion-item class="ion-no-padding">
+        <ion-item class="ion-no-padding" [routerLink]="['../tab4/purchase']">
           <ion-icon slot="end" name="add-outline"></ion-icon>
           <ion-label>Upgrade to <ion-img src="../../../assets/fwfPlusIcon.svg"
               style="width:50px; margin-right: 16px; display: inline-block;">
@@ -55,16 +55,13 @@
           <ion-icon slot="end" name="help-outline"></ion-icon>
           <ion-label>About Food with Friends</ion-label>
         </ion-item>
+        <ion-item class="ion-no-padding" (click)="onLogoutClicked()">
+          <ion-icon slot="end" name="log-out-outline"></ion-icon>
+          <ion-label>Logout</ion-label>
+        </ion-item>
       </ion-list>
     </ion-card-content>
   </ion-card>
 
 
 </ion-content>
-<ion-footer class="ion-no-border">
-  <ion-toolbar>
-    <section>
-      <ion-button color="primary" expand="block" shape="round" (click)="onLogoutClicked()">Logout</ion-button>
-    </section>
-  </ion-toolbar>
-</ion-footer>

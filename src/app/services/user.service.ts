@@ -4,6 +4,7 @@ import { Injectable } from '@angular/core';
 import { ToastController } from '@ionic/angular';
 import { BehaviorSubject, Subject } from 'rxjs';
 import { environment } from '../../environments/environment';
+import { Group } from '../models/group-model';
 import { Restaurant } from '../models/restaurant.model';
 import { User } from '../models/user.model';
 import { AuthService } from './auth.service';
@@ -13,7 +14,9 @@ import { AuthService } from './auth.service';
 })
 export class UserService {
   currentUser: BehaviorSubject<User> = new BehaviorSubject(null);
+  isProUser$: BehaviorSubject<boolean> = new BehaviorSubject(false);
   currentUserLikes$: BehaviorSubject<Restaurant[]> = new BehaviorSubject(null);
+  currentUserGroups$: BehaviorSubject<Group[]> = new BehaviorSubject(null);
   apiUrl = environment.apiUrl;
   constructor(private http: HttpClient, private toastController: ToastController) { }
   getCurrentUser() {
@@ -29,6 +32,9 @@ export class UserService {
   }
   removeLikeFromUser(like, userId: number) {
     return this.http.put<any>(`${this.apiUrl}/v1/users/${userId}/removelike`, like);
+  }
+  addPurchaseToUser(userId: number) {
+    return this.http.put<any>(`${this.apiUrl}/v1/users/${userId}/purchaseapproved`, true);
   }
 
   addLike(rest, userId) {

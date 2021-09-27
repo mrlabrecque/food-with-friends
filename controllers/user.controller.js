@@ -124,3 +124,10 @@ exports.removeLike = (req, res) => {
     })
     .catch((err) => console.log(err));
 };
+exports.updateUserPurchase = (req, res) => {
+  const user = User.findByIdAndUpdate({ _id: req.params.id }, { pro: req.body }, { new: true })
+    .then((user) => {
+      res.send(user)
+    })
+    .catch((err) => console.log(err));
+};

@@ -14,7 +14,7 @@ import { HttpClientModule } from '@angular/common/http';
 import { IonicStorageModule } from '@ionic/storage-angular';
 import { JwtModule, JWT_OPTIONS } from '@auth0/angular-jwt';
 import { environment } from '../environments/environment';
-
+import { InAppPurchase2 } from '@ionic-native/in-app-purchase-2/ngx';
 export function jwtOptionsFactory(storage) {
   return {
     tokenGetter: () => {
@@ -36,7 +36,7 @@ export function jwtOptionsFactory(storage) {
         deps: [Storage],
       }
     })],
-  providers: [{ provide: RouteReuseStrategy, useClass: IonicRouteStrategy }],
+  providers: [{ provide: RouteReuseStrategy, useClass: IonicRouteStrategy }, InAppPurchase2],
   bootstrap: [AppComponent],
 })
 export class AppModule { }
