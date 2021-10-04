@@ -49,16 +49,16 @@ export class RestaurantListComponent implements OnInit, OnDestroy, AfterViewInit
   ) { }
 
   ngOnInit() {
-    this.instanstiateSwipeGesture(this.restraurantCards && this.restraurantCards.toArray());
     this.currentRestaurantCard$.subscribe(res => {
       this.currentRestaurantCard = { ...res };
     });
-  }
-  ngAfterViewInit() {
-    this.instanstiateSwipeGesture(this.restraurantCards && this.restraurantCards.toArray());
     this.currentGroupSubscription = this.groupService.getGroupById(+this.activatedRoute.snapshot.paramMap.get('id'))
       .subscribe((gr) => this.currentGroup = gr);
     this.currentUser = this.authService.authenticatedUser.value;
+  }
+  ngAfterViewInit() {
+    this.instanstiateSwipeGesture(this.restraurantCards && this.restraurantCards.toArray());
+
   }
   ngOnChanges(changes: SimpleChanges) {
     if (this.restaurants.length > 0) {
@@ -73,6 +73,7 @@ export class RestaurantListComponent implements OnInit, OnDestroy, AfterViewInit
     this.restraurantListSubscription$ && this.restraurantListSubscription$.unsubscribe();
   }
   instanstiateSwipeGesture(restraurantCardsArray) {
+    console.log(restraurantCardsArray);
     _.each(restraurantCardsArray, rest => {
       const gesture: Gesture = this.gestureCtrl.create({
         el: rest.nativeElement,
@@ -152,9 +153,8 @@ export class RestaurantListComponent implements OnInit, OnDestroy, AfterViewInit
     const currentMatches = this.currentGroup.matches;
 
     console.log(currentMatches);
-
-    const existingGroupMatch = _.find(currentMatches, (match: Matches) => match?.restaurant?.id === rest?.id);
-    console.log(existingGroupMatch);
+    console.log(rest);
+    const existingGroupMatch = currentMatches ? _.find(currentMatches, (match: Matches) => match?.restaurant?.id === rest?.id) : null;
     const noOfGroupMembers = this.currentGroup.members.length;
     //plus one includes the update that is next
     let currentMatchPercent;

@@ -154,7 +154,6 @@ export class GroupDetailPageComponent implements OnInit, OnDestroy {
   }
   onGetGroupSuccess(selectedGroup) {
     this.group = { ...selectedGroup };
-    console.log(this.group);
     this.groupService.currentGroupMatches$.next(this.group.matches);
     this.groupService.currentGroupId = this.group._id;
     this.isUserGroupOwner = this.group.owner._id === this.currentUser._id;

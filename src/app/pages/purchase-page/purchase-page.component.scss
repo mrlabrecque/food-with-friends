@@ -1,5 +1,14 @@
-ion-slides {
-  height: 80%;
+// ion-slides {
+//   height: 80%;
+// }
+
+.premium-feature-list-container {
+  width: fit-content;
+  color: var(--ion-color-step-600, #60646b);
+}
+
+.feature-check {
+  margin-right: 10px;
 }
 
 .swiper-slide {
@@ -23,8 +32,6 @@ b {
 
 p {
   padding: 0 40px;
-  font-size: 14px;
-  line-height: 1.5;
   color: var(--ion-color-step-600, #60646b);
 }
 

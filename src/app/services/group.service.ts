@@ -15,6 +15,7 @@ export class GroupService {
   currentGroupId: number;
   currentGroupFilters$: BehaviorSubject<Group> = new BehaviorSubject(null);
   currentGroupMatches$: BehaviorSubject<Matches[]> = new BehaviorSubject(null);
+  currentGroupMembers$: BehaviorSubject<User[]> = new BehaviorSubject(null);
   apiUrl = environment.apiUrl;
 
 
@@ -37,9 +38,11 @@ export class GroupService {
 
   }
   public refreshGroup() {
-    this.getGroupById(this.currentGroupId).subscribe(res =>
-      this.currentGroupMatches$.next(res.matches));
-  }
+    this.getGroupById(this.currentGroupId).subscribe(res => {
+      this.currentGroupMatches$.next(res.matches);
+      this.currentGroupMembers$.next(res.members);
+    });
+  };
 
   public updateGroupFilters(groupId: number, preparedGroup: Group): Observable<any> {
     const body = JSON.stringify(preparedGroup);

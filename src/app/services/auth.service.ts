@@ -122,7 +122,6 @@ export class AuthService {
 
   openLoader() {
     this.loadingController.create({
-      message: 'Loading...'
     }).then((response) => {
       response.present();
     });

@@ -36,10 +36,10 @@
           <ion-icon slot="end" name="cog-outline"></ion-icon>
           <ion-label>Settings</ion-label>
         </ion-item>
-        <ion-item class="ion-no-padding" [routerLink]="['../tab4/purchase']">
+        <ion-item class="ion-no-padding" (click)="openPurchaseModal()">
           <ion-icon slot="end" name="add-outline"></ion-icon>
           <ion-label>Upgrade to <ion-img src="../../../assets/fwfPlusIcon.svg"
-              style="width:50px; margin-right: 16px; display: inline-block;">
+              style="width:50px; margin-right: 16px; display: inline-block; position: relative; top:5px;">
             </ion-img>
           </ion-label>
         </ion-item>

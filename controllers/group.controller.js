@@ -77,7 +77,7 @@ exports.addMatch = (req, res) => {
 };
 exports.updateMatch = (req, res) => {
   console.log(req.body);
-  const group = Group.updateOne({ "_id": req.params.groupId, "matches._id": req.body._id }, { "$set": { "memberMatches": req.body.memberMatches, "noOfMatches": req.body.noOfMatches, "matchPercent": req.body.matchPercent, "trueMatch": req.body.trueMatch } })
+  const group = Group.updateOne({ "_id": req.params.groupId, "matches._id": req.body._id }, { "$set": { "restaurant": req.body.restaurant, "memberMatches": req.body.memberMatches, "noOfMatches": req.body.noOfMatches, "matchPercent": req.body.matchPercent, "trueMatch": req.body.trueMatch } })
     .then((group) => {
       res.json(group)
     })
