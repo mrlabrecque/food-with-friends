@@ -1,3 +1,4 @@
+/* eslint-disable no-underscore-dangle */
 /* eslint-disable max-len */
 import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { IAPProduct, InAppPurchase2 } from '@ionic-native/in-app-purchase-2/ngx';
@@ -46,7 +47,8 @@ export class PurchasePageComponent implements OnInit {
   setupListeners() {
     // Specific query for one ID
     this.store.when(PRODUCT_KEY_PLUS).owned((p: IAPProduct) => {
-      console.log("is pro");
+      console.log('is pro');
+      this.userService.addPurchaseToUser(this.userService.currentUser.value._id).subscribe(res => this.userService.isPro$.next(true));
     });
   }
 

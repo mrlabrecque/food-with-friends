@@ -27,6 +27,7 @@ import { Restaurant } from 'src/app/models/restaurant.model';
 import { RestaurantType } from 'src/app/models/restaurant-type.enum';
 import { LikesListComponent } from 'src/app/components/lists/likes-list/likes-list.component';
 import { debugOutputAstAsTypeScript } from '@angular/compiler';
+import { UserService } from 'src/app/services/user.service';
 
 
 @Component({
@@ -122,6 +123,8 @@ export class GroupDetailPageComponent implements OnInit, OnDestroy {
   showMatches = true;
   isUserGroupOwner = false;
   currentUser: User;
+  isPro = false;
+  groupMemberCount = 0;
 
   constructor(private activatedRoute: ActivatedRoute,
     private router: Router,
@@ -134,6 +137,7 @@ export class GroupDetailPageComponent implements OnInit, OnDestroy {
     private ngZone: NgZone,
     public popoverController: PopoverController,
     private authService: AuthService,
+    private userService: UserService
   ) { }
 
   ngOnInit() {
@@ -147,6 +151,7 @@ export class GroupDetailPageComponent implements OnInit, OnDestroy {
     this.lat = this.locationService.userLat.value;
     this.long = this.locationService.userLong.value;
     this.currentUser = this.authService.authenticatedUser.value;
+    this.userService.isPro$.subscribe(res => this.isPro = res);
 
   }
   ngOnDestroy() {
@@ -154,7 +159,10 @@ export class GroupDetailPageComponent implements OnInit, OnDestroy {
   }
   onGetGroupSuccess(selectedGroup) {
     this.group = { ...selectedGroup };
+    this.groupMemberCount = this.group.members.length;
     this.groupService.currentGroupMatches$.next(this.group.matches);
+    this.groupService.currentGroupMembers$.next(this.group.members);
+    this.groupService.currentGroupMembers$.subscribe(res => this.groupMemberCount = res.length);
     this.groupService.currentGroupId = this.group._id;
     this.isUserGroupOwner = this.group.owner._id === this.currentUser._id;
     if (selectedGroup.filters.foodPrices.length === 0 || selectedGroup.filters.foodTypes.length === 0) {

@@ -35,6 +35,7 @@ export class MemberListComponent implements OnInit, OnChanges {
   }
   async onRemoveMemberSuccess(res) {
     this.memberData = res.members;
+    this.groupService.currentGroupMembers$.next(res.members);
     const toast = await this.toastController.create({
       message: 'Member removed',
       duration: 1000

@@ -17,6 +17,7 @@ export class UserService {
   isProUser$: BehaviorSubject<boolean> = new BehaviorSubject(false);
   currentUserLikes$: BehaviorSubject<Restaurant[]> = new BehaviorSubject(null);
   currentUserGroups$: BehaviorSubject<Group[]> = new BehaviorSubject(null);
+  isPro$: BehaviorSubject<boolean> = new BehaviorSubject(false);
   apiUrl = environment.apiUrl;
   constructor(private http: HttpClient, private toastController: ToastController) { }
   getCurrentUser() {

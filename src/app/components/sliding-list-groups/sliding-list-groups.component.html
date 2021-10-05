@@ -27,3 +27,18 @@
   </ion-item-options>
 
 </ion-item-sliding>
+
+
+<ng-container *ngIf="listItems?.length == 0">
+  <ion-card>
+
+
+    <ion-card-content>
+      <div class="flex align-center ion-justify-content-center">
+        <div style="display: inline-block;">
+          <p>Add groups to get started</p>
+        </div>
+      </div>
+    </ion-card-content>
+  </ion-card>
+</ng-container>

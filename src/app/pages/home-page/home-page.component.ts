@@ -51,6 +51,8 @@ export class HomePageComponent implements OnInit {
   dealsRestaurants$: BehaviorSubject<Restaurant[]> = new BehaviorSubject([]);
   loading: any;
   pageLoading = true;
+  isPro = false;
+  userGroupsCount = 0;
 
   constructor(private restaurantService: RestaurantService,
     private loadingController: LoadingController,
@@ -73,9 +75,7 @@ export class HomePageComponent implements OnInit {
     this.likesSubscription = this.userService.currentUserLikes$.subscribe(res => {
       this.currentUserLikes = res;
     });
-    this.userService.currentUserGroups$.subscribe(res => {
-      this.groups = res;
-    });
+
 
     combineLatest(
       [this.locationService.userLat,
@@ -97,12 +97,17 @@ export class HomePageComponent implements OnInit {
     this.currentUser = user;
     if (this.currentUser) {
       this.userService.currentUserLikes$.next(this.currentUser.likes);
+      this.userService.isPro$.subscribe(res => this.isPro = res);
       this.groupsSubscription = this.groupService.getUsersGroupsByUserId(this.currentUser?._id).subscribe((res) => this.onFetchGroupsSuccess(res));
     }
   }
 
   onFetchGroupsSuccess(res) {
     this.userService.currentUserGroups$.next(res);
+    this.userService.currentUserGroups$.subscribe(response => {
+      this.groups = response;
+      this.userGroupsCount = response.length;
+    });
   }
 
   setParams(attr: string) {

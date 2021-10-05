@@ -21,6 +21,8 @@ export class GroupsPageComponent implements OnInit, OnDestroy {
   currentUserSubscription: Subscription;
   groups$: BehaviorSubject<Group[]> = new BehaviorSubject([]);
   groups: Group[] = [];
+  isPro = false;
+  userGroupsCount = 0;
 
   constructor(private groupService: GroupService, private authService: AuthService, public modalController: ModalController,
     public routerOutlet: IonRouterOutlet, private userService: UserService) { }
@@ -29,11 +31,16 @@ export class GroupsPageComponent implements OnInit, OnDestroy {
     this.currentUserSubscription = this.authService.authenticatedUser.subscribe(
       res => this.currentUser = res
     );
-    this.usersGroupsSubscription = this.userService.currentUserGroups$.subscribe(res => this.usersGroups = res);
+    this.usersGroupsSubscription = this.userService.currentUserGroups$.subscribe(res => this.userGroupsSuccess(res));
+    this.userService.isPro$.subscribe(res => this.isPro = res);
   }
   ngOnDestroy() {
     this.usersGroupsSubscription.unsubscribe();
     this.currentUserSubscription.unsubscribe();
+  }
+  userGroupsSuccess(groups: Group[]) {
+    this.usersGroups = groups;
+    this.userGroupsCount = groups.length;
   }
   async addGroup() {
     const modal = await this.modalController.create({

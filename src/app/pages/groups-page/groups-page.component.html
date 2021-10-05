@@ -3,12 +3,14 @@
     <ion-title>
       My Groups
     </ion-title>
-    <ion-buttons slot="end">
+    <ion-buttons slot="end" *ngIf="isPro || userGroupsCount < 2">
       <ion-button (click)="addGroup()">
         <ion-icon name="add-outline">
         </ion-icon>
       </ion-button>
     </ion-buttons>
+    <ion-badge slot="end" color="warning" *ngIf="!isPro && userGroupsCount === 2"><span class="link-text">Upgrade</span>
+    </ion-badge>
   </ion-toolbar>
 </ion-header>
 

@@ -17,6 +17,7 @@ export class SlidingCardLargeComponent implements OnInit, OnChanges {
   @Input() cardData: any[] = [];
 
   @Input() dataType: RestaurantType;
+  dataTypeName = 'likes';
   dataLoading = true;
   slideOpts = {
     spaceBetween: 10,
@@ -40,6 +41,7 @@ export class SlidingCardLargeComponent implements OnInit, OnChanges {
       this.groupService.currentGroupMatches$.subscribe(res => {
         const matches = _.pluck(res, 'restaurant');
         this.cardData = matches;
+        this.dataTypeName = 'matches';
       });
     }
 

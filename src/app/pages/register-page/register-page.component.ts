@@ -12,7 +12,7 @@ export class RegisterPageComponent implements OnInit {
     name: '',
     email: '',
     password: '',
-    pro: false
+    premium: false
   };
   constructor(private authService: AuthService, private router: Router) { }
 

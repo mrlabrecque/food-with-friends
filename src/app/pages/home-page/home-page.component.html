@@ -12,7 +12,7 @@
 <ion-header>
   <ion-toolbar color="primary">
     <ion-title class="app-title">Home</ion-title>
-    <ion-buttons slot="end">
+    <ion-buttons slot="end" *ngIf="isPro || userGroupsCount < 2">
       <ion-button (click)="addGroup()">
         <ion-icon name="add-outline">
         </ion-icon>
@@ -42,9 +42,12 @@
     <ion-list-header class="ion-padding-end">
       <div class="flex space-between" style="width: 100%;">
         <div>Your Groups</div>
-        <div (click)="addGroup()">
+        <div (click)="addGroup()" *ngIf="isPro || userGroupsCount < 2">
           <ion-icon size="large" class="action-icons" color="primary" slot="end" name="add-circle-outline">
           </ion-icon>
+        </div>
+        <div *ngIf="!isPro && userGroupsCount === 2">
+          <ion-badge color="warning"><span class="link-text">Upgrade</span></ion-badge>
         </div>
       </div>
     </ion-list-header>

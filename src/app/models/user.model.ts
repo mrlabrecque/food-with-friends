@@ -6,4 +6,5 @@ export class User {
   email: string;
   avatar: string;
   likes: Restaurant[];
+  premium: boolean;
 }

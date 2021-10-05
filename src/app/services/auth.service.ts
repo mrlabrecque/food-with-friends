@@ -53,8 +53,12 @@ export class AuthService {
     });
   }
   setAuthenticatedUser() {
-    this.userService.getUserById(+this.user.id).subscribe((res) => this.authenticatedUser.next(res));
+    this.userService.getUserById(+this.user.id).subscribe((res) => this.setAuthenticatedUserSuccess(res));
+  }
+  setAuthenticatedUserSuccess(user: User) {
+    this.authenticatedUser.next(user);
     this.authenticationState.next(true);
+    this.userService.isPro$.next(user.premium);
   }
   refreshUser() {
     this.userService.getUserById(+this.user.id).subscribe((res) => this.authenticatedUser.next(res));
