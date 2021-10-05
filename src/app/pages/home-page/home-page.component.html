@@ -46,7 +46,7 @@
           <ion-icon size="large" class="action-icons" color="primary" slot="end" name="add-circle-outline">
           </ion-icon>
         </div>
-        <div *ngIf="!isPro && userGroupsCount === 2">
+        <div *ngIf="!isPro && userGroupsCount === 2" (click)="openPurchaseModal()">
           <ion-badge color="warning"><span class="link-text">Upgrade</span></ion-badge>
         </div>
       </div>

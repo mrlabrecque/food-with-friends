@@ -9,7 +9,8 @@
         </ion-icon>
       </ion-button>
     </ion-buttons>
-    <ion-badge slot="end" color="warning" *ngIf="!isPro && userGroupsCount === 2"><span class="link-text">Upgrade</span>
+    <ion-badge slot="end" color="warning" *ngIf="!isPro && userGroupsCount === 2" (click)="openPurchaseModal()"><span
+        class="link-text">Upgrade</span>
     </ion-badge>
   </ion-toolbar>
 </ion-header>

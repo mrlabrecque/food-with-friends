@@ -28,6 +28,7 @@ import { RestaurantType } from 'src/app/models/restaurant-type.enum';
 import { LikesListComponent } from 'src/app/components/lists/likes-list/likes-list.component';
 import { debugOutputAstAsTypeScript } from '@angular/compiler';
 import { UserService } from 'src/app/services/user.service';
+import { PurchasePageComponent } from '../purchase-page/purchase-page.component';
 
 
 @Component({
@@ -287,6 +288,17 @@ export class GroupDetailPageComponent implements OnInit, OnDestroy {
         listData: this.groupMatches,
         title: 'Matches',
         dataType: RestaurantType.Match
+      }
+    });
+    return await modal.present();
+  }
+  async openPurchaseModal() {
+    const modal = await this.modalController.create({
+      component: PurchasePageComponent,
+      cssClass: 'my-custom-class',
+      swipeToClose: true,
+      presentingElement: this.routerOutlet.nativeEl,
+      componentProps: {
       }
     });
     return await modal.present();

@@ -8,6 +8,7 @@ import { User } from 'src/app/models/user.model';
 import { AuthService } from 'src/app/services/auth.service';
 import { UserService } from 'src/app/services/user.service';
 import { GroupService } from '../../services/group.service';
+import { PurchasePageComponent } from '../purchase-page/purchase-page.component';
 
 @Component({
   selector: 'app-groups-page',
@@ -60,6 +61,17 @@ export class GroupsPageComponent implements OnInit, OnDestroy {
           this.userService.currentUserGroups$.next(this.groups);
         }
       });
+    return await modal.present();
+  }
+  async openPurchaseModal() {
+    const modal = await this.modalController.create({
+      component: PurchasePageComponent,
+      cssClass: 'my-custom-class',
+      swipeToClose: true,
+      presentingElement: this.routerOutlet.nativeEl,
+      componentProps: {
+      }
+    });
     return await modal.present();
   }
 }

@@ -21,6 +21,7 @@ import { LikesListComponent } from 'src/app/components/lists/likes-list/likes-li
 import { Restaurant } from 'src/app/models/restaurant.model';
 import { UserService } from 'src/app/services/user.service';
 import { RestaurantType } from 'src/app/models/restaurant-type.enum';
+import { PurchasePageComponent } from '../purchase-page/purchase-page.component';
 
 declare const google;
 const options = {
@@ -181,6 +182,16 @@ export class HomePageComponent implements OnInit {
       });
     return await modal.present();
   }
-
+  async openPurchaseModal() {
+    const modal = await this.modalController.create({
+      component: PurchasePageComponent,
+      cssClass: 'my-custom-class',
+      swipeToClose: true,
+      presentingElement: this.routerOutlet.nativeEl,
+      componentProps: {
+      }
+    });
+    return await modal.present();
+  }
 
 }
