@@ -13,8 +13,9 @@ const fs = require('fs');
 const https = require('https');
 const passport = require('passport');
 const sslOptions = {
-  key: fs.readFileSync('key.pem'),
-  cert: fs.readFileSync('cert.pem'),
+  key: fs.readFileSync(__dirname + '/key.pem'),
+  cert: fs.readFileSync(__dirname + '/cert.pem'),
+  ca: fs.readFileSync(__dirname + '/chain.pem')
 };
 // Server configs
 const allowedOrigins = [
@@ -22,8 +23,7 @@ const allowedOrigins = [
   'ionic://localhost',
   'http://localhost',
   'http://localhost:8080',
-  'http://localhost:8100'
-];
+  'http://localhost:8100'];
 
 // Reflect the origin if it's in the allowed list or not defined (cURL, Postman, etc.)
 const corsOptions = {
@@ -101,20 +101,20 @@ app.use("/api/v1/groups", groupRoutes);
 
 
 // Point static path to dist
-app.use(express.static(path.join(__dirname, 'www')));
+app.use(express.static(path.join(__dirname, 'public')));
 
 // Set our api routes
 //app.use('/api', api);
 
 // Catch all other routes and return the index file
 app.get('/', cors(corsOptions), (req, res) => {
-  res.sendFile(path.join(__dirname, 'www/index.html'));
+  res.sendFile(path.join(__dirname, 'public/index.html'));
 });
 
 /**
  * Get port from environment and store in Express.
  */
-const port = process.env.PORT || 12000;
+const port = 12000;
 app.set('port', port);
 // const sslServer = https.createServer(sslOptions, app);
 
