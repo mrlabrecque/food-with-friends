@@ -77,9 +77,22 @@
           </ion-col>
           <ion-col size="11">
             <ion-label>Address </ion-label>
+            <ng-container *ngIf="isPro">
+              <a
+                href="https://maps.google.com/?q={{restaurant?.location?.address1}},{{restaurant?.location?.city}},{{restaurant?.location?.state}},{{restaurant?.location?.zip_code}}">
+                <p class="link-text ion-no-margin">
+                  <span>{{restaurant?.location?.address1}}</span>
+                  <span *ngIf="restaurant?.location?.address2">, {{restaurant?.location?.address2}}</span>
+                  <span *ngIf="restaurant?.location?.address3">, {{restaurant?.location?.address3}}</span><br>
+                  <span>{{restaurant?.location?.city}}</span>
+                  <span *ngIf="restaurant?.location?.state">, {{restaurant?.location?.state}}</span>
+                  <span *ngIf="restaurant?.location?.zip_code"> {{restaurant?.location?.zip_code}}</span>
+                  <span *ngIf="restaurant?.location?.country"> {{restaurant?.location?.country}}</span>
 
-            <a
-              href="https://maps.google.com/?q={{restaurant?.location?.address1}},{{restaurant?.location?.city}},{{restaurant?.location?.state}},{{restaurant?.location?.zip_code}}">
+                </p>
+              </a>
+            </ng-container>
+            <ng-container *ngIf="!isPro">
               <p class="link-text ion-no-margin">
                 <span>{{restaurant?.location?.address1}}</span>
                 <span *ngIf="restaurant?.location?.address2">, {{restaurant?.location?.address2}}</span>
@@ -90,7 +103,7 @@
                 <span *ngIf="restaurant?.location?.country"> {{restaurant?.location?.country}}</span>
 
               </p>
-            </a>
+            </ng-container>
           </ion-col>
 
         </ion-row>

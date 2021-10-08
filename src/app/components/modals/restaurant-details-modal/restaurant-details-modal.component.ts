@@ -23,12 +23,14 @@ export class RestaurantDetailsModalComponent implements OnInit, OnChanges {
   reviews: Review[] = [];
   loading: any;
   pageLoading = true;
+  isPro = false;
   constructor(private loadingController: LoadingController, private navCtrl: NavController, private activatedRoute: ActivatedRoute, private modalController: ModalController, private router: Router, private authService: AuthService, private userService: UserService, private restaurantService: RestaurantService) { }
 
   ngOnInit() {
     this.authService.pageLoading$.subscribe(res => this.pageLoading = res);
     this.authService.openLoader();
     this.currentUser = this.authService.authenticatedUser.value;
+    this.userService.isPro$.subscribe(res => this.isPro = res);
     if (this.router.getCurrentNavigation()?.extras?.state?.restaurant) {
       this.onGetRestaurantDetailsSuccess(this.router.getCurrentNavigation().extras.state.restaurant);
     } else {
@@ -43,13 +45,14 @@ export class RestaurantDetailsModalComponent implements OnInit, OnChanges {
     if (this.restaurant) {
       this.restaurantService.getRestaurantReviews(this.restaurant.id).subscribe(rev => {
         this.reviews = rev;
+        this.finishLoading();
+        const found = _.find(this.currentUser.likes, (like) => like.name === this.restaurant.name);
+        if (found) {
+          this.liked = true;
+        }
       });
 
-      const found = _.find(this.currentUser.likes, (like) => like.name === this.restaurant.name);
-      if (found) {
-        this.liked = true;
-      }
-      this.finishLoading();
+
     }
 
   }
