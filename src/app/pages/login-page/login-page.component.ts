@@ -19,7 +19,9 @@ export class LoginPageComponent implements OnInit {
   ngOnInit() {
   }
   onLoginClicked() {
-    this.authService.login(this.credentials).subscribe(res => this.onLoginSuccess(res));
+    if (this.credentials.email && this.credentials.password) {
+      this.authService.login(this.credentials).subscribe(res => this.onLoginSuccess(res));
+    }
   }
   onLoginSuccess(res) {
     this.router.navigateByUrl('/members');

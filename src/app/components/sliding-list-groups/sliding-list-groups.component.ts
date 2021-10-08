@@ -2,6 +2,7 @@
 import { Component, OnInit, Input, OnChanges, SimpleChanges, ChangeDetectionStrategy, ChangeDetectorRef } from '@angular/core';
 import { ToastController } from '@ionic/angular';
 import { BehaviorSubject } from 'rxjs';
+import { Group } from 'src/app/models/group-model';
 import { User } from 'src/app/models/user.model';
 import { GroupService } from 'src/app/services/group.service';
 import { UserService } from 'src/app/services/user.service';
@@ -26,8 +27,11 @@ export class SlidingListGroupsComponent implements OnInit, OnChanges {
     this.groupService.getUsersGroupsByUserId(this.currentUser._id).subscribe(res => {
       this.userService.currentUserGroups$.next(res);
     });
-    this.userService.currentUserGroups$.subscribe(res => {
+    this.userService.currentUserGroups$.subscribe((res: Group[]) => {
       this.listItems = res;
+      _.each(this.listItems, item => {
+        item.matchCount = _.filter(item.matches, list => list.trueMatch).length;
+      });
     });
   }
   ngOnChanges(changes: SimpleChanges) {

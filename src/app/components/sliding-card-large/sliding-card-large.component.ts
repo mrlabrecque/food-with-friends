@@ -1,7 +1,8 @@
-import { Component, OnInit, Input, AfterViewInit, SimpleChanges, SimpleChange, OnChanges } from '@angular/core';
+import { Component, OnInit, Input, AfterViewInit, SimpleChanges, SimpleChange, OnChanges, ɵɵtrustConstantResourceUrl } from '@angular/core';
 import { Router } from '@angular/router';
 import { IonRouterOutlet, ModalController } from '@ionic/angular';
 import { Observable } from 'rxjs';
+import { Matches } from 'src/app/models/matches.model';
 import { RestaurantType } from 'src/app/models/restaurant-type.enum';
 import { GroupService } from 'src/app/services/group.service';
 import { UserService } from 'src/app/services/user.service';
@@ -39,8 +40,11 @@ export class SlidingCardLargeComponent implements OnInit, OnChanges {
     }
     if (this.dataType === RestaurantType.Match) {
       this.groupService.currentGroupMatches$.subscribe(res => {
-        const matches = _.pluck(res, 'restaurant');
-        this.cardData = matches;
+        console.log(res);
+        const trueMatches = _.filter(res, match => match.trueMatch);
+        console.log(trueMatches);
+        this.cardData = _.pluck(trueMatches, 'restaurant');
+        console.log(this.cardData);
         this.dataTypeName = 'matches';
       });
     }

@@ -73,7 +73,6 @@ export class RestaurantListComponent implements OnInit, OnDestroy, AfterViewInit
     this.restraurantListSubscription$ && this.restraurantListSubscription$.unsubscribe();
   }
   instanstiateSwipeGesture(restraurantCardsArray) {
-    console.log(restraurantCardsArray);
     _.each(restraurantCardsArray, rest => {
       const gesture: Gesture = this.gestureCtrl.create({
         el: rest.nativeElement,

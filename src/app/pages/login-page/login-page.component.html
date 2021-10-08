@@ -23,13 +23,17 @@
               <ion-card-content>
                 <ion-list>
                   <ion-item>
-                    <ion-label position="stacked">
-                      Email Address
+                    <ion-label>
+                      <ion-icon name="mail-outline"></ion-icon>
                     </ion-label>
-                    <ion-input name="email" [(ngModel)]="credentials.email" ngDefaultControl></ion-input>
+                    <ion-input placeholder="email address" autocomplete="'email'" autocorrect="'on'" inputmode="'email'"
+                      pattern="'email'" type="email" name="email" [(ngModel)]="credentials.email" ngDefaultControl>
+                    </ion-input>
                   </ion-item>
                   <ion-item>
-                    <ion-label position="stacked">Password</ion-label>
+                    <ion-label>
+                      <ion-icon name="key-outline"></ion-icon>
+                    </ion-label>
                     <ion-input placeholder="password" type="password" name="password" [(ngModel)]="credentials.password"
                       ngDefaultControl></ion-input>
                   </ion-item>
