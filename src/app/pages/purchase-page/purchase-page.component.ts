@@ -47,7 +47,6 @@ export class PurchasePageComponent implements OnInit {
   setupListeners() {
     // Specific query for one ID
     this.store.when(PRODUCT_KEY_PLUS).owned((p: IAPProduct) => {
-      console.log('is pro');
       this.userService.addPurchaseToUser(this.userService.currentUser.value._id).subscribe(res => this.userService.isPro$.next(true));
     });
   }

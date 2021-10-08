@@ -40,11 +40,8 @@ export class SlidingCardLargeComponent implements OnInit, OnChanges {
     }
     if (this.dataType === RestaurantType.Match) {
       this.groupService.currentGroupMatches$.subscribe(res => {
-        console.log(res);
         const trueMatches = _.filter(res, match => match.trueMatch);
-        console.log(trueMatches);
         this.cardData = _.pluck(trueMatches, 'restaurant');
-        console.log(this.cardData);
         this.dataTypeName = 'matches';
       });
     }
