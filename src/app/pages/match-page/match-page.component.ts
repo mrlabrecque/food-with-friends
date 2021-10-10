@@ -68,7 +68,15 @@ export class MatchPageComponent implements OnInit, AfterViewInit, OnDestroy {
   }
   onGetGroupSuccess(restResponse, group) {
     this.currentGroup = group;
-    this.restaurants = restResponse;
+    const currentGroupMatches = group.matches;
+    const restIdsToFilter = [];
+    _.each(currentGroupMatches, curMatch => {
+      if (curMatch.memberMatches.includes(this.currentUser._id)) {
+        restIdsToFilter.push(curMatch.restaurant.id);
+      }
+    });
+    const filteredRests = restResponse.filter(e => !restIdsToFilter.includes(e.id));
+    this.restaurants = filteredRests;
     this.isLoading$.next(false);
   }
 

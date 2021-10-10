@@ -24,10 +24,12 @@ export class ManageGroupModalComponent implements OnInit {
   @Input() user: User;
   addedGroupName: string;
   addedMembers: string[] = [];
+  isPro = false;
   constructor(private userService: UserService, private groupService: GroupService, private modalController: ModalController,
     private router: Router) { }
 
   ngOnInit() {
+    this.userService.isPro$.subscribe(res => this.isPro = res);
   }
   enterOnMemberAdd(e) {
     const keyCode = e.keyCode;

@@ -38,9 +38,11 @@ export class RestaurantListComponent implements OnInit, OnDestroy, AfterViewInit
   currentUserLikesSubscription: Subscription;
   currentUserLikes: Restaurant[];
   showLoading$: BehaviorSubject<boolean> = new BehaviorSubject(true);
+  listEnd$: BehaviorSubject<boolean> = new BehaviorSubject(false);
   currentRestaurantCard$: BehaviorSubject<Restaurant> = new BehaviorSubject(new Restaurant());
   currentRestaurantCard: Restaurant;
   counter = 0;
+  restaurantArrayLength = 0;
 
   constructor(private restaurantService: RestaurantService, private gestureCtrl: GestureController,
     private plt: Platform, private matchService: MatchService, private groupService: GroupService,
@@ -62,6 +64,7 @@ export class RestaurantListComponent implements OnInit, OnDestroy, AfterViewInit
   }
   ngOnChanges(changes: SimpleChanges) {
     if (this.restaurants.length > 0) {
+      this.restaurantArrayLength = this.restaurants.length;
       this.showLoading$.next(false);
       this.currentUserLikesSubscription = this.userService.currentUserLikes$.subscribe(
         (res: Restaurant[]) => { this.onSetCurrentUserLikesSuccess(res); }
@@ -117,11 +120,17 @@ export class RestaurantListComponent implements OnInit, OnDestroy, AfterViewInit
   onThumbsUp() {
     this.addMatch(this.restaurants[this.counter]);
     this.counter++;
+    if (this.counter === this.restaurantArrayLength) {
+      this.listEnd$.next(true);
+    }
     this.currentRestaurantCard$.next(this.restaurants[this.counter]);
 
   }
   onThumbsDown() {
     this.counter++;
+    if (this.counter === this.restaurantArrayLength) {
+      this.listEnd$.next(true);
+    }
     this.currentRestaurantCard$.next(this.restaurants[this.counter]);
 
   }

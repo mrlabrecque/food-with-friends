@@ -126,6 +126,7 @@ export class GroupDetailPageComponent implements OnInit, OnDestroy {
   currentUser: User;
   isPro = false;
   groupMemberCount = 0;
+  pageLoading = true;
 
   constructor(private activatedRoute: ActivatedRoute,
     private router: Router,
@@ -142,6 +143,8 @@ export class GroupDetailPageComponent implements OnInit, OnDestroy {
   ) { }
 
   ngOnInit() {
+    this.authService.pageLoading$.subscribe(res => this.pageLoading = res);
+    this.authService.openLoader();
     this.groupId = +this.activatedRoute.snapshot.paramMap.get('id');
     this.groupSubscription = this.groupService.getGroupById(this.groupId).subscribe(
       gr => this.onGetGroupSuccess(gr));
@@ -176,6 +179,7 @@ export class GroupDetailPageComponent implements OnInit, OnDestroy {
       this.selectedDistance = this.filters.distance;
       this.matchThreshold = this.filters.matchThreshold;
     }
+    this.authService.loadingComplete();
   }
   createFiltersForNewGroup() {
     this.selectedPrices = this.availablePrices;

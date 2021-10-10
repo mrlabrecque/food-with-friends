@@ -27,13 +27,24 @@
         </ion-item>
       </ion-col>
     </ion-row>
-    <ion-row>
+    <ion-row *ngIf="addedMembers.length < 2">
       <ion-col>
         <ion-item>
           <ion-label position="floating">Add Members</ion-label>
           <ion-input autocorrect="true" clear-input="true" type="email" multiple="true"
             (keypress)="enterOnMemberAdd($event)" #memberInput></ion-input>
         </ion-item>
+      </ion-col>
+    </ion-row>
+    <ion-row *ngIf="!isPro && addedMembers.length === 2">
+      <ion-col>
+        <ion-card>
+          <ion-card-content>
+            Upgrade to <ion-img src="../../../assets/fwfPlusIcon.svg"
+              style="width:50px; display: inline-block; position: relative; top:5px;"></ion-img>
+            to add more members
+          </ion-card-content>
+        </ion-card>
       </ion-col>
     </ion-row>
     <ion-row>
