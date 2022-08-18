@@ -1,0 +1,43 @@
+<ion-content class="ion-padding" scroll-y="false">
+  <swiper #onboardSwiper [config]="config">
+    <ng-template swiperSlide>
+      <div class="swiper-slide">
+        <div><i class="fa fa-6x fa-question"></i></div>
+        <h2>Welcome</h2>
+        <p>The <b>Food With Friends </b>app is made to help you and your friends answer the age old question:</p>
+        <p>"What are you in the
+          mood for?"</p>
+      </div>
+    </ng-template>
+    <ng-template swiperSlide>
+      <div class="swiper-slide">
+
+        <div><i class="fa fa-6x fa-users"></i></div>
+        <h2>Create a group</h2>
+        <p>Start by creating a group and adding friends as group members.</p>
+      </div>
+    </ng-template>
+    <ng-template swiperSlide>
+      <div class="swiper-slide">
+
+        <div><i class="fa fa-6x fa-filter"></i></div>
+        <h2>Set up filters</h2>
+        <p>As a group creator, you can set filters based on the group's preferences.</p>
+      </div>
+    </ng-template>
+    <ng-template swiperSlide>
+      <div class="swiper-slide">
+
+        <div><i class="fa fa-6x fa-thumbs-up"></i></div>
+        <h2>Swipe to match</h2>
+        <p>Users in each group will swipe restaurants and group matches are stored.</p>
+        <p>So what are you in the mood for?</p>
+        <ion-button color="success" [routerLink]="'login'">Get started!<ion-icon slot="end" name="arrow-forward">
+          </ion-icon>
+        </ion-button>
+      </div>
+    </ng-template>
+  </swiper>
+
+
+</ion-content>
